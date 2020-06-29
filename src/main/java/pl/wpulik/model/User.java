@@ -39,7 +39,7 @@ public class User implements Serializable{
 	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	@JoinColumn(name = "role_id")
 	private UserRole role; 
-	@OneToMany(mappedBy = "user")
+	@OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	private List<Order> orders = new ArrayList<>();;
 	private Double discount;
 	

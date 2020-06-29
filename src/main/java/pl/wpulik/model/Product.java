@@ -1,7 +1,9 @@
 package pl.wpulik.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -11,9 +13,14 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.Fetch;
+
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
 
 @Entity(name = "products")
 public class Product implements Serializable{
@@ -34,44 +41,47 @@ public class Product implements Serializable{
 	private boolean isPromoted = false;
 	private boolean isDiscounted = false;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "producer_id")
 	private Producer producer;
-	
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinTable(
 			name = "products_orders",
 			joinColumns = {@JoinColumn(name = "product_id", referencedColumnName="id_product")},
 			inverseJoinColumns = {@JoinColumn(name = "order_id", referencedColumnName="id_order")})
+	@Fetch(FetchMode.JOIN)
 	private List<Order> orders = new ArrayList<>();
 	@ManyToMany
 	@JoinTable(
 			name = "products_shipments",
 			joinColumns = {@JoinColumn(name = "product_id", referencedColumnName="id_product")},
 			inverseJoinColumns = {@JoinColumn(name = "shipment_id", referencedColumnName="id_shipment")})
-	private List<Shipment> shipments = new ArrayList<>();;
+	private List<Shipment> shipments = new ArrayList<>();
 	@ManyToMany
 	@JoinTable(
 			name = "products_categories",
 			joinColumns = {@JoinColumn(name = "product_id", referencedColumnName="id_product")},
 			inverseJoinColumns = {@JoinColumn(name = "category_id", referencedColumnName="id_category")})
-	private List<Category> categories;
+	private List<Category> categories = new ArrayList<>();
 	@OneToMany
 	@JoinColumn(name = "product_id", referencedColumnName = "id_product")
 	private List<Picture> pictures;
 	
+	public void addOrder(Order order) {
+		order.setProducts(Arrays.asList(this));
+		getOrders().add(order);
+	}
+	
 	public Product() {}
 	
-	public Product(String index, String name, Producer producer, String description, int quantity, Double price,
-			List<Category> categories) {
-		
+	public Product(List<Order> orders, String index, String name, Producer producer, String description, int quantity, Double price) {
+		this.orders = orders;
 		this.index = index;
 		this.name = name;
 		this.producer = producer;
 		this.description = description;
 		this.quantity = quantity;
 		this.price = price;
-		this.categories = categories;
 	}
 
 	public Long getId() {
@@ -196,11 +206,14 @@ public class Product implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Product [id=" + id + ", index=" + index + ", name=" + name + ", producer=" + producer + ", description="
-				+ description + ", quantity=" + quantity + ", price=" + price + ", discount=" + discount + ", isActive="
-				+ isActive + ", isPromoted=" + isPromoted + ", isDiscounted=" + isDiscounted + ", shipments="
-				+ shipments + ", categories=" + categories + ", pictures=" + pictures + "]";
+		return "Product [id=" + id + ", index=" + index + ", name=" + name + ", description=" + description
+				+ ", quantity=" + quantity + ", price=" + price + ", discount=" + discount + ", isActive=" + isActive
+				+ ", isPromoted=" + isPromoted + ", isDiscounted=" + isDiscounted + 
+				", producer=" + producer + 
+				"]";
 	}
+	
+	
 	
 	
 	

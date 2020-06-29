@@ -1,10 +1,13 @@
 package pl.wpulik.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,9 +27,9 @@ public class Producer implements Serializable{
 	private String description;
 	private String url;
 	@OneToMany(mappedBy = "producer")
-	private List<Product> products;
+	private List<Product> products = new ArrayList<>();
 	@OneToMany(mappedBy = "producer")
-	private List<Picture> pictures;
+	private List<Picture> pictures = new ArrayList<>();
 	
 	public Producer() {}
 
@@ -89,8 +92,7 @@ public class Producer implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Producer [id=" + id + ", name=" + name + ", description=" + description + ", url=" + url + ", pictures="
-				+ pictures + "]";
+		return "Producer [id=" + id + ", name=" + name + ", description=" + description + ", url=" + url + "]";
 	}
 	
 	

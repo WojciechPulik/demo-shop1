@@ -1,17 +1,23 @@
 package pl.wpulik.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity(name = "orders")
 public class Order implements Serializable{
@@ -21,15 +27,16 @@ public class Order implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_order")
 	private Long id;
-	
-	
-	@ManyToMany(mappedBy = "orders")
-	private List<Product> products;
+	@ManyToMany(mappedBy = "orders",
+			fetch = FetchType.EAGER,
+			cascade = CascadeType.MERGE)
+	@Fetch(FetchMode.JOIN)
+	private List<Product> products = new ArrayList<>();
 	private Date datePurchase;
 	private Date dateRecived;
 	private Date dateSent;
 	private String orderDetails;
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "user_id")
 	private User user;
 	private boolean isRecieved = false;
@@ -37,6 +44,11 @@ public class Order implements Serializable{
 	private boolean isPayed = false;
 	private boolean isSent = false;
 	private Double totalPrice;
+	
+	public void addProducts(Product product) {
+		this.products.add(product);
+		product.getOrders().add(this);
+	}
 	
 	public Order() {}
 

@@ -1,14 +1,21 @@
 package pl.wpulik.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity(name = "categories")
 public class Category implements Serializable{
@@ -20,24 +27,26 @@ public class Category implements Serializable{
 	private Long id;
 	private String name;
 	private String description;
-	//@ManyToOne
-	//private List<Category> subcategories; // - to w ogóle ma byc relacja?
-	
+	private Long overridingCategoryId;		
 	@OneToMany(mappedBy = "category")
-	private List<Picture> pictures;
-	@OneToMany(mappedBy = "category")
-	private List<Shipment> shipments;
+	private List<Picture> pictures = new ArrayList<>();
+	@ManyToMany(mappedBy = "categories",fetch = FetchType.EAGER)//, cascade = CascadeType.PERSIST)
+	@Fetch(FetchMode.SUBSELECT)
+	private List<Shipment> shipments  = new ArrayList<>();
 	
 	public Category() {}
 
-	public Category(String name, String description, List<Picture> pictures, List<Shipment> shipments) {
-		
+	public Category(String name, String description, Long overridingCategoryId) {		
 		this.name = name;
 		this.description = description;
-		this.pictures = pictures;
-		this.shipments = shipments;
+		this.overridingCategoryId = overridingCategoryId;
 	}
-
+	
+	public void addShipments(Shipment shipment) {
+		this.shipments.add(shipment);
+		shipment.getCategories().add(this);
+	}
+	
 	public Long getId() {
 		return id;
 	}
@@ -61,18 +70,15 @@ public class Category implements Serializable{
 	public void setDescription(String description) {
 		this.description = description;
 	}
-/*
- * 
- * Jszcze nie wiem co z tym zrobić.
- * 
-	public List<Category> getSubcategories() {
-		return subcategories;
+
+	public Long getOverridingCategoryId() {
+		return overridingCategoryId;
 	}
 
-	public void setSubcategories(List<Category> subcategories) {
-		this.subcategories = subcategories;
+	public void setOverridingCategoryId(Long overridingCategoryId) {
+		this.overridingCategoryId = overridingCategoryId;
 	}
-*/
+
 	public List<Picture> getPictures() {
 		return pictures;
 	}

@@ -4,14 +4,16 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 
 @Entity(name = "shipments")
 public class Shipment implements Serializable{
@@ -24,13 +26,15 @@ public class Shipment implements Serializable{
 	private String name;
 	private String description;
 	private Double maxWeight;
-	private Double shipmentCost;
-	
+	private Double shipmentCost;	
 	@ManyToMany(mappedBy = "shipments")
 	private List<Product> products = new ArrayList<>();
-	@ManyToOne
-	@JoinColumn(name = "category_id")
-	private Category category;
+	@ManyToMany(fetch=FetchType.EAGER)
+	@JoinTable(
+			name = "category_shipments",
+			joinColumns = {@JoinColumn(name = "shipment_id", referencedColumnName="id_shipment")},
+			inverseJoinColumns = {@JoinColumn(name = "category_id", referencedColumnName="id_category")})
+	private List<Category> categories = new ArrayList<>();
 	
 	public Shipment() {}
 
@@ -42,12 +46,17 @@ public class Shipment implements Serializable{
 		this.shipmentCost = shipmentCost;
 	}
 	
-	public Category getCategory() {
-		return category;
+	public void addCategories(Category category) {
+		this.categories.add(category);
+		category.getShipments().add(this);
+	}
+	
+	public List<Category> getCategories() {
+		return categories;
 	}
 
-	public void setCategory(Category category) {
-		this.category = category;
+	public void setCategories(List<Category> categories) {
+		this.categories = categories;
 	}
 
 	public List<Product> getProducts() {
