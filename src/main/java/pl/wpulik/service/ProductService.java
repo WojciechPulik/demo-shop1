@@ -31,6 +31,10 @@ public class ProductService {
 		return product;
 	}
 	
+	public List<Product> getAllProducts(){
+		return productRepository.findAll();
+	}
+	
 	public void addOrderToProduct(Long id, List<Order> orders) {
 		Product product = productRepository.getOne(id);
 		product.setOrders(orders);	

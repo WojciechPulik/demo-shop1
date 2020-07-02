@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"/>
+<title>Strona główna</title>
+</head>
+<body>
+	<h1>Sklep Internetowy Mydło i Powidło!</h1>
+	<h2>***************************************</h2>
+	<br>
+	<br>
+	<h1 th:text="${product.name}">Nazwa Produktu</h1>
+	<h2 th:text="${product.description}">Opis produktu</h2>
+	<h2 th:text="${product.index}">Index</h2>
+	<h2 th:text="${product.price}">Cena</h2>
+</body>
+</html>

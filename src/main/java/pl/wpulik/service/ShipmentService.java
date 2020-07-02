@@ -45,6 +45,7 @@ public class ShipmentService {
 	}
 	/*
 	 * Działa tak jak trza!
+	 * No, może z tej list się zrezygnuje na rzecz pojedyńczego obiektu
 	 */
 	public void addCategoryToShipment(Long shipmentId, List<Category> categories) {
 		Shipment shipment = shipmentRepository.findById(shipmentId).get();

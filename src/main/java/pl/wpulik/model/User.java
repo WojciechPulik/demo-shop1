@@ -35,7 +35,6 @@ public class User implements Serializable{
 	private String password;
 	private String telephone;
 	private String address;
-	
 	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	@JoinColumn(name = "role_id")
 	private UserRole role; 
@@ -121,11 +120,11 @@ public class User implements Serializable{
 		this.address = address;
 	}
 
-	public UserRole getRoles() {
+	public UserRole getRole() {
 		return role;
 	}
 
-	public void setRoles(UserRole role) {
+	public void setRole(UserRole role) {
 		this.role = role;
 	}
 

@@ -34,6 +34,10 @@ public class CategoryService {
 		return category;
 	}
 	
+	public List<Category> getAllCategories(){
+		return categoryRepository.findAll();
+	}
+	
 	public void addCategoryToShipment(Long shipmentId, List<Category> categories) {
 		Shipment shipment = shipmentRepository.findById(shipmentId).get();
 		for(Category cat: categories)
@@ -41,6 +45,8 @@ public class CategoryService {
 		shipment = shipmentRepository.save(shipment);
 		System.out.println(shipment.toString());
 	}
+	
+	
 	
 	
 	

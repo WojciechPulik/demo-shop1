@@ -28,7 +28,7 @@ public class Category implements Serializable{
 	private String name;
 	private String description;
 	private Long overridingCategoryId;		
-	@OneToMany(mappedBy = "category")
+	@OneToMany(mappedBy = "category", fetch = FetchType.EAGER)
 	private List<Picture> pictures = new ArrayList<>();
 	@ManyToMany(mappedBy = "categories",fetch = FetchType.EAGER)//, cascade = CascadeType.PERSIST)
 	@Fetch(FetchMode.SUBSELECT)
