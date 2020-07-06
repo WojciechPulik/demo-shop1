@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import pl.wpulik.model.Order;
+import pl.wpulik.model.Picture;
 import pl.wpulik.model.Product;
 import pl.wpulik.repository.ProductRepository;
 
@@ -35,8 +36,14 @@ public class ProductService {
 		return productRepository.findAll();
 	}
 	
+	public List<Picture> getPictures(Long productId){
+		Product product = productRepository.findById(productId).get();
+		List<Picture> pictures = product.getPictures();
+		return pictures;
+	}
+	
 	public void addOrderToProduct(Long id, List<Order> orders) {
-		Product product = productRepository.getOne(id);
+		Product product = productRepository.findById(id).get();
 		product.setOrders(orders);	
 	}
 	

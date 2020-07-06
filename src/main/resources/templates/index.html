@@ -6,15 +6,23 @@
 </head>
 <body>
 	<h1>Sklep Internetowy Mydło i Powidło!</h1>
-	<h2>***************************************</h2>
+	<h2>*******************************************</h2>
 	<br>
 	<br>
-	<ul th:each="product:${products}"th:object="${product}">
+	<p><a th:href="@{/addproduct}">Dodaj produkt!</a></p>
+	<ul th:each="product:${products}">
 		
 		<li>********************************************</li>
-		<li><a th:href="@{/product(id=${product.id})}"th:text="*{name}"></a></li>
-		<li th:text="'Indeks: ' + *{index}">Index produktu</li>
-		<li th:text="'Cena: ' + *{price} + ' zł'">Cena produktu</li>
+		<li><a th:href="@{/product(id=${product.id})}"th:text="${product.name}"></a></li>
+		<li>
+			<ul th:each="picture:${pictures}">
+				<li th:if="${product.id}==${picture.product.id}">
+					<img th:src="@{${picture.url}}"width=100>
+				</li>
+			</ul>
+		</li>
+		<li th:text="'Indeks: ' + ${product.index}">Index produktu</li>
+		<li th:text="'Cena: ' + ${product.price} + ' zł'">Cena produktu</li>
 		
 	</ul>
 	

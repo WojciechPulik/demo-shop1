@@ -71,6 +71,23 @@ public class Picture implements Serializable{
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
+	}
+
+	public Producer getProducer() {
+		return producer;
+	}
+
+	public void setProducer(Producer producer) {
+		this.producer = producer;
+	}
 
 	@Override
 	public String toString() {

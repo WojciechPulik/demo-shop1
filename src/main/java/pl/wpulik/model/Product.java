@@ -33,14 +33,14 @@ public class Product implements Serializable{
 	@Column(name= "product_index")
 	private String index;
 	private String name;
+	@Column(length = 512)
 	private String description;
 	private int quantity;
 	private Double price;
 	private Double discount;
 	private boolean isActive = false;
 	private boolean isPromoted = false;
-	private boolean isDiscounted = false;
-	
+	private boolean isDiscounted = false;	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "producer_id")
 	private Producer producer;

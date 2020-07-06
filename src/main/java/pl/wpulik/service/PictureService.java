@@ -1,5 +1,7 @@
 package pl.wpulik.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +28,16 @@ public class PictureService {
 	public Picture addPicture(Picture picture) {
 		pictureRepository.save(picture);
 		return picture;		
+	}
+	
+	public List<Picture> getByProductId(Long productId){
+		List<Picture> pictures = pictureRepository.getByProductId(productId);
+		return pictures;
+	}
+	
+	public List<Picture> getAllPictures(){
+		List<Picture> pictures = pictureRepository.findAll();
+		return pictures;
 	}
 	
 	
