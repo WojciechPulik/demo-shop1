@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Fetch;
@@ -36,7 +37,11 @@ public class Product implements Serializable{
 	@Column(length = 512)
 	private String description;
 	private int quantity;
+	@Transient
+	private int addedQuantity;
 	private Double price;
+	@Transient
+	private Double summaryCost;
 	private Double discount;
 	private boolean isActive = false;
 	private boolean isPromoted = false;
@@ -44,12 +49,11 @@ public class Product implements Serializable{
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "producer_id")
 	private Producer producer;
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+	@ManyToMany(fetch = FetchType.EAGER/*, cascade = CascadeType.MERGE*/)
 	@JoinTable(
 			name = "products_orders",
 			joinColumns = {@JoinColumn(name = "product_id", referencedColumnName="id_product")},
 			inverseJoinColumns = {@JoinColumn(name = "order_id", referencedColumnName="id_order")})
-	@Fetch(FetchMode.JOIN)
 	private List<Order> orders = new ArrayList<>();
 	@ManyToMany
 	@JoinTable(
@@ -74,14 +78,15 @@ public class Product implements Serializable{
 	
 	public Product() {}
 	
-	public Product(List<Order> orders, String index, String name, Producer producer, String description, int quantity, Double price) {
-		this.orders = orders;
+	public Product(String index, String name, Producer producer, String description, int quantity, Double price, int addedQuantity) {
+		
 		this.index = index;
 		this.name = name;
 		this.producer = producer;
 		this.description = description;
 		this.quantity = quantity;
 		this.price = price;
+		this.addedQuantity = addedQuantity;
 	}
 
 	public Long getId() {
@@ -147,6 +152,14 @@ public class Product implements Serializable{
 	public void setDiscount(Double discount) {
 		this.discount = discount;
 	}
+	
+	public Double getSummaryCost() {
+		return summaryCost;
+	}
+
+	public void setSummaryCost(Double summaryCost) {
+		this.summaryCost = summaryCost;
+	}
 
 	public boolean isActive() {
 		return isActive;
@@ -170,6 +183,14 @@ public class Product implements Serializable{
 
 	public void setDiscounted(boolean isDiscounted) {
 		this.isDiscounted = isDiscounted;
+	}
+	
+	public int getAddedQuantity() {
+		return addedQuantity;
+	}
+
+	public void setAddedQuantity(int addedQuantity) {
+		this.addedQuantity = addedQuantity;
 	}
 
 	public List<Shipment> getShipments() {
@@ -211,6 +232,112 @@ public class Product implements Serializable{
 				+ ", isPromoted=" + isPromoted + ", isDiscounted=" + isDiscounted + 
 				", producer=" + producer + 
 				"]";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + addedQuantity;
+		result = prime * result + ((categories == null) ? 0 : categories.hashCode());
+		result = prime * result + ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((discount == null) ? 0 : discount.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((index == null) ? 0 : index.hashCode());
+		result = prime * result + (isActive ? 1231 : 1237);
+		result = prime * result + (isDiscounted ? 1231 : 1237);
+		result = prime * result + (isPromoted ? 1231 : 1237);
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((orders == null) ? 0 : orders.hashCode());
+		result = prime * result + ((pictures == null) ? 0 : pictures.hashCode());
+		result = prime * result + ((price == null) ? 0 : price.hashCode());
+		result = prime * result + ((producer == null) ? 0 : producer.hashCode());
+		result = prime * result + quantity;
+		result = prime * result + ((shipments == null) ? 0 : shipments.hashCode());
+		result = prime * result + ((summaryCost == null) ? 0 : summaryCost.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Product other = (Product) obj;
+		if (addedQuantity != other.addedQuantity)
+			return false;
+		if (categories == null) {
+			if (other.categories != null)
+				return false;
+		} else if (!categories.equals(other.categories))
+			return false;
+		if (description == null) {
+			if (other.description != null)
+				return false;
+		} else if (!description.equals(other.description))
+			return false;
+		if (discount == null) {
+			if (other.discount != null)
+				return false;
+		} else if (!discount.equals(other.discount))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (index == null) {
+			if (other.index != null)
+				return false;
+		} else if (!index.equals(other.index))
+			return false;
+		if (isActive != other.isActive)
+			return false;
+		if (isDiscounted != other.isDiscounted)
+			return false;
+		if (isPromoted != other.isPromoted)
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (orders == null) {
+			if (other.orders != null)
+				return false;
+		} else if (!orders.equals(other.orders))
+			return false;
+		if (pictures == null) {
+			if (other.pictures != null)
+				return false;
+		} else if (!pictures.equals(other.pictures))
+			return false;
+		if (price == null) {
+			if (other.price != null)
+				return false;
+		} else if (!price.equals(other.price))
+			return false;
+		if (producer == null) {
+			if (other.producer != null)
+				return false;
+		} else if (!producer.equals(other.producer))
+			return false;
+		if (quantity != other.quantity)
+			return false;
+		if (shipments == null) {
+			if (other.shipments != null)
+				return false;
+		} else if (!shipments.equals(other.shipments))
+			return false;
+		if (summaryCost == null) {
+			if (other.summaryCost != null)
+				return false;
+		} else if (!summaryCost.equals(other.summaryCost))
+			return false;
+		return true;
 	}
 	
 	

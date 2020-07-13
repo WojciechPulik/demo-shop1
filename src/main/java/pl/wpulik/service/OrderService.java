@@ -2,6 +2,7 @@ package pl.wpulik.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,15 +29,20 @@ public class OrderService {
 	}
 	
 	public Order addOrder(Order order) {
-		orderRepository.save(order);
-		return order;
+		Date date = new Date();
+		order.setDatePurchase(date);
+		Order addedOrder = orderRepository.save(order);
+		return addedOrder;
 	}
 	
 	public void addProductsToOrder(Long orderId, List<Product> products) {
 		Order order = orderRepository.findById(orderId).get();
-		for(Product prod: products)
-			order.addProducts(prod);	
-		order = orderRepository.save(order);
+		for(Product prod: products) {
+			for(int i = 0; i < prod.getAddedQuantity(); i++) {
+				order.addProducts(prod);
+			}
+		}
+		orderRepository.save(order);
 	}
 	
 	public List<Product> getProductsFromOrder (Long orderId){

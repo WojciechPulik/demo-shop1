@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"/>
+<title>Strona główna</title>
+</head>
+<body>
+	<h1>Sklep Internetowy Mydło i Powidło!</h1>
+	<h2>*******************************************</h2>
+	<br>
+	<p><a th:href="@{/}">Powrót do strony głównej</a></p>
+	<br>
+	<br>
+	<h1>Twój koszyk zakupowy!</h1>
+	<br>
+	<table border="2">
+		<tr>
+			<th>Nazwa produktu</th>
+			<th>Cena jednostkowa pln</th>
+			<th>Ilość</th>
+			<th>Wartość</th>
+		</tr>
+		<tr th:each="product:${products}"th:object="${product}">
+			<td th:text="*{name}"></td>
+			<td th:text="*{price}"></td>
+			<td th:text="*{addedQuantity}"></td>
+			<td th:text="*{summaryCost}"></td>
+		</tr>
+		<tr>
+			<td th:text="'Całkowita suma zamówienia: ' + ${totalCost}"></td>
+		</tr>
+	</table>
+	<br>
+	 
+	<form th:action="@{/sendorder}" method="post">
+		<p>Rodzaj płatności: </p>
+		<p>
+			<label>
+				<input type="radio" name="isCashOnDelivery" value="true">Pobranie
+			</label>
+			<label>
+				<input type="radio" name="isCashOnDelivery" value="false">Przedpłata
+			</label>
+		</p>
+		<p>Opis do zamówienia:</p>
+		<p><textarea cols="45"rows="4"th:field="${order.orderDetails}"></textarea><p>
+		<p><button type="submit" value="Add">Zamawiam i płacę!</button></p>	
+	</form>
+	<br>
+	<br>
+	<a th:href="@{/clearcard}"><input type="button" value="Usuń zawartość koszyka"/></a>
+	
+</body>
+</html>
+
+
+
+
+
+

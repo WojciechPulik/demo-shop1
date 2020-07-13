@@ -7,6 +7,7 @@
 <body>
 	<h1>Sklep Internetowy Mydło i Powidło!</h1>
 	<h2>*******************************************</h2>
+	<p><a th:href="@{/shoppingcard}">Twój koszyk</a></p>
 	<br>
 	<br>
 	<p><a th:href="@{/addproduct}">Dodaj produkt!</a></p>
@@ -23,6 +24,9 @@
 		</li>
 		<li th:text="'Indeks: ' + ${product.index}">Index produktu</li>
 		<li th:text="'Cena: ' + ${product.price} + ' zł'">Cena produktu</li>
+		<li>
+			<a th:href="@{/product(id=${product.id})}"><input type="button" value="Zobacz szczegóły"/></a>	
+		</li>
 		
 	</ul>
 	

@@ -27,14 +27,18 @@ public class HomeController {
 	
 	@GetMapping("/")
 	public String home (Model model) {
+		Integer addedQuantity = 0;
 		List<Picture> pictures = new ArrayList<>();
 		List<Product> products = productService.getAllProducts();	
 		for(Product p: products) {
-			p.getPictures().add(pictureService.getByProductId(p.getId()).get(0));
-			pictures.add(pictureService.getByProductId(p.getId()).get(0));
+			if(!pictureService.getByProductId(p.getId()).isEmpty()) {
+				p.getPictures().add(pictureService.getByProductId(p.getId()).get(0));
+				pictures.add(pictureService.getByProductId(p.getId()).get(0));
+			}
 		}	
 		model.addAttribute("pictures", pictures);
 		model.addAttribute("products", products);
+		model.addAttribute("addedQuantity", addedQuantity);
 		return "index";
 	}
 

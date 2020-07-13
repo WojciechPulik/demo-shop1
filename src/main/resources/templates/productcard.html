@@ -15,6 +15,13 @@
 	<h3>Opis przedmiotu:</h3>
 	<p th:text="${product.description}">Opis produktu</p>
 	<p th:text="'Indeks: ' + ${product.index}">Index</p>
+	<p th:text="'Producent: ' + ${product.producer.name}">Producent</p>
 	<p th:text="'Cena: ' + ${product.price} + ' zł'">Cena</p>
+	<form th:action="@{/addtoorder}" method="post">
+		<input type="hidden" name="productId" th:value="${product.id}"/>
+		<p>Ilość: <input type="number" name="addedQuantity"min="0"step="1"/>		
+			<button type="submit" value="Add">Dodaj produkt do koszyka</button>
+		</p>
+	</form>
 </body>
 </html>

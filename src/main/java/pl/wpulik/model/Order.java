@@ -126,7 +126,7 @@ public class Order implements Serializable{
 	public void setSent(boolean isSent) {
 		this.isSent = isSent;
 	}
-
+	
 	public Double getTotalPrice() {
 		return totalPrice;
 	}
