@@ -7,18 +7,15 @@
 <body>
 	<h1>Sklep Internetowy Mydło i Powidło!</h1>
 	<h2>*******************************************</h2>
-	<br>
 	<p><a th:href="@{/}">Powrót do strony głównej</a></p>
-	<br>
-	<br>
 	<h1>Twój koszyk zakupowy!</h1>
 	<br>
 	<table border="2">
 		<tr>
 			<th>Nazwa produktu</th>
-			<th>Cena jednostkowa pln</th>
+			<th>Cena jednostkowa PLN</th>
 			<th>Ilość</th>
-			<th>Wartość</th>
+			<th>Wartość PLN</th>
 		</tr>
 		<tr th:each="product:${products}"th:object="${product}">
 			<td th:text="*{name}"></td>
@@ -27,12 +24,24 @@
 			<td th:text="*{summaryCost}"></td>
 		</tr>
 		<tr>
-			<td th:text="'Całkowita suma zamówienia: ' + ${totalCost}"></td>
+			<td th:text="'Koszt wysyłki: ' + ${shipment.shipmentCost} + ' zł'"></td>
+			<td>
+				<p th:if="${order.isCashOnDelivery()}"th:text="Pobranie"></p>
+			</td>
+		</tr>
+		<tr>
+			<td th:text="'Całkowita suma zamówienia: ' + ${totalCost} + ' zł'"></td>
 		</tr>
 	</table>
 	<br>
-	 
-	<form th:action="@{/sendorder}" method="post">
+	<form th:action="@{/setordershipment}" method="post">
+		<p>Sposób dostawy:</p>
+		<ul>
+			<li th:each="shipment:${shipments}"th:object="${shipment}">		
+				<input type="radio" th:field="*{id}" th:value="*{id}">
+				<label th:for="*{id}"th:text="*{name} + ' - ' + *{shipmentCost} + ' zł '"></label>
+			</li>	
+		</ul>
 		<p>Rodzaj płatności: </p>
 		<p>
 			<label>
@@ -42,6 +51,10 @@
 				<input type="radio" name="isCashOnDelivery" value="false">Przedpłata
 			</label>
 		</p>
+		<p><input type="submit" value="Wybierz dostawę"/></p>
+	</form>
+	 
+	<form th:action="@{/sendorder}" method="post">
 		<p>Opis do zamówienia:</p>
 		<p><textarea cols="45"rows="4"th:field="${order.orderDetails}"></textarea><p>
 		<p><button type="submit" value="Add">Zamawiam i płacę!</button></p>	

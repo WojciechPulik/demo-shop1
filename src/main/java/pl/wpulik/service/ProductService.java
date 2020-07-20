@@ -1,5 +1,6 @@
 package pl.wpulik.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.wpulik.model.Order;
 import pl.wpulik.model.Picture;
 import pl.wpulik.model.Product;
+import pl.wpulik.model.Shipment;
 import pl.wpulik.repository.ProductRepository;
 
 @Service
@@ -29,6 +31,13 @@ public class ProductService {
 	
 	public Product getById(Long id) {
 		Product product = productRepository.findById(id).get();
+		List<Shipment> productShipments = new ArrayList<>();
+		product.getShipments().forEach(productShipments::add);
+		return product;
+	}
+	
+	public Product updateProduct(Product product) {
+		productRepository.save(product);
 		return product;
 	}
 	

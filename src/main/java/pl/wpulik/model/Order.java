@@ -39,6 +39,9 @@ public class Order implements Serializable{
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "user_id")
 	private User user;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "shipment_id")
+	private Shipment shipment;
 	private boolean isRecieved = false;
 	private boolean isCashOnDelivery = false;
 	private boolean isPayed = false;
@@ -101,6 +104,14 @@ public class Order implements Serializable{
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+	
+	public Shipment getShipment() {
+		return shipment;
+	}
+
+	public void setShipment(Shipment shipment) {
+		this.shipment = shipment;
 	}
 
 	public boolean isRecieved() {

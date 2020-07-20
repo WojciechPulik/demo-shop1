@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 @Entity(name = "shipments")
 public class Shipment implements Serializable{
@@ -35,6 +36,8 @@ public class Shipment implements Serializable{
 			joinColumns = {@JoinColumn(name = "shipment_id", referencedColumnName="id_shipment")},
 			inverseJoinColumns = {@JoinColumn(name = "category_id", referencedColumnName="id_category")})
 	private List<Category> categories = new ArrayList<>();
+	@OneToMany(mappedBy = "shipment")
+	private List<Order> orders = new ArrayList<>();
 	
 	public Shipment() {}
 
@@ -105,6 +108,14 @@ public class Shipment implements Serializable{
 
 	public void setShipmentCost(Double shipmentCost) {
 		this.shipmentCost = shipmentCost;
+	}
+	
+	public List<Order> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
 	}
 
 	@Override
