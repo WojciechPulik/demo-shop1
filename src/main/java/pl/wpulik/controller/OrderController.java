@@ -55,6 +55,7 @@ public class OrderController {
 		model.addAttribute("order", new Order());
 		Double totalCost = 0.0;
 		Double value = 0.0;
+		totalCost = 0.0;
 		for(Product p: products) {
 			value = Math.round(p.getPrice()*p.getAddedQuantity() * 100)/100.0;
 			p.setSummaryCost(value);
@@ -63,8 +64,6 @@ public class OrderController {
 		if(orderShipment.getShipmentCost()!=null) {
 			totalCost = totalCost + orderShipment.getShipmentCost();
 		}
-		if(isCashOnDeliverySet)
-			totalCost = totalCost + CASH_ON_DELIVERY_COST;
 		totalOrderCost = Math.round(totalCost * 100)/100.0;
 		model.addAttribute("shipments", orderShipment(products));
 		model.addAttribute("shipment", orderShipment);
@@ -77,6 +76,8 @@ public class OrderController {
 	@PostMapping("/addtoorder")
 	public String addToOrder(@RequestParam(name="addedQuantity") Integer addedQuantity, 
 			@RequestParam(name="productId") Long productId, Model model) {	
+		orderShipment = new Shipment();
+		isCashOnDeliverySet = false;
 		boolean isAdded = false;
 		model.addAttribute("productId", productId);
 		model.addAttribute("addedQuantity", addedQuantity);
@@ -116,7 +117,8 @@ public class OrderController {
 		model.addAttribute("order",order);
 		order.setCashOnDelivery(isCashOnDelivery);
 		isCashOnDeliverySet = isCashOnDelivery;
-		orderShipment.setShipmentCost(orderShipment.getShipmentCost() + CASH_ON_DELIVERY_COST);
+		if(isCashOnDeliverySet)
+			orderShipment.setShipmentCost(orderShipment.getShipmentCost() + CASH_ON_DELIVERY_COST);
 		order.setShipment(orderShipment);
 		return "redirect:/shoppingcard";
 	}
@@ -136,7 +138,6 @@ public class OrderController {
 	 * 
 	 * Create List with possible shipments for order:
 	 */
-	
 	private List<Shipment> orderShipment(List<Product> orderProducts){
 		Set<Product> setProd = new HashSet<>(orderProducts);
 		Set<String> suppliers = new HashSet<>();
@@ -156,16 +157,8 @@ public class OrderController {
 				shipMap.put(sh.getSupplier(), containsKey ? (isBigger ?	sh : shipMap.get(sh.getSupplier()) ) : sh);					
 			}
 		}	
-		//creates a Set of Sets with possible suppliers for each product:
-		Set<String> prodSup = new HashSet<>();
-		Set<Set<String>> suppliersProdSet = new HashSet<>();
-		for(Product p : setProd) {
-			for(Shipment sh : p.getShipments()) {
-				prodSup.add(sh.getSupplier());
-			}
-			suppliersProdSet.add(prodSup);
-			prodSup = new HashSet<>();
-		}	
+		//creates a Set of Sets with possible suppliers for each product:	
+		Set<Set<String>> suppliersProdSet = productShipmentSuppliers(setProd);		
 		//removes shipments witch cannot be applied to every product:
 		for(String str : suppliers) {
 			for(Set<String> set : suppliersProdSet) {
@@ -180,5 +173,18 @@ public class OrderController {
 		}
 		return resultList;
 	}	
+	
+	private Set<Set<String>> productShipmentSuppliers (Set<Product> setProd){
+		Set<String> prodSup = new HashSet<>();
+		Set<Set<String>> suppliersProdSet = new HashSet<>();
+		for(Product p : setProd) {
+			for(Shipment sh : p.getShipments()) {
+				prodSup.add(sh.getSupplier());
+			}
+			suppliersProdSet.add(prodSup);
+			prodSup = new HashSet<>();
+		}
+		return suppliersProdSet;
+	}
 
 }
