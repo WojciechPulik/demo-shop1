@@ -70,6 +70,7 @@ public class OrderController {
 		model.addAttribute("shipment", orderShipment);
 		model.addAttribute("totalCost", totalOrderCost);
 		model.addAttribute("products", products);
+		model.addAttribute("isCashOnDelivery", isCashOnDeliverySet);
 		return "/shoppingcard";
 	}
 	
@@ -133,16 +134,20 @@ public class OrderController {
 	
 	private List<Shipment> orderShipment(List<Product> orderProducts){
 		Set<Product> setProd = new HashSet<>(orderProducts);
-		Set<Shipment> setShip = new HashSet<>();
+		Map<String, Shipment> shipMap = new HashMap<>();
+		List<Shipment> resultList = new ArrayList<>();
+		boolean containsKey = false;
+		boolean isBigger = false;
 		for(Product p: setProd) {
 			for(Shipment sh: p.getShipments()) {
-				setShip.add(sh);
+				containsKey = shipMap.containsKey(sh.getSupplier());
+				isBigger = sh.getMaxWeight() > (shipMap.get(sh.getSupplier())).getMaxWeight();
+				shipMap.put(sh.getSupplier(), containsKey ? (isBigger ?	sh : shipMap.get(sh.getSupplier()) ) : sh);					
 			}
 		}
-		List<Shipment> resultList = new ArrayList<>(setShip);
+		for(String str : shipMap.keySet())
+			resultList.add(shipMap.get(str));
 		return resultList;
-	}
-	
-	
+	}	
 
 }

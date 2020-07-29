@@ -25,9 +25,7 @@
 		</tr>
 		<tr>
 			<td th:text="'Koszt wysyłki: ' + ${shipment.shipmentCost} + ' zł'"></td>
-			<td>
-				<p th:if="${order.isCashOnDelivery()}"th:text="Pobranie"></p>
-			</td>
+			<td th:if="${isCashOnDelivery}"th:text="Pobranie"></td>
 		</tr>
 		<tr>
 			<td th:text="'Całkowita suma zamówienia: ' + ${totalCost} + ' zł'"></td>
