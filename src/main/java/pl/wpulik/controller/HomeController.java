@@ -34,6 +34,10 @@ public class HomeController {
 			if(!pictureService.getByProductId(p.getId()).isEmpty()) {
 				p.getPictures().add(pictureService.getByProductId(p.getId()).get(0));
 				pictures.add(pictureService.getByProductId(p.getId()).get(0));
+			}else {
+				Picture noImagePicture = new Picture("images/noimage.jpg", "No Image");
+				noImagePicture.setProduct(p);
+				pictures.add(noImagePicture);
 			}
 		}	
 		model.addAttribute("pictures", pictures);

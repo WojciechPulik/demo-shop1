@@ -35,7 +35,12 @@ public class ProductController {
 	public String productCard(@RequestParam Long id, Model model) {
 		Product product = productService.getById(id);
 		List<Picture> pictures = pictureService.getByProductId(id);
-		Picture picture = pictures.get(0);
+		Picture picture = new Picture();
+		if(!pictures.isEmpty()) {
+			picture = pictures.get(0);
+		}else {
+			picture = new Picture("images/noimage.jpg", "No image");
+		}
 		String url = picture.getUrl();
 		model.addAttribute("url", url);
 		model.addAttribute("product", product);
