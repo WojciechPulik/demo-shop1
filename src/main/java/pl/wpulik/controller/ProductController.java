@@ -1,5 +1,6 @@
 package pl.wpulik.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +12,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import pl.wpulik.model.Picture;
+import pl.wpulik.model.Producer;
 import pl.wpulik.model.Product;
 import pl.wpulik.model.Shipment;
 import pl.wpulik.service.PictureService;
+import pl.wpulik.service.ProducerService;
 import pl.wpulik.service.ProductService;
 import pl.wpulik.service.ShipmentService;
 
@@ -23,12 +26,15 @@ public class ProductController {
 	private ProductService productService;
 	private PictureService pictureService;
 	private ShipmentService shipmentService;
+	private ProducerService producerService;
 	
 	@Autowired
-	public ProductController(ProductService productService, PictureService pictureService, ShipmentService shipmentService) {
+	public ProductController(ProductService productService, PictureService pictureService, 
+			ShipmentService shipmentService, ProducerService producerService) {
 		this.productService = productService;
 		this.pictureService = pictureService;
 		this.shipmentService = shipmentService;
+		this.producerService = producerService;
 	}
 	
 	@GetMapping("/product")
@@ -48,17 +54,23 @@ public class ProductController {
 	}
 	
 	@PostMapping("/save")
-	public String addProduct(@ModelAttribute Product formProduct, Model model) {
+	public String addProduct(@ModelAttribute Product formProduct, @ModelAttribute Producer producer, Model model) {
 		if(checkNotEmpty(formProduct)) {
 		model.addAttribute("formProduct", formProduct);
-		productService.addProduct(formProduct);
+		model.addAttribute("producer", producer);
+		formProduct.setId(null);
+		productService.addProduct(formProduct, producer.getId());
 		}
-		return "redirect:/";
+		return "redirect:/admin";
 	}
 	
 	@GetMapping("/addproduct")
 	public String productForm(Model model) {
+		List<Producer> producers = new ArrayList<>();
+		producers = producerService.getAllProducers();
 		model.addAttribute("formProduct", new Product());
+		model.addAttribute("producer", new Producer());
+		model.addAttribute("producers", producers);
 		return "addproduct";
 	}
 	/*

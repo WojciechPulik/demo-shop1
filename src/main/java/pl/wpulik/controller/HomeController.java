@@ -45,5 +45,6 @@ public class HomeController {
 		model.addAttribute("addedQuantity", addedQuantity);
 		return "index";
 	}
+	
 
 }

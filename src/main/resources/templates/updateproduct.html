@@ -7,13 +7,14 @@
 <body>
 	<h1>Sklep Internetowy Mydło i Powidło!</h1>
 	<h2>*******************************************</h2>
-	<br>
+	<p><a th:href="@{/}">Powrót do strony głównej</a></p>
+	<p><a th:href="@{/admin}">Panel Administracyjny</a></p>
 	<br>
 	<h3>Zaktualizuj dane produktu:</h3>
 	<form th:action="@{/updateProd}" method="post">
 		<p>Id produktu: <input type="number"step="1"min="1"th:field="${formProduct.id}"/></p>
 		<p>Nazwa produktu: <input type="text"th:field="${formProduct.name}"/></p>
-		<p>Opis produktu: <textarea th:field="${formProduct.description}"></textarea></p>
+		<p>Opis produktu: <textarea cols="60" rows="5" th:field="${formProduct.description}"></textarea></p>
 		<p>Ilość magazynowa: <input type="number"step="1"min="0"th:field="${formProduct.quantity}"/></p>
 		<p>Cena: <input type="number"step="0.01"min="0"th:field="${formProduct.price}"/> zł</p>
 		<p>Indeks produktu: <input type="text"th:field="${formProduct.index}"/></p>

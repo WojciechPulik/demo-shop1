@@ -11,6 +11,7 @@ import pl.wpulik.model.Order;
 import pl.wpulik.model.Picture;
 import pl.wpulik.model.Product;
 import pl.wpulik.model.Shipment;
+import pl.wpulik.repository.ProducerRepository;
 import pl.wpulik.repository.ProductRepository;
 
 @Service
@@ -18,13 +19,16 @@ import pl.wpulik.repository.ProductRepository;
 public class ProductService {
 	
 	private ProductRepository productRepository;
+	private ProducerRepository producerRepository;
 	
 	@Autowired
-	public ProductService(ProductRepository productRepository) {
+	public ProductService(ProductRepository productRepository, ProducerRepository producerRepository) {
 		this.productRepository = productRepository;
+		this.producerRepository = producerRepository;
 	}
 	
-	public Product addProduct(Product product) {
+	public Product addProduct(Product product, Long id) {
+		product.setProducer(producerRepository.findById(id).get());
 		productRepository.save(product);
 		return product;
 	}
