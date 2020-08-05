@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"/>
+<title>Strona główna</title>
+</head>
+<body>
+	<h1>Sklep Internetowy Mydło i Powidło!</h1>
+	<h2>*******************************************</h2>
+	<p><a th:href="@{/}">Powrót do strony głównej</a></p>
+	<p><a th:href="@{/admin}">Panel Administracyjny</a></p>
+	<table border="2">
+		<tr>
+			<th>Nr zamówienia</th>
+			<th>Data zamówienia</th>
+			<th>Zamawiający</th>
+			<th>Wysyłka</th>
+			<th>Wartość zamówienia PLN</th>
+		</tr>
+		<tr th:each="order:${orders}"th:object="${order}">
+			<td th:text="*{id}"></td>
+			<td th:text="*{datePurchase}"></td>
+			<td th:text="*{user.getFirstName()} + ' ' + *{user.getLastname()}"></td>
+			<td th:text="*{shipment.getName()} + ' '"></td>
+			<td th:text="*{totalPrice}"></td>
+		</tr>
+	</table>
+	
+</body>
+</html>

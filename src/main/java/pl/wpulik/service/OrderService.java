@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.wpulik.model.Product;
 import pl.wpulik.model.Order;
 import pl.wpulik.repository.OrderRepository;
+import pl.wpulik.repository.ShipmentRepository;
 
 @Service
 @Transactional
@@ -33,6 +34,12 @@ public class OrderService {
 		order.setDatePurchase(date);
 		Order addedOrder = orderRepository.save(order);
 		return addedOrder;
+	}
+	
+	public List<Order> getAllOrders(){
+		List<Order> resultList = new ArrayList<>();
+		resultList = orderRepository.findAll();
+		return resultList;
 	}
 	
 	public void addProductsToOrder(Long orderId, List<Product> products) {
