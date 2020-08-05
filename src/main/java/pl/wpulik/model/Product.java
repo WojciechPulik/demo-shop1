@@ -71,11 +71,6 @@ public class Product implements Serializable{
 	@JoinColumn(name = "product_id", referencedColumnName = "id_product")
 	private List<Picture> pictures;
 	
-	public void addOrder(Order order) {
-		order.setProducts(Arrays.asList(this));
-		getOrders().add(order);
-	}
-	
 	public Product() {}
 	
 	public Product(String index, String name, Producer producer, String description, int quantity, Double price, int addedQuantity) {
@@ -88,7 +83,17 @@ public class Product implements Serializable{
 		this.price = price;
 		this.addedQuantity = addedQuantity;
 	}
-
+	
+	public void addOrder(Order order) {
+		order.setProducts(Arrays.asList(this));
+		getOrders().add(order);
+	}
+	
+	public Double valueOfAll() {
+		Double result = Math.round(addedQuantity * price * 100)/100.0;
+		return result;
+	}
+	
 	public Long getId() {
 		return id;
 	}

@@ -30,7 +30,6 @@ import pl.wpulik.service.UserService;
 @Scope("session")
 public class OrderController {
 	
-	private static Double CASH_ON_DELIVERY_COST = 5.0;
 	private OrderService orderService;
 	private ProductService productService;
 	private UserService userService;
@@ -103,6 +102,7 @@ public class OrderController {
 		order.setUser(user);
 		order.setTotalPrice(totalOrderCost);
 		order.setShipment(orderShipment);
+		order.setCashOnDelivery(isCashOnDeliverySet);
 		Order addedOrder = orderService.addOrder(order);
 		Long orderId = addedOrder.getId();
 		orderService.addProductsToOrder(orderId, products);
@@ -118,7 +118,7 @@ public class OrderController {
 		order.setCashOnDelivery(isCashOnDelivery);
 		isCashOnDeliverySet = isCashOnDelivery;
 		if(isCashOnDeliverySet)
-			orderShipment.setShipmentCost(orderShipment.getShipmentCost() + CASH_ON_DELIVERY_COST);
+			orderShipment.setShipmentCost(orderShipment.getShipmentCost() + Shipment.CASH_ON_DELIVERY_COST);
 		order.setShipment(orderShipment);
 		return "redirect:/shoppingcard";
 	}

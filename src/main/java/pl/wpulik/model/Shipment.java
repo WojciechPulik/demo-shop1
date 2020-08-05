@@ -19,6 +19,7 @@ import javax.persistence.OneToMany;
 @Entity(name = "shipments")
 public class Shipment implements Serializable{
 	private static final long serialVersionUID = 1L;
+	public static Double CASH_ON_DELIVERY_COST = 5.0;
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)

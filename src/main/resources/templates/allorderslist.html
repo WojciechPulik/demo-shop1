@@ -16,6 +16,7 @@
 			<th>Zamawiający</th>
 			<th>Wysyłka</th>
 			<th>Wartość zamówienia PLN</th>
+			<th>Edytuj</th>
 		</tr>
 		<tr th:each="order:${orders}"th:object="${order}">
 			<td th:text="*{id}"></td>
@@ -23,6 +24,7 @@
 			<td th:text="*{user.getFirstName()} + ' ' + *{user.getLastname()}"></td>
 			<td th:text="*{shipment.getName()} + ' '"></td>
 			<td th:text="*{totalPrice}"></td>
+			<td><a th:href="@{/editorder(id=*{id})}"><button th:type="submit">Edytuj</button></a></td>
 		</tr>
 	</table>
 	
