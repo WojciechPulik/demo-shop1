@@ -1,0 +1,17 @@
+ul{
+	list-style-type:none;
+}
+body{
+	font-family:Arial;
+	font-weigth:700;
+}
+.product_name{
+	width:250px;
+	background-color:#80ff80;
+	text-decoration:none;
+	text-transform:uppercase;
+	border:1px solid #80ff80;
+	border-radius:5px;
+	font-color:black;
+	font-weigth:900;
+}
