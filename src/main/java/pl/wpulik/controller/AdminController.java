@@ -17,16 +17,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import pl.wpulik.model.Order;
 import pl.wpulik.model.Product;
 import pl.wpulik.model.Shipment;
-import pl.wpulik.service.OrderService;
+import pl.wpulik.service.OrderRepoService;
 
 @Controller
 public class AdminController {
 	
-	private OrderService orderService;
+	private OrderRepoService orderRepoService;
 	
 	@Autowired
-	public AdminController(OrderService orderService) {
-		this.orderService = orderService;
+	public AdminController(OrderRepoService orderRepoService) {
+		this.orderRepoService = orderRepoService;
 	}
 	
 	@GetMapping("/admin")
@@ -37,7 +37,7 @@ public class AdminController {
 	@GetMapping("/allorders")
 	public String allOrders(Model model) {
 		List<Order> orders = new ArrayList<>();
-		orders = orderService.getAllOrders();
+		orders = orderRepoService.getAllOrders();
 		orders.sort(Comparator.comparing(Order::getId).reversed());
 		model.addAttribute("orders", orders);
 		return "/allorderslist";
@@ -45,7 +45,7 @@ public class AdminController {
 	
 	@GetMapping("/editorder")
 	public String editOrder(@RequestParam Long id, Model model) {
-		Order order = orderService.getById(id);
+		Order order = orderRepoService.getById(id);
 		if(order.isCashOnDelivery())
 			order.getShipment().setShipmentCost(order.getShipment().getShipmentCost() + Shipment.CASH_ON_DELIVERY_COST);
 		Set<Product> products = new HashSet<>();

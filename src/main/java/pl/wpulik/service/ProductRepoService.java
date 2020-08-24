@@ -16,13 +16,13 @@ import pl.wpulik.repository.ProductRepository;
 
 @Service
 @Transactional
-public class ProductService {
+public class ProductRepoService {
 	
 	private ProductRepository productRepository;
 	private ProducerRepository producerRepository;
 	
 	@Autowired
-	public ProductService(ProductRepository productRepository, ProducerRepository producerRepository) {
+	public ProductRepoService(ProductRepository productRepository, ProducerRepository producerRepository) {
 		this.productRepository = productRepository;
 		this.producerRepository = producerRepository;
 	}

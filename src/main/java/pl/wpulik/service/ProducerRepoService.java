@@ -11,12 +11,12 @@ import pl.wpulik.repository.ProducerRepository;
 
 @Transactional
 @Service
-public class ProducerService {
+public class ProducerRepoService {
 	
 	private ProducerRepository producerRepository;
 	
 	@Autowired
-	public ProducerService (ProducerRepository producerRepository) {
+	public ProducerRepoService (ProducerRepository producerRepository) {
 		this.producerRepository = producerRepository;
 	}
 	

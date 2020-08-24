@@ -13,13 +13,13 @@ import pl.wpulik.repository.ShipmentRepository;
 
 @Transactional
 @Service
-public class CategoryService {
+public class CategoryRepoService {
 	
 	private CategoryRepository categoryRepository;
 	private ShipmentRepository shipmentRepository;
 	
 	@Autowired
-	public CategoryService(CategoryRepository categoryRepository, ShipmentRepository shipmentRepository) {
+	public CategoryRepoService(CategoryRepository categoryRepository, ShipmentRepository shipmentRepository) {
 		this.categoryRepository = categoryRepository;
 		this.shipmentRepository = shipmentRepository;
 	}

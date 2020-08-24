@@ -21,30 +21,31 @@ import pl.wpulik.model.Order;
 import pl.wpulik.model.Product;
 import pl.wpulik.model.Shipment;
 import pl.wpulik.model.User;
-import pl.wpulik.service.OrderService;
-import pl.wpulik.service.ProductService;
-import pl.wpulik.service.ShipmentService;
+import pl.wpulik.service.OrderRepoService;
+import pl.wpulik.service.ProductRepoService;
+import pl.wpulik.service.ShipmentRepoService;
 import pl.wpulik.service.UserService;
 
 @Controller
 @Scope("session")
 public class OrderController {
 	
-	private OrderService orderService;
-	private ProductService productService;
+	private OrderRepoService orderRepoService;
+	private ProductRepoService productRepoService;
 	private UserService userService;
-	private ShipmentService shipmentService;
+	private ShipmentRepoService shipmentRepoService;
 	private boolean isCashOnDeliverySet;
 	private List<Product> products = new ArrayList<>();
 	private Double totalOrderCost;
 	private Shipment orderShipment = new Shipment();
 		
 	@Autowired
-	public OrderController(OrderService orderService, ProductService productService, UserService userService, ShipmentService shipmentService) {
-		this.orderService = orderService;
-		this.productService = productService;
+	public OrderController(OrderRepoService orderRepoService, ProductRepoService productRepoService, 
+			UserService userService, ShipmentRepoService shipmentRepoService) {
+		this.orderRepoService = orderRepoService;
+		this.productRepoService = productRepoService;
 		this.userService = userService;
-		this.shipmentService = shipmentService;
+		this.shipmentRepoService = shipmentRepoService;
 	}
 	
 	@GetMapping("/shoppingcard")
@@ -80,7 +81,7 @@ public class OrderController {
 		boolean isAdded = false;
 		model.addAttribute("productId", productId);
 		model.addAttribute("addedQuantity", addedQuantity);
-		Product product = productService.getById(productId);
+		Product product = productRepoService.getById(productId);
 		product.setAddedQuantity(addedQuantity);
 		for(Product p: products) {
 			if(p.getId()==product.getId()) {
@@ -103,16 +104,16 @@ public class OrderController {
 		order.setTotalPrice(totalOrderCost);
 		order.setShipment(orderShipment);
 		order.setCashOnDelivery(isCashOnDeliverySet);
-		Order addedOrder = orderService.addOrder(order);
+		Order addedOrder = orderRepoService.addOrder(order);
 		Long orderId = addedOrder.getId();
-		orderService.addProductsToOrder(orderId, products);
+		orderRepoService.addProductsToOrder(orderId, products);
 		shoppingCardCleaner();
 		return "thanks";
 	}
 	@PostMapping("/setordershipment")
 	public String addShipmentToOrder(@ModelAttribute Shipment shipment, @ModelAttribute Order order,
 			@RequestParam boolean isCashOnDelivery, Model model) {
-		orderShipment = shipmentService.getById(shipment.getId());
+		orderShipment = shipmentRepoService.getById(shipment.getId());
 		model.addAttribute("shipment",orderShipment);
 		model.addAttribute("order",order);
 		order.setCashOnDelivery(isCashOnDelivery);

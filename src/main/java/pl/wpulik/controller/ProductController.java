@@ -15,32 +15,32 @@ import pl.wpulik.model.Picture;
 import pl.wpulik.model.Producer;
 import pl.wpulik.model.Product;
 import pl.wpulik.model.Shipment;
-import pl.wpulik.service.PictureService;
-import pl.wpulik.service.ProducerService;
-import pl.wpulik.service.ProductService;
-import pl.wpulik.service.ShipmentService;
+import pl.wpulik.service.PictureRepoService;
+import pl.wpulik.service.ProducerRepoService;
+import pl.wpulik.service.ProductRepoService;
+import pl.wpulik.service.ShipmentRepoService;
 
 @Controller
 public class ProductController {
 	
-	private ProductService productService;
-	private PictureService pictureService;
-	private ShipmentService shipmentService;
-	private ProducerService producerService;
+	private ProductRepoService productRepoService;
+	private PictureRepoService pictureRepoService;
+	private ShipmentRepoService shipmentRepoService;
+	private ProducerRepoService producerRepoService;
 	
 	@Autowired
-	public ProductController(ProductService productService, PictureService pictureService, 
-			ShipmentService shipmentService, ProducerService producerService) {
-		this.productService = productService;
-		this.pictureService = pictureService;
-		this.shipmentService = shipmentService;
-		this.producerService = producerService;
+	public ProductController(ProductRepoService productRepoService, PictureRepoService pictureRepoService, 
+			ShipmentRepoService shipmentRepoService, ProducerRepoService producerRepoService) {
+		this.productRepoService = productRepoService;
+		this.pictureRepoService = pictureRepoService;
+		this.shipmentRepoService = shipmentRepoService;
+		this.producerRepoService = producerRepoService;
 	}
 	
 	@GetMapping("/product")
 	public String productCard(@RequestParam Long id, Model model) {
-		Product product = productService.getById(id);
-		List<Picture> pictures = pictureService.getByProductId(id);
+		Product product = productRepoService.getById(id);
+		List<Picture> pictures = pictureRepoService.getByProductId(id);
 		Picture picture = new Picture();
 		if(!pictures.isEmpty()) {
 			picture = pictures.get(0);
@@ -59,7 +59,7 @@ public class ProductController {
 		model.addAttribute("formProduct", formProduct);
 		model.addAttribute("producer", producer);
 		formProduct.setId(null);
-		productService.addProduct(formProduct, producer.getId());
+		productRepoService.addProduct(formProduct, producer.getId());
 		}
 		return "redirect:/admin";
 	}
@@ -67,7 +67,7 @@ public class ProductController {
 	@GetMapping("/addproduct")
 	public String productForm(Model model) {
 		List<Producer> producers = new ArrayList<>();
-		producers = producerService.getAllProducers();
+		producers = producerRepoService.getAllProducers();
 		model.addAttribute("formProduct", new Product());
 		model.addAttribute("producer", new Producer());
 		model.addAttribute("producers", producers);
@@ -78,7 +78,7 @@ public class ProductController {
 	 */
 	@GetMapping("/updateproduct")
 	public String updateProductCard(Model model) {
-		List<Shipment> shipments = shipmentService.getAllShipments();
+		List<Shipment> shipments = shipmentRepoService.getAllShipments();
 		model.addAttribute("formProduct", new Product());
 		model.addAttribute("shipments",  shipments);
 		return "updateproduct";
@@ -87,7 +87,7 @@ public class ProductController {
 	@PostMapping("/updateProd")
 	public String updateProduct(@ModelAttribute Product product) {
 		Product productToUpdate = new Product();
-		productToUpdate = productService.getById(product.getId());
+		productToUpdate = productRepoService.getById(product.getId());
 		System.out.println(productToUpdate);
 		if(!product.getName().isEmpty())
 			productToUpdate.setName(product.getName());
@@ -99,16 +99,16 @@ public class ProductController {
 			productToUpdate.setPrice(product.getPrice());
 		if(!product.getIndex().isEmpty())
 			productToUpdate.setIndex(product.getIndex());
-		productService.updateProduct(productToUpdate);
+		productRepoService.updateProduct(productToUpdate);
 		return "redirect:/updateproduct";
 	}
 	
 	@PostMapping("/addShipment")
 	public String addShipment(@RequestParam Long shipmentId, @RequestParam Long productId) {
-		Product productToUpdate = productService.getById(productId);
-		Shipment shipmentToAdd = shipmentService.getById(shipmentId);
+		Product productToUpdate = productRepoService.getById(productId);
+		Shipment shipmentToAdd = shipmentRepoService.getById(shipmentId);
 		productToUpdate.getShipments().add(shipmentToAdd);
-		productService.updateProduct(productToUpdate);
+		productRepoService.updateProduct(productToUpdate);
 		return "redirect:/updateproduct";
 	}
 	

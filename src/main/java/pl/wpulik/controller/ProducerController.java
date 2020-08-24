@@ -8,16 +8,16 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import pl.wpulik.model.Producer;
-import pl.wpulik.service.ProducerService;
+import pl.wpulik.service.ProducerRepoService;
 
 @Controller
 public class ProducerController {
 	
-	private ProducerService producerService;
+	private ProducerRepoService producerRepoService;
 	
 	@Autowired
-	public ProducerController(ProducerService producerService) {
-		this.producerService = producerService;
+	public ProducerController(ProducerRepoService producerRepoService) {
+		this.producerRepoService = producerRepoService;
 	}
 	
 	@GetMapping("/addproducer")
@@ -28,7 +28,7 @@ public class ProducerController {
 	
 	@PostMapping("/saveproducer")
 	public String saveProducer(@ModelAttribute Producer producer) {
-		producerService.addProducer(producer);		
+		producerRepoService.addProducer(producer);		
 		return "redirect:/addproducer";
 	}
 

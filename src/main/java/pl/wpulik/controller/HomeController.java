@@ -10,18 +10,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import pl.wpulik.model.Picture;
 import pl.wpulik.model.Product;
-import pl.wpulik.service.PictureService;
-import pl.wpulik.service.ProductService;
+import pl.wpulik.service.PictureRepoService;
+import pl.wpulik.service.ProductRepoService;
 
 @Controller
 public class HomeController {
 	
-	private ProductService productService;
-	private PictureService pictureService;
+	private ProductRepoService productRepoService;
+	private PictureRepoService pictureService;
 	
 	@Autowired
-	public HomeController(ProductService productService, PictureService pictureService) {
-		this.productService = productService;
+	public HomeController(ProductRepoService productRepoService, PictureRepoService pictureService) {
+		this.productRepoService = productRepoService;
 		this.pictureService = pictureService;
 	}
 	
@@ -29,7 +29,7 @@ public class HomeController {
 	public String home (Model model) {
 		Integer addedQuantity = 0;
 		List<Picture> pictures = new ArrayList<>();
-		List<Product> products = productService.getAllProducts();	
+		List<Product> products = productRepoService.getAllProducts();	
 		for(Product p: products) {
 			if(!pictureService.getByProductId(p.getId()).isEmpty()) {
 				p.getPictures().add(pictureService.getByProductId(p.getId()).get(0));

@@ -11,12 +11,12 @@ import pl.wpulik.repository.PictureRepository;
 
 @Transactional
 @Service
-public class PictureService {
+public class PictureRepoService {
 	
 	private PictureRepository pictureRepository;
 	
 	@Autowired
-	public PictureService(PictureRepository pictureRepository) {
+	public PictureRepoService(PictureRepository pictureRepository) {
 		this.pictureRepository = pictureRepository;
 	}
 	

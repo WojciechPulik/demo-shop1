@@ -15,12 +15,12 @@ import pl.wpulik.repository.ShipmentRepository;
 
 @Service
 @Transactional
-public class OrderService {
+public class OrderRepoService {
 	
 	private OrderRepository orderRepository;
 	
 	@Autowired
-	public OrderService(OrderRepository orderRepository) {
+	public OrderRepoService(OrderRepository orderRepository) {
 		this.orderRepository = orderRepository;
 	}
 	
