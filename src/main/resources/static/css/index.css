@@ -12,8 +12,6 @@ body{
 	text-transform:uppercase;
 	border:1px solid #80ff80;
 	border-radius:5px;
-	font-color:black;
-	font-weigth:900;
 }
 #header{
 	display:block;
@@ -21,15 +19,33 @@ body{
 #left{
 	float:left;
 	width:20%;
+	margin:8px;
 	border:1px solid black;
+	border-radius:5px;
 	background-color:#F0FFFF;
 	min-height:800px;
 }
 #inner{
 	float:left;
-	width:40%;
+	width:60%;
+	margin:8px;
 	text-align:center;
+	border:1px solid black;
+	border-radius:5px;
+	min-height:800px;
+	background-color:#F0FFFF;
 }
 #center{
 	text-align:center;
 }
+.category_inner_name{
+	text-align:center;
+	width:60%;
+	font-weight: bold;
+	border:1px solid red;
+	border-radius:5px;
+	background-color:lightyellow;
+	text-transform:uppercase;
+	font-size:22;
+}
+

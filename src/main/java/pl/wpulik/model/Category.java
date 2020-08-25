@@ -33,6 +33,8 @@ public class Category implements Serializable{
 	@ManyToMany(mappedBy = "categories",fetch = FetchType.EAGER)//, cascade = CascadeType.PERSIST)
 	@Fetch(FetchMode.SUBSELECT)
 	private List<Shipment> shipments  = new ArrayList<>();
+	@ManyToMany(mappedBy = "categories")
+	private List<Product> products = new ArrayList<>();
 	
 	public Category() {}
 
@@ -93,6 +95,14 @@ public class Category implements Serializable{
 
 	public void setShipments(List<Shipment> shipments) {
 		this.shipments = shipments;
+	}
+
+	public List<Product> getProducts() {
+		return products;
+	}
+
+	public void setProducts(List<Product> products) {
+		this.products = products;
 	}
 
 	@Override

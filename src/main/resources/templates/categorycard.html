@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8"/>
 <link href="/css/index.css" rel="stylesheet"/>
-<title>Strona główna</title>
+<title th:text="${category.name}"></title>
 </head>
 <body>
 	<div id="header">
 		<h1 id="center">Sklep Internetowy Mydło i Powidło!</h1>
 		<h2 id="center">****************************************************************</h2>
+		<p><a th:href="@{/}">Strona główna</a></p>
 		<p><a th:href="@{/shoppingcard}">Twój koszyk</a></p>
-		<p><a th:href="@{/admin}">Panel administratora</a></p>
 	</div>
 	<div id="left">
 		<p>Kategorie produktów:</p>
@@ -19,9 +19,10 @@
 		</ul>
 	</div>
 	<div id="inner">
+		<div align="center"><p class="category_inner_name" th:text="${category.name}"></p></div>
 		<ul th:each="product:${products}">
 			<li>********************************************</li>
-			<li><a  class="product_name" th:href="@{/product(id=${product.id})}"th:text="${product.name}"></a></li>
+			<li><a class="product_name" th:href="@{/product(id=${product.id})}"th:text="${product.name}"></a></li>
 			<li>
 				<ul th:each="picture:${pictures}">
 					<li th:if="${product.id}==${picture.product.id}">

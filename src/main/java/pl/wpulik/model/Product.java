@@ -235,7 +235,7 @@ public class Product implements Serializable{
 		return "Product [id=" + id + ", index=" + index + ", name=" + name + ", description=" + description
 				+ ", quantity=" + quantity + ", price=" + price + ", discount=" + discount + ", isActive=" + isActive
 				+ ", isPromoted=" + isPromoted + ", isDiscounted=" + isDiscounted + 
-				", producer=" + producer + 
+				", producer=" + producer.getName() + ", Pictures=" + pictures + 
 				"]";
 	}
 
