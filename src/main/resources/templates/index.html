@@ -6,28 +6,36 @@
 <title>Strona główna</title>
 </head>
 <body>
-	<h1>Sklep Internetowy Mydło i Powidło!</h1>
-	<h2>*******************************************</h2>
-	<p><a th:href="@{/shoppingcard}">Twój koszyk</a></p>
-	<p><a th:href="@{/admin}">Panel administratora</a></p>
-	<ul th:each="product:${products}">
-		
-		<li>********************************************</li>
-		<li><a  class="product_name" th:href="@{/product(id=${product.id})}"th:text="${product.name}"></a></li>
-		<li>
-			<ul th:each="picture:${pictures}">
-				<li th:if="${product.id}==${picture.product.id}">
-					<img th:src="@{${picture.url}}"width=100>
-				</li>
-			</ul>
-		</li>
-		<li th:text="'Indeks: ' + ${product.index}">Index produktu</li>
-		<li th:text="'Cena: ' + ${product.price} + ' zł'">Cena produktu</li>
-		<li>
-			<a th:href="@{/product(id=${product.id})}"><input type="button" value="Zobacz szczegóły"/></a>	
-		</li>
-		
-	</ul>
+	<div id="header">
+		<h1 id="center">Sklep Internetowy Mydło i Powidło!</h1>
+		<h2 id="center">****************************************************************</h2>
+		<p><a th:href="@{/shoppingcard}">Twój koszyk</a></p>
+		<p><a th:href="@{/admin}">Panel administratora</a></p>
+	</div>
+	<div id="left">
+		<p>Kategorie produktów:</p>
+		<ul th:each="category:${categories}">
+			<li><p th:text="${category.name}"></p>
+		</ul>
+	</div>
+	<div id="inner">
+		<ul th:each="product:${products}">
+			<li>********************************************</li>
+			<li><a  class="product_name" th:href="@{/product(id=${product.id})}"th:text="${product.name}"></a></li>
+			<li>
+				<ul th:each="picture:${pictures}">
+					<li th:if="${product.id}==${picture.product.id}">
+						<img th:src="@{${picture.url}}"width=100>
+					</li>
+				</ul>
+			</li>
+			<li th:text="'Indeks: ' + ${product.index}">Index produktu</li>
+			<li th:text="'Cena: ' + ${product.price} + ' zł'">Cena produktu</li>
+			<li>
+				<a th:href="@{/product(id=${product.id})}"><input type="button" value="Zobacz szczegóły"/></a>	
+			</li>
+		</ul>
+	</div>
 	
 </body>
 </html>

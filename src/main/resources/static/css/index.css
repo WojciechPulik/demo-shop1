@@ -15,3 +15,21 @@ body{
 	font-color:black;
 	font-weigth:900;
 }
+#header{
+	display:block;
+}
+#left{
+	float:left;
+	width:20%;
+	border:1px solid black;
+	background-color:#F0FFFF;
+	min-height:800px;
+}
+#inner{
+	float:left;
+	width:40%;
+	text-align:center;
+}
+#center{
+	text-align:center;
+}
