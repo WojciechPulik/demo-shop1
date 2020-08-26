@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8"/>
-<title>Strona główna</title>
+<title>Panel administracyjny - aktualizacja produktu</title>
 </head>
 <body>
 	<h1>Sklep Internetowy Mydło i Powidło!</h1>
@@ -21,15 +21,18 @@
 		<p><input type="submit"value="Zaktualizuj"/></p>		
 	</form>
 	<br>
-	<h3>Dodaj sposób dostawy:</h3>
-	<ul th:each="shipment:${shipments}">
-		<li th:text="'Id dostawy: ' + ${shipment.id} + ' - Dostawa: ' + ${shipment.name}">Index dostawy</li>
-	</ul>
+	<h3>Dodaj sposób dostawy:</h3>	
 	<form th:action="@{/addShipment}" method="post">
 		<p>Id produktu: <input type="number"step="1"min="1"name="productId"/></p>
-		<p>Id dostawy: <input type="number"step="1"min="1"name="shipmentId"/></p>
+		<div th:object="${shipment}">Wybierz sposób dostawy:
+		<select th:field="${shipment.id}">
+			<option value="">-------------</option>
+			<option th:each="shipment:${shipments}" th:value="${shipment.id}" th:text="${shipment.name}"></option>			
+		</select>
+		</div>
 		<p><input type="submit"value="Dodaj dostawę"/></p>
 	</form>
+	
 		
 		
 		

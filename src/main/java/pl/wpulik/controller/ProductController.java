@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import pl.wpulik.dto.ProductDTO;
 import pl.wpulik.model.Picture;
 import pl.wpulik.model.Producer;
 import pl.wpulik.model.Product;
@@ -18,6 +19,7 @@ import pl.wpulik.model.Shipment;
 import pl.wpulik.service.PictureRepoService;
 import pl.wpulik.service.ProducerRepoService;
 import pl.wpulik.service.ProductRepoService;
+import pl.wpulik.service.ProductService;
 import pl.wpulik.service.ShipmentRepoService;
 
 @Controller
@@ -54,11 +56,9 @@ public class ProductController {
 	}
 	
 	@PostMapping("/save")
-	public String addProduct(@ModelAttribute Product formProduct, @ModelAttribute Producer producer, Model model) {
+	public String addProduct(@ModelAttribute Product formProduct, @ModelAttribute Producer producer) {
 		if(checkNotEmpty(formProduct)) {
-		model.addAttribute("formProduct", formProduct);
-		model.addAttribute("producer", producer);
-		formProduct.setId(null);
+		formProduct.setId(null);		
 		productRepoService.addProduct(formProduct, producer.getId());
 		}
 		return "redirect:/admin";
@@ -73,13 +73,12 @@ public class ProductController {
 		model.addAttribute("producers", producers);
 		return "addproduct";
 	}
-	/*
-	 * ****************************************************
-	 */
+	
 	@GetMapping("/updateproduct")
 	public String updateProductCard(Model model) {
 		List<Shipment> shipments = shipmentRepoService.getAllShipments();
 		model.addAttribute("formProduct", new Product());
+		model.addAttribute("shipment",  new Shipment());
 		model.addAttribute("shipments",  shipments);
 		return "updateproduct";
 	}
@@ -104,10 +103,9 @@ public class ProductController {
 	}
 	
 	@PostMapping("/addShipment")
-	public String addShipment(@RequestParam Long shipmentId, @RequestParam Long productId) {
+	public String addShipment(@ModelAttribute Shipment shipment, @RequestParam Long productId) {
 		Product productToUpdate = productRepoService.getById(productId);
-		Shipment shipmentToAdd = shipmentRepoService.getById(shipmentId);
-		productToUpdate.getShipments().add(shipmentToAdd);
+		productToUpdate.getShipments().add(shipment);
 		productRepoService.updateProduct(productToUpdate);
 		return "redirect:/updateproduct";
 	}
