@@ -12,10 +12,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import pl.wpulik.dto.ProductDTO;
+import pl.wpulik.model.Category;
 import pl.wpulik.model.Picture;
 import pl.wpulik.model.Producer;
 import pl.wpulik.model.Product;
 import pl.wpulik.model.Shipment;
+import pl.wpulik.service.CategoryRepoService;
 import pl.wpulik.service.PictureRepoService;
 import pl.wpulik.service.ProducerRepoService;
 import pl.wpulik.service.ProductRepoService;
@@ -26,17 +28,22 @@ import pl.wpulik.service.ShipmentRepoService;
 public class ProductController {
 	
 	private ProductRepoService productRepoService;
+	private ProductService productService;
 	private PictureRepoService pictureRepoService;
 	private ShipmentRepoService shipmentRepoService;
 	private ProducerRepoService producerRepoService;
+	private CategoryRepoService categoryRepoService;
 	
 	@Autowired
 	public ProductController(ProductRepoService productRepoService, PictureRepoService pictureRepoService, 
-			ShipmentRepoService shipmentRepoService, ProducerRepoService producerRepoService) {
+			ShipmentRepoService shipmentRepoService, ProducerRepoService producerRepoService, CategoryRepoService categoryRepoService,
+			ProductService productService) {
 		this.productRepoService = productRepoService;
 		this.pictureRepoService = pictureRepoService;
 		this.shipmentRepoService = shipmentRepoService;
 		this.producerRepoService = producerRepoService;
+		this.categoryRepoService = categoryRepoService;
+		this.productService = productService;
 	}
 	
 	@GetMapping("/product")
@@ -56,21 +63,18 @@ public class ProductController {
 	}
 	
 	@PostMapping("/save")
-	public String addProduct(@ModelAttribute Product formProduct, @ModelAttribute Producer producer) {
+	public String addProduct(@ModelAttribute ProductDTO formProduct) {
+		ProductService prodService = new ProductService();	
 		if(checkNotEmpty(formProduct)) {
-		formProduct.setId(null);		
-		productRepoService.addProduct(formProduct, producer.getId());
+			productRepoService.addProduct(prodService.productMapping(formProduct), formProduct.getProducerId(), 
+					formProduct.getCategoryId(), formProduct.getShipmentId());
 		}
 		return "redirect:/admin";
 	}
 	
 	@GetMapping("/addproduct")
-	public String productForm(Model model) {
-		List<Producer> producers = new ArrayList<>();
-		producers = producerRepoService.getAllProducers();
-		model.addAttribute("formProduct", new Product());
-		model.addAttribute("producer", new Producer());
-		model.addAttribute("producers", producers);
+	public String productForm(Model model) {	
+		model.addAttribute("formProduct", productService.createProductDTO());
 		return "addproduct";
 	}
 	
@@ -110,7 +114,7 @@ public class ProductController {
 		return "redirect:/updateproduct";
 	}
 	
-	private boolean checkNotEmpty(Product product) {
+	private boolean checkNotEmpty(ProductDTO product) {
 		return product.getName()!=null && product.getDescription()!=null && product.getPrice()!=null;
 	}
 

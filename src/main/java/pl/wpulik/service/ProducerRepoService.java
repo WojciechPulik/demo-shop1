@@ -20,6 +20,8 @@ public class ProducerRepoService {
 		this.producerRepository = producerRepository;
 	}
 	
+	public ProducerRepoService () {}
+	
 	public Producer addProducer(Producer producer) {
 		producerRepository.save(producer);
 		return producer;

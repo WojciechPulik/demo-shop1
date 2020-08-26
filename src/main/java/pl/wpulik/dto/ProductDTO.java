@@ -1,6 +1,11 @@
 package pl.wpulik.dto;
 
 import java.io.Serializable;
+import java.util.List;
+
+import pl.wpulik.model.Category;
+import pl.wpulik.model.Producer;
+import pl.wpulik.model.Shipment;
 
 public class ProductDTO implements Serializable{
 
@@ -18,6 +23,9 @@ public class ProductDTO implements Serializable{
 	private Long producerId;
 	private Long shipmentId;
 	private Long categoryId;
+	private List<Producer> producers;
+	private List<Shipment> shipments;
+	private List<Category> categories;
 	
 	public ProductDTO() {}
 
@@ -115,6 +123,30 @@ public class ProductDTO implements Serializable{
 
 	public void setCategoryId(Long categoryId) {
 		this.categoryId = categoryId;
+	}	
+	
+	public List<Producer> getProducers() {
+		return producers;
+	}
+
+	public void setProducers(List<Producer> producers) {
+		this.producers = producers;
+	}
+
+	public List<Shipment> getShipments() {
+		return shipments;
+	}
+
+	public void setShipments(List<Shipment> shipments) {
+		this.shipments = shipments;
+	}
+
+	public List<Category> getCategories() {
+		return categories;
+	}
+
+	public void setCategories(List<Category> categories) {
+		this.categories = categories;
 	}
 
 	@Override

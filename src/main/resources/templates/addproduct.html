@@ -19,9 +19,23 @@
 		<p>Cena: <input type="number"step="0.01"min="0"th:field="${formProduct.price}"/> zł</p>
 		<p>Indeks produktu: <input type="text"th:field="${formProduct.index}"/></p>
 		<div th:object="${producer}">Wybierz producenta:
-		<select th:field="${producer.id}">
+		<select th:field="${formProduct.producerId}">
 			<option value="">-------------</option>
-			<option th:each="producer:${producers}" th:value="${producer.id}" th:text="${producer.name}"></option>			
+			<option th:each="producer:${formProduct.producers}" th:value="${producer.id}" th:text="${producer.name}"></option>			
+		</select>
+		</div>
+		<br>
+		<div th:object="${category}">Wybierz kategorię produktu:
+		<select th:field="${formProduct.categoryId}">
+			<option value="">-------------</option>
+			<option th:each="category:${formProduct.categories}" th:value="${category.id}" th:text="${category.name}"></option>			
+		</select>
+		</div>
+		<br>
+		<div th:object="${shipment}">Wybierz opcję dostawy:
+		<select th:field="${formProduct.shipmentId}">
+			<option value="">-------------</option>
+			<option th:each="shipment:${formProduct.shipments}" th:value="${shipment.id}" th:text="${shipment.name}"></option>			
 		</select>
 		</div>
 		<p><input type="submit"value="Dodaj product"/></p>

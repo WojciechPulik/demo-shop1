@@ -25,6 +25,8 @@ public class CategoryRepoService {
 		this.shipmentRepository = shipmentRepository;
 	}
 	
+	public CategoryRepoService() {}
+	
 	public Category addCategory(Category category) {
 		categoryRepository.save(category);
 		return category;
