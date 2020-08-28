@@ -10,17 +10,25 @@
 	<p><a th:href="@{/}">Powrót do strony głównej</a></p>
 	<p><a th:href="@{/admin}">Panel Administracyjny</a></p>
 	<h2 th:text="'Zamówienie nr: ' + ${order.id}">Nr zamówienia</h2>
+	<form th:action="@{/updatequantity}" method="post"><div>
 	<table border="2">
 		<tr>
 			<th>Nazwa produktu</th>
 			<th>Cena jednostkowa PLN</th>
 			<th>Ilość</th>
+			<th>Zmień ilość</th>
 			<th>Wartość PLN</th>
 		</tr>
 		<tr th:each="product:${products}"th:object="${product}">
 			<td th:text="*{name}"></td>
 			<td th:text="*{price}"></td>
 			<td th:text="*{addedQuantity}"></td>
+			<td>
+				<input type="number"step="1"min="0" name="newQuantity"/>
+				<input type="hidden" name="productId" th:value="*{id}"/>
+				<input type="hidden" name="orderId" th:value="${order.id}"/>
+				<input type="submit"value="Zmień ilość produktów"/>
+			</td>
 			<td th:text="*{valueOfAll()}"></td>
 		</tr>
 		<tr>
@@ -32,6 +40,7 @@
 			<td th:text="'Całkowita suma zamówienia: ' + ${order.totalPrice} + ' zł'"></td>
 		</tr>
 	</table>
+	</div></form>
 	
 </body>
 </html>

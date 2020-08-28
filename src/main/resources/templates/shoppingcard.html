@@ -2,15 +2,20 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8"/>
+<link href="/css/shoppingcard.css" rel="stylesheet"/>
 <title>Strona główna</title>
 </head>
 <body>
-	<h1>Sklep Internetowy Mydło i Powidło!</h1>
-	<h2>*******************************************</h2>
+	<div id="header">
+		<h1 id="center">Sklep Internetowy Mydło i Powidło!</h1>
+	</div>
 	<p><a th:href="@{/}">Powrót do strony głównej</a></p>
-	<h1>Twój koszyk zakupowy!</h1>
+	<h1 id="center">Twój koszyk zakupowy!</h1>
 	<br>
-	<table border="2">
+	<div align="center">
+	<div class="inner">
+	<br>
+	<table border="2" align="center">
 		<tr>
 			<th>Nazwa produktu</th>
 			<th>Cena jednostkowa PLN</th>
@@ -32,6 +37,7 @@
 		</tr>
 	</table>
 	<br>
+	
 	<form th:action="@{/setordershipment}" method="post">
 		<p>Sposób dostawy:</p>
 		<ul>
@@ -60,7 +66,8 @@
 	<br>
 	<br>
 	<a th:href="@{/clearcard}"><input type="button" value="Usuń zawartość koszyka"/></a>
-	
+	</div>
+	</div>
 </body>
 </html>
 

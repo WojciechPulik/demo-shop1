@@ -2,26 +2,36 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8"/>
+<link href="/css/index.css" rel="stylesheet"/>
 <title>Strona główna</title>
 </head>
 <body>
-	<h1>Sklep Internetowy Mydło i Powidło!</h1>
-	<h2>*******************************************</h2>
-	<br>
-	<h3>********************************************************</h3>
+	<div id="header">
+		<h1 id="center">Sklep Internetowy Mydło i Powidło!</h1>
+	</div>
+	<p><a th:href="@{/}">Powrót do strony głównej</a></p>
+	<div id="left">
+		<p>Kategorie produktów:</p>
+		<ul th:each="category:${categories}">
+			<li><a th:href="@{/category(id=${category.id})}" th:text="${category.name}"></a>
+		</ul>
+	</div>
+	<div id="inner">
 	<h1 th:text="${product.name}">Nazwa Produktu</h1>
-	<h3>********************************************************</h3>
 	<img th:src="@{${url}}" alt="obrazek" width=300>
 	<h3>Opis przedmiotu:</h3>
-	<p th:text="${product.description}">Opis produktu</p>
-	<p th:text="'Indeks: ' + ${product.index}">Index</p>
-	<p th:text="'Producent: ' + ${product.producer.name}">Producent</p>
-	<p th:text="'Cena: ' + ${product.price} + ' zł'">Cena</p>
+	<div class="text_left">
+		<p th:text="${product.description}">Opis produktu</p>
+		<p th:text="'Indeks: ' + ${product.index}">Index</p>
+		<p th:text="'Producent: ' + ${product.producer.name}">Producent</p>
+		<p th:text="'Cena: ' + ${product.price} + ' zł'">Cena</p>
+	</div>
 	<form th:action="@{/addtoorder}" method="post">
 		<input type="hidden" name="productId" th:value="${product.id}"/>
 		<p>Ilość: <input type="number" name="addedQuantity"min="0"step="1"/>		
 			<button type="submit" value="Add">Dodaj produkt do koszyka</button>
 		</p>
 	</form>
+	</div>
 </body>
 </html>

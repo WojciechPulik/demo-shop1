@@ -1,0 +1,33 @@
+#center{
+	text-align:center;
+}
+.inner{
+	width:60%;
+	margin:8px;
+	text-align:center;
+	align:center;
+	border:1px solid black;
+	border-radius:5px;
+	min-height:800px;
+	background-color:#F0FFFF;
+	font-family:'Copperplate Gothic Light';
+}
+table{
+	background-color:#F0FFFF;
+	background-color:lightyellow;
+	border-radius:5px;
+}
+ul{
+	list-style-type:none;
+}
+#header{
+	border:3px solid black;
+	border-radius:5px;
+	display:block;
+	text-align:center;
+	min-height:100px;
+	color:#000;
+	font-family:Arial;
+	font-size:28px;
+	background-color:#F0FFFF;
+}

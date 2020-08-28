@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import pl.wpulik.model.Order;
@@ -63,5 +65,29 @@ public class AdminController {
 		model.addAttribute("order", order);
 		return "/admeditorder";
 	}
+	
+	@PostMapping("/updatequantity")
+	public String updateQuantity(@RequestParam Long orderId, @RequestParam Long productId, 
+			@RequestParam Long newQuantity, Model model) {
+		System.out.println("order Id: " + orderId);
+		System.out.println("product Id: " + productId);
+		System.out.println("newQuantity " + newQuantity);
+		/*TODO: create orderService.class, create methods that update order*/
+		//orderRepoService.addOrder(order);
+		return editOrder(orderId, model);
+	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

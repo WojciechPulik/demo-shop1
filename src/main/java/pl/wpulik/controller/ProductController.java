@@ -50,6 +50,7 @@ public class ProductController {
 	public String productCard(@RequestParam Long id, Model model) {
 		Product product = productRepoService.getById(id);
 		List<Picture> pictures = pictureRepoService.getByProductId(id);
+		List<Category> categories = categoryRepoService.getAllCategories();
 		Picture picture = new Picture();
 		if(!pictures.isEmpty()) {
 			picture = pictures.get(0);
@@ -59,6 +60,7 @@ public class ProductController {
 		String url = picture.getUrl();
 		model.addAttribute("url", url);
 		model.addAttribute("product", product);
+		model.addAttribute("categories", categories);
 		return "productcard";
 	}
 	
