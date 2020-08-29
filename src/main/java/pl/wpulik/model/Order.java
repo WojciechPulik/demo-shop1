@@ -53,6 +53,11 @@ public class Order implements Serializable{
 		product.getOrders().add(this);
 	}
 	
+	public void removeProducts(Product product) {
+		this.products.removeIf(next -> next.equals(product));
+		product.getOrders().removeIf(next -> next.equals(this));
+	}
+	
 	public Order() {}
 
 	public Order(List<Product> products, Date datePurchase, String orderDetails, User user,

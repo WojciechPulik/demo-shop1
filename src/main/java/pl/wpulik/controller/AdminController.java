@@ -20,15 +20,18 @@ import pl.wpulik.model.Order;
 import pl.wpulik.model.Product;
 import pl.wpulik.model.Shipment;
 import pl.wpulik.service.OrderRepoService;
+import pl.wpulik.service.OrderService;
 
 @Controller
 public class AdminController {
 	
 	private OrderRepoService orderRepoService;
+	private OrderService orderService;
 	
 	@Autowired
-	public AdminController(OrderRepoService orderRepoService) {
+	public AdminController(OrderRepoService orderRepoService, OrderService orderService) {
 		this.orderRepoService = orderRepoService;
+		this.orderService = orderService;
 	}
 	
 	@GetMapping("/admin")
@@ -68,12 +71,8 @@ public class AdminController {
 	
 	@PostMapping("/updatequantity")
 	public String updateQuantity(@RequestParam Long orderId, @RequestParam Long productId, 
-			@RequestParam Long newQuantity, Model model) {
-		System.out.println("order Id: " + orderId);
-		System.out.println("product Id: " + productId);
-		System.out.println("newQuantity " + newQuantity);
-		/*TODO: create orderService.class, create methods that update order*/
-		//orderRepoService.addOrder(order);
+			@RequestParam Integer newQuantity, Model model) {	
+		orderService.updateQuantity(orderId, productId, newQuantity);
 		return editOrder(orderId, model);
 	}
 

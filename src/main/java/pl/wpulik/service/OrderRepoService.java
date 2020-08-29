@@ -2,7 +2,10 @@ package pl.wpulik.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.Iterator;
 import java.util.Date;
+import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,12 +39,17 @@ public class OrderRepoService {
 		return addedOrder;
 	}
 	
+	public Order updateOrder(Order order) {
+		Order updatedOrder = orderRepository.save(order);
+		return updatedOrder;
+	}
+	
 	public List<Order> getAllOrders(){
 		List<Order> resultList = new ArrayList<>();
 		resultList = orderRepository.findAll();
 		return resultList;
 	}
-	
+	/* Use only when order is being created!*/
 	public void addProductsToOrder(Long orderId, List<Product> products) {
 		Order order = orderRepository.findById(orderId).get();
 		for(Product prod: products) {
@@ -52,11 +60,29 @@ public class OrderRepoService {
 		orderRepository.save(order);
 	}
 	
+	public Order updateProductsInOrder(Long orderId, List<Product> products) {
+		Order order = orderRepository.findById(orderId).get();
+		for(Product p : products) {
+			order.addProducts(p);
+		}		
+		return orderRepository.save(order);
+	}
+	
 	public List<Product> getProductsFromOrder (Long orderId){
 		List<Product> resultList = new ArrayList<>();
 		Order order = orderRepository.findById(orderId).get();
 		resultList = order.getProducts();
 		return resultList;
+	}
+	
+	public Order removeAllProducts(Long orderId) {
+		Order order = orderRepository.findById(orderId).get();
+		Set<Product> products = new HashSet<>();
+		order.getProducts().forEach(products::add);		
+		for(Product p : products) {
+			order.removeProducts(p);
+		}
+		return orderRepository.save(order);
 	}
 
 }
