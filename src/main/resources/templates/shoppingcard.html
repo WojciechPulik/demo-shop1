@@ -3,12 +3,11 @@
 <head>
 <meta charset="UTF-8"/>
 <link href="/css/shoppingcard.css" rel="stylesheet"/>
+<link href="/css/index.css" rel="stylesheet"/>
 <title>Strona główna</title>
 </head>
 <body>
-	<div id="header">
-		<h1 id="center">Sklep Internetowy Mydło i Powidło!</h1>
-	</div>
+	<div th:insert="fragments/header :: header"></div>
 	<p><a th:href="@{/}">Powrót do strony głównej</a></p>
 	<h1 id="center">Twój koszyk zakupowy!</h1>
 	<br>

@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8"/>
 <link href="/css/admin.css" rel="stylesheet"/>
+<link href="/css/index.css" rel="stylesheet"/>
 <title>Strona główna</title>
 </head>
 <body>
-	<h1>Sklep Internetowy Mydło i Powidło!</h1>
-	<h2>*******************************************</h2>
+	<div th:insert="fragments/header :: header"></div>
 	<p><a th:href="@{/}">Powrót do strony głównej</a></p>
 	<p><a th:href="@{/admin}">Panel Administracyjny</a></p>
 	<h2 th:text="'Zamówienie nr: ' + ${order.id}">Nr zamówienia</h2>

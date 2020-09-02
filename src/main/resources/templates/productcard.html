@@ -6,9 +6,7 @@
 <title>Strona główna</title>
 </head>
 <body>
-	<div id="header">
-		<h1 id="center">Sklep Internetowy Mydło i Powidło!</h1>
-	</div>
+	<div th:insert="fragments/header :: header"></div>
 	<p><a th:href="@{/}">Powrót do strony głównej</a></p>
 	<div id="left">
 		<p>Kategorie produktów:</p>
