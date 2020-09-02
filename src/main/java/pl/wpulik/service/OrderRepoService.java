@@ -3,8 +3,7 @@ package pl.wpulik.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.Iterator;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.wpulik.model.Product;
 import pl.wpulik.model.Order;
 import pl.wpulik.repository.OrderRepository;
-import pl.wpulik.repository.ShipmentRepository;
 
 @Service
 @Transactional
@@ -33,8 +31,7 @@ public class OrderRepoService {
 	}
 	
 	public Order addOrder(Order order) {
-		Date date = new Date();
-		order.setDatePurchase(date);
+		order.setDatePurchase(LocalDateTime.now());
 		Order addedOrder = orderRepository.save(order);
 		return addedOrder;
 	}

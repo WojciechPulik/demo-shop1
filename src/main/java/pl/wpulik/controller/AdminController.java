@@ -94,25 +94,13 @@ public class AdminController {
 		orderService.updateQuantity(orderId, productId, 0);
 		return editOrder(orderId, model);
 	}
-	/* TODO: move implementation to orderService.class and add date setting */
+
 	@PostMapping("/setstatus") 
 	public String setOrderStatus(@ModelAttribute OrderStatusDTO formOrderStatus, Model model) {
 		Order order = orderRepoService.getById(formOrderStatus.getOrderId());
 		model.addAttribute("formOrderStatus",  formOrderStatus);
 		String status = orderService.statusMapping(formOrderStatus.getOrderStatusId()).getStatus();
-		
-		if(status.equals("new")) {
-			order.setRecieved(false);
-			order.setSent(false);
-		}
-		if(status.equals("recived")) {
-			order.setRecieved(true);
-			order.setSent(false);
-		}
-		if(status.equals("sent")) {
-			order.setRecieved(false);
-			order.setSent(true);
-		}
+		order = orderService.updateStatus(order, status);
 		orderRepoService.updateOrder(order);
 		return editOrder(formOrderStatus.getOrderId(), model);
 		

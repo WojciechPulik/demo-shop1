@@ -2,8 +2,10 @@ package pl.wpulik.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
+
+
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -32,9 +34,9 @@ public class Order implements Serializable{
 			cascade = CascadeType.MERGE)
 	@Fetch(FetchMode.JOIN)
 	private List<Product> products = new ArrayList<>();
-	private Date datePurchase;
-	private Date dateRecived;
-	private Date dateSent;
+	private LocalDateTime datePurchase;
+	private LocalDateTime dateRecived;
+	private LocalDateTime dateSent;
 	private String orderDetails;
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "user_id")
@@ -60,7 +62,7 @@ public class Order implements Serializable{
 	
 	public Order() {}
 
-	public Order(List<Product> products, Date datePurchase, String orderDetails, User user,
+	public Order(List<Product> products, LocalDateTime datePurchase, String orderDetails, User user,
 			boolean isPayed, boolean isCashOnDelivery, Double totalPrice) {
 		this.products = products;
 		this.datePurchase = datePurchase;
@@ -70,7 +72,7 @@ public class Order implements Serializable{
 		this.isCashOnDelivery = isCashOnDelivery;
 		this.totalPrice = totalPrice;
 	}
-
+	
 	public Long getId() {
 		return id;
 	}
@@ -87,11 +89,11 @@ public class Order implements Serializable{
 		this.products = products;
 	}
 
-	public Date getDatePurchase() {
+	public LocalDateTime getDatePurchase() {
 		return datePurchase;
 	}
 
-	public void setDatePurchase(Date datePurchase) {
+	public void setDatePurchase(LocalDateTime datePurchase) {
 		this.datePurchase = datePurchase;
 	}
 
@@ -152,19 +154,19 @@ public class Order implements Serializable{
 	}
 	
 	
-	public Date getDateRecived() {
+	public LocalDateTime getDateRecived() {
 		return dateRecived;
 	}
 
-	public void setDateRecived(Date dateRecived) {
+	public void setDateRecived(LocalDateTime dateRecived) {
 		this.dateRecived = dateRecived;
 	}
 
-	public Date getDateSent() {
+	public LocalDateTime getDateSent() {
 		return dateSent;
 	}
 
-	public void setDateSent(Date dateSent) {
+	public void setDateSent(LocalDateTime dateSent) {
 		this.dateSent = dateSent;
 	}
 

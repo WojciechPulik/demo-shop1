@@ -2,6 +2,7 @@ package pl.wpulik.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -70,6 +71,24 @@ public class OrderService {
 			return "Wysłane";
 		return "Złożone";
 		
+	}
+	
+	public Order updateStatus(Order order, String status) {
+		if(status.equals("new")) {
+			order.setRecieved(false);
+			order.setSent(false);
+		}
+		if(status.equals("recived")) {
+			order.setRecieved(true);
+			order.setSent(false);
+			order.setDateRecived(LocalDateTime.now());
+		}
+		if(status.equals("sent")) {
+			order.setRecieved(false);
+			order.setSent(true);
+			order.setDateSent(LocalDateTime.now());
+		}
+		return order;
 	}
 	
 	public Order updateQuantity (Long orderId, Long productId, Integer newQuantity) {
