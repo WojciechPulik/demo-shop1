@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8"/>
+<link href="/css/admin.css" rel="stylesheet"/>
 <title>Strona główna</title>
 </head>
 <body>
@@ -10,7 +11,7 @@
 	<p><a th:href="@{/}">Powrót do strony głównej</a></p>
 	<p><a th:href="@{/admin}">Panel Administracyjny</a></p>
 	<h2 th:text="'Zamówienie nr: ' + ${order.id}">Nr zamówienia</h2>
-	<form th:action="@{/updatequantity}" method="post"><div>
+	
 	<table border="2">
 		<tr>
 			<th>Nazwa produktu</th>
@@ -18,18 +19,29 @@
 			<th>Ilość</th>
 			<th>Zmień ilość</th>
 			<th>Wartość PLN</th>
+			<th>Usuń</th>
 		</tr>
 		<tr th:each="product:${products}"th:object="${product}">
 			<td th:text="*{name}"></td>
 			<td th:text="*{price}"></td>
 			<td th:text="*{addedQuantity}"></td>
+			
 			<td>
+				<form th:action="@{/updatequantity}" method="post"><div>
 				<input type="number"step="1"min="0" name="newQuantity"/>
 				<input type="hidden" name="productId" th:value="*{id}"/>
 				<input type="hidden" name="orderId" th:value="${order.id}"/>
 				<input type="submit"value="Zmień ilość produktów"/>
-			</td>
+				</div></form>
+			</td>	
 			<td th:text="*{valueOfAll()}"></td>
+			<td>
+				<form th:action="@{/removeproduct}" method="post"><div>
+				<input type="hidden" name="productId" th:value="*{id}"/>
+				<input type="hidden" name="orderId" th:value="${order.id}"/>
+				<input type="submit"value="Usuń"/>
+				</div></form>
+			</td>
 		</tr>
 		<tr>
 			<td th:text="'Rodzaj dostawy: ' + ${order.shipment.name}"></td>
@@ -40,7 +52,23 @@
 			<td th:text="'Całkowita suma zamówienia: ' + ${order.totalPrice} + ' zł'"></td>
 		</tr>
 	</table>
-	</div></form>
+	<br>
+	<div><p>Status:<b><span th:text="${status}"></span></b><p></div>
+	<div>
+	<form th:action="@{/setstatus}" method="post">
+		
+		<div th:object="${orderStatus}">Zmień status zamówienia:
+		<select th:field="${formOrderStatus.orderStatusId}">
+			<option value="">-------------</option>
+			<option th:each="orderStatus : ${formOrderStatus.statusList}"
+					th:value="${orderStatus.id}"
+					th:text="${orderStatus.name}">Status</option>
+		</select>	
+		<input type="hidden" name="orderId" th:value="${orderStatus.orderId}"/>
+		<input type="submit"value="Zmień Status"/>
+		</div>
+	</form>
+	</div>
 	
 </body>
 </html>

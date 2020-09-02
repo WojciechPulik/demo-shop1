@@ -6,6 +6,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import pl.wpulik.dto.OrderDTO;
+import pl.wpulik.dto.OrderStatusDTO;
+import pl.wpulik.dto.StatusDTO;
 import pl.wpulik.model.Order;
 import pl.wpulik.model.Product;
 import pl.wpulik.model.Shipment;
@@ -22,6 +25,51 @@ public class OrderService {
 	public OrderService(OrderRepoService orderRepoService, ProductRepoService productRepoService) {
 		this.orderRepoService = orderRepoService;
 		this.productRepoService = productRepoService;
+	}
+	public OrderDTO orderDtoMapping(Order order) {
+		OrderDTO orderDto = new OrderDTO();
+		orderDto.setId(order.getId());
+		orderDto.setProducts(order.getProducts());
+		orderDto.setDatePurchase(order.getDatePurchase());
+		orderDto.setDateRecived(order.getDateRecived());
+		orderDto.setDateSent(order.getDateSent());
+		orderDto.setOrderDetails(order.getOrderDetails());
+		orderDto.setUser(order.getUser());
+		orderDto.setShipment(order.getShipment());
+		orderDto.setRecieved(order.isRecieved());
+		orderDto.setCashOnDelivery(order.isCashOnDelivery());
+		orderDto.setPayed(order.isPayed());
+		orderDto.setSent(order.isSent());
+		orderDto.setTotalPrice(order.getTotalPrice());
+		orderDto.setStatus(status(order.getId()));		
+		return orderDto;
+	}
+	public OrderStatusDTO createStatus() {
+		List<StatusDTO> statuses = new ArrayList<>();
+		statuses.add(new StatusDTO(1L, "new", "Złożone"));
+		statuses.add(new StatusDTO(2L, "recived", "Odebrane"));
+		statuses.add(new StatusDTO(3L, "sent", "Wysłane"));
+		OrderStatusDTO orderStatus = new OrderStatusDTO();
+		orderStatus.setStatusList(statuses);
+		return orderStatus;
+	}
+	
+	public StatusDTO statusMapping(Long statusId) {
+		for(StatusDTO sd : createStatus().getStatusList()) {
+			if(sd.getId()==statusId)
+				return sd;
+		}
+		return createStatus().getStatusList().get(0);
+	}
+	
+	public String status(Long orderId) {
+		Order order = orderRepoService.getById(orderId);
+		if(order.isRecieved())
+			return "Odebrane";
+		if(order.isSent())
+			return "Wysłane";
+		return "Złożone";
+		
 	}
 	
 	public Order updateQuantity (Long orderId, Long productId, Integer newQuantity) {

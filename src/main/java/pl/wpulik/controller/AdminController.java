@@ -1,6 +1,7 @@
 package pl.wpulik.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -16,6 +17,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import pl.wpulik.dto.OrderDTO;
+import pl.wpulik.dto.OrderStatusDTO;
+import pl.wpulik.dto.StatusDTO;
 import pl.wpulik.model.Order;
 import pl.wpulik.model.Product;
 import pl.wpulik.model.Shipment;
@@ -42,14 +46,20 @@ public class AdminController {
 	@GetMapping("/allorders")
 	public String allOrders(Model model) {
 		List<Order> orders = new ArrayList<>();
+		List<OrderDTO> dtoOrders = new ArrayList<>();
 		orders = orderRepoService.getAllOrders();
-		orders.sort(Comparator.comparing(Order::getId).reversed());
-		model.addAttribute("orders", orders);
+		for(Order o : orders) 
+			dtoOrders.add(orderService.orderDtoMapping(o));	
+		dtoOrders.sort(Comparator.comparing(OrderDTO::getId).reversed());
+		model.addAttribute("orders", dtoOrders);
 		return "/allorderslist";
 	}
 	
 	@GetMapping("/editorder")
 	public String editOrder(@RequestParam Long id, Model model) {
+		String status = orderService.status(id);
+		OrderStatusDTO orderStatus = orderService.createStatus();		
+		orderStatus.setOrderId(id);
 		Order order = orderRepoService.getById(id);
 		if(order.isCashOnDelivery())
 			order.getShipment().setShipmentCost(order.getShipment().getShipmentCost() + Shipment.CASH_ON_DELIVERY_COST);
@@ -64,8 +74,11 @@ public class AdminController {
 			product.setAddedQuantity(productsMap.get(p));
 			products.add(product);
 		}
+		model.addAttribute("orderStatus", orderStatus);
+		model.addAttribute("formOrderStatus", orderService.createStatus());
 		model.addAttribute("products",  products);
 		model.addAttribute("order", order);
+		model.addAttribute("status", status);
 		return "/admeditorder";
 	}
 	
@@ -75,7 +88,35 @@ public class AdminController {
 		orderService.updateQuantity(orderId, productId, newQuantity);
 		return editOrder(orderId, model);
 	}
-
+	
+	@PostMapping("/removeproduct")
+	public String removeProductfromOrder(@RequestParam Long orderId, @RequestParam Long productId, Model model) {
+		orderService.updateQuantity(orderId, productId, 0);
+		return editOrder(orderId, model);
+	}
+	/* TODO: move implementation to orderService.class and add date setting */
+	@PostMapping("/setstatus") 
+	public String setOrderStatus(@ModelAttribute OrderStatusDTO formOrderStatus, Model model) {
+		Order order = orderRepoService.getById(formOrderStatus.getOrderId());
+		model.addAttribute("formOrderStatus",  formOrderStatus);
+		String status = orderService.statusMapping(formOrderStatus.getOrderStatusId()).getStatus();
+		
+		if(status.equals("new")) {
+			order.setRecieved(false);
+			order.setSent(false);
+		}
+		if(status.equals("recived")) {
+			order.setRecieved(true);
+			order.setSent(false);
+		}
+		if(status.equals("sent")) {
+			order.setRecieved(false);
+			order.setSent(true);
+		}
+		orderRepoService.updateOrder(order);
+		return editOrder(formOrderStatus.getOrderId(), model);
+		
+	}
 	
 	
 	

@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8"/>
+<link href="/css/admin.css" rel="stylesheet"/>
 <title>Strona główna</title>
 </head>
 <body>
@@ -16,6 +17,7 @@
 			<th>Zamawiający</th>
 			<th>Wysyłka</th>
 			<th>Wartość zamówienia PLN</th>
+			<th>Status</th>
 			<th>Edytuj</th>
 		</tr>
 		<tr th:each="order:${orders}"th:object="${order}">
@@ -24,6 +26,7 @@
 			<td th:text="*{user.getFirstName()} + ' ' + *{user.getLastname()}"></td>
 			<td th:text="*{shipment.getName()} + ' '"></td>
 			<td th:text="*{totalPrice}"></td>
+			<td th:text="*{status}"></td>
 			<td><a th:href="@{/editorder(id=*{id})}"><button th:type="submit">Edytuj</button></a></td>
 		</tr>
 	</table>
