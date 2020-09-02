@@ -9,3 +9,14 @@ table{
 td{
 	background-color:#E0FFFF;
 }
+fieldset{
+	width:25%;
+	background-color:#E0FFFF;
+	border-radius:3px;
+}
+.radio-block{
+	background-color:#DCDCDC;
+	border: 2px solid #2F4F4F;
+	border-radius:3px;
+	width:60%;
+}

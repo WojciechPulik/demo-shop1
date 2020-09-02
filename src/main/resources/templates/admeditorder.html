@@ -52,7 +52,6 @@
 			<td th:text="'Całkowita suma zamówienia: ' + ${order.totalPrice} + ' zł'"></td>
 		</tr>
 	</table>
-	<br>
 	<div><p>Status:<b><span th:text="${status}"></span></b><p></div>
 	<div>
 	<form th:action="@{/setstatus}" method="post">
@@ -70,5 +69,26 @@
 	</form>
 	</div>
 	
+	<div class="radio-block">
+		<div><p th:text="${order.shipment.name} + ' - ' + ${order.shipment.shipmentCost} + ' zł'">Dostawa</p></div>
+		<form th:object="${shipment}" method="post" th:action="@{/changeshipment}">
+			<fieldset>
+				<legend><b>Zmień sposób dostawy</b></legend>
+				<ul>
+					<li th:each="shipment : ${shipments}">
+						<input type="radio" th:field="${shipment.id}" th:value="${shipment.id}">
+						<label th:for="${shipment.id}" th:text="${shipment.name}"></label>
+					</li>
+				</ul>
+			</fieldset>
+			<input type="hidden" name="orderId" th:value="${order.id}"/>
+			<p><input type="submit" value="Zmień"/></p>
+		</form>
+	</div>
+	
 </body>
 </html>
+
+
+
+

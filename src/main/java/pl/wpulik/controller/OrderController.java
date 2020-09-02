@@ -24,6 +24,7 @@ import pl.wpulik.model.User;
 import pl.wpulik.service.OrderRepoService;
 import pl.wpulik.service.ProductRepoService;
 import pl.wpulik.service.ShipmentRepoService;
+import pl.wpulik.service.ShipmentService;
 import pl.wpulik.service.UserService;
 
 @Controller
@@ -34,6 +35,7 @@ public class OrderController {
 	private ProductRepoService productRepoService;
 	private UserService userService;
 	private ShipmentRepoService shipmentRepoService;
+	private ShipmentService shipmentService;
 	private boolean isCashOnDeliverySet;
 	private List<Product> products = new ArrayList<>();
 	private Double totalOrderCost;
@@ -41,11 +43,12 @@ public class OrderController {
 		
 	@Autowired
 	public OrderController(OrderRepoService orderRepoService, ProductRepoService productRepoService, 
-			UserService userService, ShipmentRepoService shipmentRepoService) {
+			UserService userService, ShipmentRepoService shipmentRepoService, ShipmentService shipmentService) {
 		this.orderRepoService = orderRepoService;
 		this.productRepoService = productRepoService;
 		this.userService = userService;
 		this.shipmentRepoService = shipmentRepoService;
+		this.shipmentService = shipmentService;
 	}
 	
 	@GetMapping("/shoppingcard")
@@ -65,7 +68,7 @@ public class OrderController {
 			totalCost = totalCost + orderShipment.getShipmentCost();
 		}
 		totalOrderCost = Math.round(totalCost * 100)/100.0;
-		model.addAttribute("shipments", orderShipment(products));
+		model.addAttribute("shipments", shipmentService.orderShipment(products));
 		model.addAttribute("shipment", orderShipment);
 		model.addAttribute("totalCost", totalOrderCost);
 		model.addAttribute("products", products);
@@ -134,58 +137,5 @@ public class OrderController {
 		isCashOnDeliverySet = false;
 		return "redirect:/shoppingcard";
 	}
-	/*
-	 * I am scared of this algorithm below. Will this be some kind of Skynet in the future? ;)
-	 * 
-	 * Create List with possible shipments for order:
-	 */
-	private List<Shipment> orderShipment(List<Product> orderProducts){
-		Set<Product> setProd = new HashSet<>(orderProducts);
-		Set<String> suppliers = new HashSet<>();
-		Map<String, Shipment> shipMap = new HashMap<>();
-		List<Shipment> resultList = new ArrayList<>();
-		//adds every shipment supplier to Set suppliers:
-		//creates a Map with pairs: supplier - shipment with the biggest max weight:
-		boolean containsKey = false;
-		boolean isBigger = false;
-		for(Product p: setProd) {
-			for(Shipment sh: p.getShipments()) {
-				suppliers.add(sh.getSupplier());
-				containsKey = shipMap.containsKey(sh.getSupplier());
-				if(shipMap.get(sh.getSupplier())!=null) {
-					isBigger = sh.getMaxWeight() > (shipMap.get(sh.getSupplier())).getMaxWeight();
-				}
-				shipMap.put(sh.getSupplier(), containsKey ? (isBigger ?	sh : shipMap.get(sh.getSupplier()) ) : sh);					
-			}
-		}	
-		//creates a Set of Sets with possible suppliers for each product:	
-		Set<Set<String>> suppliersProdSet = productShipmentSuppliers(setProd);		
-		//removes shipments witch cannot be applied to every product:
-		for(String str : suppliers) {
-			for(Set<String> set : suppliersProdSet) {
-				if(!set.contains(str)) {
-					shipMap.remove(str);
-				}
-			}
-		}	
-		//result list of shipments possible for this order:
-		for(String str : shipMap.keySet()) {
-			resultList.add(shipMap.get(str));
-		}
-		return resultList;
-	}	
 	
-	private Set<Set<String>> productShipmentSuppliers (Set<Product> setProd){
-		Set<String> prodSup = new HashSet<>();
-		Set<Set<String>> suppliersProdSet = new HashSet<>();
-		for(Product p : setProd) {
-			for(Shipment sh : p.getShipments()) {
-				prodSup.add(sh.getSupplier());
-			}
-			suppliersProdSet.add(prodSup);
-			prodSup = new HashSet<>();
-		}
-		return suppliersProdSet;
-	}
-
 }

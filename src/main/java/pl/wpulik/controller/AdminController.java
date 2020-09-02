@@ -1,7 +1,6 @@
 package pl.wpulik.controller;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -19,23 +18,29 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import pl.wpulik.dto.OrderDTO;
 import pl.wpulik.dto.OrderStatusDTO;
-import pl.wpulik.dto.StatusDTO;
 import pl.wpulik.model.Order;
 import pl.wpulik.model.Product;
 import pl.wpulik.model.Shipment;
 import pl.wpulik.service.OrderRepoService;
 import pl.wpulik.service.OrderService;
+import pl.wpulik.service.ShipmentRepoService;
+import pl.wpulik.service.ShipmentService;
 
 @Controller
 public class AdminController {
 	
 	private OrderRepoService orderRepoService;
 	private OrderService orderService;
+	private ShipmentService shipmentService;
+	private ShipmentRepoService shipmentRepoService;
 	
 	@Autowired
-	public AdminController(OrderRepoService orderRepoService, OrderService orderService) {
+	public AdminController(OrderRepoService orderRepoService, OrderService orderService, 
+			ShipmentService shipmentService, ShipmentRepoService shipmentRepoService) {
 		this.orderRepoService = orderRepoService;
 		this.orderService = orderService;
+		this.shipmentService = shipmentService;
+		this.shipmentRepoService = shipmentRepoService;
 	}
 	
 	@GetMapping("/admin")
@@ -74,6 +79,8 @@ public class AdminController {
 			product.setAddedQuantity(productsMap.get(p));
 			products.add(product);
 		}
+		model.addAttribute("shipments", shipmentService.orderShipment(order.getProducts()));
+		model.addAttribute("shipment", new Shipment());
 		model.addAttribute("orderStatus", orderStatus);
 		model.addAttribute("formOrderStatus", orderService.createStatus());
 		model.addAttribute("products",  products);
@@ -104,6 +111,14 @@ public class AdminController {
 		orderRepoService.updateOrder(order);
 		return editOrder(formOrderStatus.getOrderId(), model);
 		
+	}
+	
+	@PostMapping("/changeshipment")
+	public String changeShipment(@ModelAttribute Shipment shipment, @RequestParam Long orderId, Model model) {
+		Order order = orderRepoService.getById(orderId);
+		order.setShipment(shipmentRepoService.getById(shipment.getId()));
+		orderService.recountOrderCost(order);
+		return editOrder(orderId, model);
 	}
 	
 	

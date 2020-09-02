@@ -102,12 +102,11 @@ public class OrderService {
 		}
 		orderRepoService.removeAllProducts(orderId);
 		orderRepoService.updateProductsInOrder(orderId, products);
-		recountOrderCost(orderId);
+		recountOrderCost(order);
 		return order;
 	}
 	
-	public Order recountOrderCost(Long orderId) {
-		Order order = orderRepoService.getById(orderId);
+	public Order recountOrderCost(Order order) {
 		Double totalCost = 0.0;
 		for(Product p : order.getProducts()) {
 			totalCost += p.getPrice();
