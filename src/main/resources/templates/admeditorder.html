@@ -52,8 +52,8 @@
 			<td th:text="'Całkowita suma zamówienia: ' + ${order.totalPrice} + ' zł'"></td>
 		</tr>
 	</table>
+	<div class="choice-block">
 	<div><p>Status:<b><span th:text="${status}"></span></b><p></div>
-	<div>
 	<form th:action="@{/setstatus}" method="post">
 		
 		<div th:object="${orderStatus}">Zmień status zamówienia:
@@ -69,7 +69,7 @@
 	</form>
 	</div>
 	
-	<div class="radio-block">
+	<div class="choice-block">
 		<div><p th:text="${order.shipment.name} + ' - ' + ${order.shipment.shipmentCost} + ' zł'">Dostawa</p></div>
 		<form th:object="${shipment}" method="post" th:action="@{/changeshipment}">
 			<fieldset>
@@ -80,6 +80,26 @@
 						<label th:for="${shipment.id}" th:text="${shipment.name}"></label>
 					</li>
 				</ul>
+			</fieldset>
+			<input type="hidden" name="orderId" th:value="${order.id}"/>
+			<p><input type="submit" value="Zmień"/></p>
+		</form>
+	</div>
+	<div class="choice-block">
+		<div><p>Sposób płatności:
+			<span th:if="${order.isCashOnDelivery()}" th:text="Pobranie"></span>
+			<span th:if="${!order.isCashOnDelivery()}" th:text="Przedpłata"></span>
+			</p>
+		</div>
+		<form method="post" th:action="@{/cashondelivery}">
+			<fieldset>
+				<legend><b>Zmień sposób płatności</b></legend>
+					<label>
+						<input type="radio" name="isCashOnDelivery" value="true"/>Pobranie
+					</label>
+					<label>
+						<input type="radio" name="isCashOnDelivery" value="false"/>Przedpłata
+					</label>
 			</fieldset>
 			<input type="hidden" name="orderId" th:value="${order.id}"/>
 			<p><input type="submit" value="Zmień"/></p>

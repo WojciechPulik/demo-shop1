@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <link href="/css/index.css" rel="stylesheet"/>
+<link href="/css/admin.css" rel="stylesheet"/>
 <title>Strona główna</title>
 </head>
 <body>
@@ -11,7 +12,7 @@
 	<p><a th:href="@{/admin}">Panel Administracyjny</a></p>
 	<br>
 	<h3>Dodaj produkt do sklepu:</h3>
-	
+	<div class="choice-block">
 	<form th:action="@{/save}" method="post">
 		<p>Nazwa produktu: <input type="text"th:field="${formProduct.name}"/></p>
 		<p>Opis produktu: <textarea cols="60" rows="5" th:field="${formProduct.description}"></textarea></p>
@@ -40,6 +41,6 @@
 		</div>
 		<p><input type="submit"value="Dodaj product"/></p>
 	</form>
-	
+	</div>
 </body>
 </html>

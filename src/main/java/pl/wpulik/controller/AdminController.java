@@ -121,6 +121,13 @@ public class AdminController {
 		return editOrder(orderId, model);
 	}
 	
+	@PostMapping("/cashondelivery")
+	public String setCashOnDelivery(@RequestParam boolean isCashOnDelivery, @RequestParam Long orderId, Model model) {
+		Order order = orderRepoService.getById(orderId);
+		order.setCashOnDelivery(isCashOnDelivery);
+		orderService.recountOrderCost(order);
+		return editOrder(orderId, model);
+	}
 	
 	
 	
