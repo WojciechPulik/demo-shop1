@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotEmpty;
 
 @Entity(name = "users")
@@ -33,8 +34,8 @@ public class User implements Serializable{
 	private String email;
 	@NotEmpty
 	private String password;
-	private String telephone;
-	private String address;
+	@OneToOne
+	private Address address;
 	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	@JoinColumn(name = "role_id")
 	private UserRole role; 
@@ -44,15 +45,12 @@ public class User implements Serializable{
 	
 	public User() {}
 
-	public User(String firstName, String lastname, Gender gender, @NotEmpty String email, @NotEmpty String password,
-			String telephone, String address) {
-		
+	public User(String firstName, String lastname, Gender gender, @NotEmpty String email, @NotEmpty String password, Address address) {		
 		this.firstName = firstName;
 		this.lastname = lastname;
 		this.gender = gender;
 		this.email = email;
 		this.password = password;
-		this.telephone = telephone;
 		this.address = address;
 	}
 
@@ -104,19 +102,11 @@ public class User implements Serializable{
 		this.password = password;
 	}
 
-	public String getTelephone() {
-		return telephone;
-	}
-
-	public void setTelephone(String telephone) {
-		this.telephone = telephone;
-	}
-
-	public String getAddress() {
+	public Address getAddress() {
 		return address;
 	}
 
-	public void setAddress(String address) {
+	public void setAddress(Address address) {
 		this.address = address;
 	}
 
@@ -136,8 +126,6 @@ public class User implements Serializable{
 		this.discount = discount;
 	}
 	
-	
-
 	public List<Order> getOrders() {
 		return orders;
 	}
@@ -149,7 +137,7 @@ public class User implements Serializable{
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", firstName=" + firstName + ", lastname=" + lastname + ", gender=" + gender
-				+ ", email=" + email + ", password=" + password + ", telephone=" + telephone + ", address=" + address
+				+ ", email=" + email + ", address=" + address
 				+ ", roles=" + role + ", discount=" + discount + "]";
 	}
 	

@@ -17,6 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -49,6 +50,8 @@ public class Order implements Serializable{
 	private boolean isPayed = false;
 	private boolean isSent = false;
 	private Double totalPrice;
+	@OneToOne
+	private Address address;
 	
 	public void addProducts(Product product) {
 		this.products.add(product);
@@ -176,6 +179,14 @@ public class Order implements Serializable{
 
 	public void setCashOnDelivery(boolean isCashOnDelivery) {
 		this.isCashOnDelivery = isCashOnDelivery;
+	}
+	
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
 	}
 
 	@Override
