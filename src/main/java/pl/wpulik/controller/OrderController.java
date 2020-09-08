@@ -111,7 +111,7 @@ public class OrderController {
 		Long orderId = addedOrder.getId();
 		orderRepoService.addProductsToOrder(orderId, products);
 		shoppingCardCleaner();
-		return "thanks";
+		return String.format("redirect:/deliveryaddress/%d", orderId);
 	}
 	@PostMapping("/setordershipment")
 	public String addShipmentToOrder(@ModelAttribute Shipment shipment, @ModelAttribute Order order,

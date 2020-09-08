@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"/>
+<link href="/css/index.css" rel="stylesheet"/>
+<title>Strona główna</title>
+</head>
+<body>
+	<div th:insert="fragments/header :: header"></div>
+	<p><a th:href="@{/}">Powrót do strony głównej</a></p>
+	<h2 align="center">Adres wysyłki</h2>
+	<p align="center" th:text="'Zamówienie nr ' + ${orderId}">Zamówienie nr</p>
+	<div align="center" >
+	<div class="user-form">
+		<div align="left" class="user-form-inside">
+			<form th:action="@{/addrestoorder}" method="post" th:object="${address}">
+				<p>Imię:<input type="text"th:field="*{firstName}"/></p>
+				<p>Nazwisko:<input type="text"th:field="*{lastName}"/></p>
+				<p>Ulica:<input type="text" th:field="*{street}"/></p>
+				<p>Numer budynku/mieszkania:<input type="text" th:field="*{buildingNumber}"/></p>
+				<p>Kod pocztowy:<input type="text" th:field="*{zipCode}"/></p>
+				<p>Miejscowość:<input type="text" th:field="*{city}"/></p>
+				<p>Telefon kontaktowy:<input type="text" th:field="*{phoneNumber}"/></p>
+				<input type="hidden" name="orderId" th:value="${orderId}"/>
+				<input type="submit" value="Dodaj"/>	
+			</form>
+		</div>
+	</div>
+	</div>
+</body>

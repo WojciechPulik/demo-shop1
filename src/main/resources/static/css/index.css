@@ -69,4 +69,18 @@ img{
 	margin:0;
 	margin-top:4px;
 }
+.user-form{
+	border:3px solid black;
+	border-radius:5px;
+	font-family:Arial;
+	font-size:14px;
+	width:40%;
+	margin-left:8px;
+	margin-bottom:6px;
+	background-color:#F0FFFF;
+}
+.user-form-inside{
+	margin-left:8px;
+	margin-bottom:6px;
+}
 
