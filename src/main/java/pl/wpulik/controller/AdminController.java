@@ -18,9 +18,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import pl.wpulik.dto.OrderDTO;
 import pl.wpulik.dto.OrderStatusDTO;
+import pl.wpulik.model.Address;
 import pl.wpulik.model.Order;
 import pl.wpulik.model.Product;
 import pl.wpulik.model.Shipment;
+import pl.wpulik.service.AddressRepoService;
 import pl.wpulik.service.OrderRepoService;
 import pl.wpulik.service.OrderService;
 import pl.wpulik.service.ShipmentRepoService;
@@ -33,14 +35,16 @@ public class AdminController {
 	private OrderService orderService;
 	private ShipmentService shipmentService;
 	private ShipmentRepoService shipmentRepoService;
+	private AddressRepoService addressRepoService;
 	
 	@Autowired
 	public AdminController(OrderRepoService orderRepoService, OrderService orderService, 
-			ShipmentService shipmentService, ShipmentRepoService shipmentRepoService) {
+			ShipmentService shipmentService, ShipmentRepoService shipmentRepoService, AddressRepoService addressRepoService) {
 		this.orderRepoService = orderRepoService;
 		this.orderService = orderService;
 		this.shipmentService = shipmentService;
 		this.shipmentRepoService = shipmentRepoService;
+		this.addressRepoService = addressRepoService;
 	}
 	
 	@GetMapping("/admin")
@@ -66,6 +70,7 @@ public class AdminController {
 		OrderStatusDTO orderStatus = orderService.createStatus();		
 		orderStatus.setOrderId(id);
 		Order order = orderRepoService.getById(id);
+		Address address = order.getAddress();
 		if(order.isCashOnDelivery())
 			order.getShipment().setShipmentCost(order.getShipment().getShipmentCost() + Shipment.CASH_ON_DELIVERY_COST);
 		Set<Product> products = new HashSet<>();
@@ -79,6 +84,7 @@ public class AdminController {
 			product.setAddedQuantity(productsMap.get(p));
 			products.add(product);
 		}
+		model.addAttribute("address", address);
 		model.addAttribute("shipments", shipmentService.orderShipment(order.getProducts()));
 		model.addAttribute("shipment", new Shipment());
 		model.addAttribute("orderStatus", orderStatus);

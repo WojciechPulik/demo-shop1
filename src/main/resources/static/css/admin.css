@@ -20,3 +20,17 @@ fieldset{
 	border-radius:3px;
 	width:60%;
 }
+.delivery-address{
+	font-size:20;
+}
+.delivery-address-inner{
+	margin-top:5px;
+	margin-bottom:5px;
+	font-size:16;
+	text-align:center;
+	width:25%;
+	border:1px solid grey;
+	background-color:#E0FFFF;
+	border-radius:3px;
+	
+}

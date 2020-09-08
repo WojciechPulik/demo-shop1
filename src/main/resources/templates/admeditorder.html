@@ -105,6 +105,18 @@
 			<p><input type="submit" value="Zmień"/></p>
 		</form>
 	</div>
+	<div class="choice-block">
+		<div align="center" th:object="${address}">
+			<div class="delivery-address-inner"><b>Adres do wysyłki:</b>
+				<p th:text="*{firstName} + ' ' + *{lastName}"></p>
+				<p th:text="*{street} + ' ' + *{buildingNumber}"></p>
+				<p th:text="*{zipCode} + ' ' + *{city}"></p>
+				<p th:text="*{phoneNumber}"></p>
+				<p th:text="*{email}"></p>
+			</div>
+		
+		</div>
+	</div>
 	
 </body>
 </html>
