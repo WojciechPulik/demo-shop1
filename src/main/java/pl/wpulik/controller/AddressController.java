@@ -39,7 +39,7 @@ public class AddressController {
 		Order order = orderRepoService.getById(orderId);
 		order.setAddress(addressToAdd);
 		orderRepoService.updateOrder(order);
-		return "thanks";
+		return "/thanks";
 	}
 
 }

@@ -5,6 +5,9 @@ a{
 	text-decoration:none;
 	font-weigth:700;
 }
+input{
+	border:1px solid #2F4F4F;
+}
 body{
 	font-family:'Copperplate Gothic Light';
 	font-weigth:bold;
@@ -83,4 +86,8 @@ img{
 	margin-left:8px;
 	margin-bottom:6px;
 }
-
+.text-sec-header{
+	font-family:Arial;
+	font-size:20px;
+	font-weight:bold;
+}
