@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -135,6 +136,21 @@ public class AdminController {
 		return editOrder(orderId, model);
 	}
 	
+	@GetMapping("/editaddress")
+	public String editDeliveryAddress(@RequestParam Long orderId, Model model) {
+		model.addAttribute("orderId", orderId);
+		model.addAttribute("address", new Address());
+		return "/admedad";
+	}
+	
+	
+	@PostMapping("/changeaddress")
+	public String changeAddress(@ModelAttribute Address address, @RequestParam Long orderId) {
+		Long addressId = orderRepoService.getById(orderId).getAddress().getId();
+		address.setId(addressId);
+		addressRepoService.addAddress(address);
+		return "redirect:/allorders";
+	}
 	
 	
 	

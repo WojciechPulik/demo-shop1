@@ -19,9 +19,14 @@ public class AddressRepoService {
 		this.addresRepository = addresRepository;
 	}
 	
+	public Address getById(Long id) {
+		return addresRepository.getOne(id);
+	}
+	
 	public Address addAddress(Address address) {
 		Address addressToSave = addresRepository.save(address);
 		return addressToSave;
 	}
-
+	
+	
 }
