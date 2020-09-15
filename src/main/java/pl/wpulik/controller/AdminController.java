@@ -24,6 +24,7 @@ import pl.wpulik.model.Order;
 import pl.wpulik.model.Product;
 import pl.wpulik.model.Shipment;
 import pl.wpulik.service.AddressRepoService;
+import pl.wpulik.service.AddressService;
 import pl.wpulik.service.OrderRepoService;
 import pl.wpulik.service.OrderService;
 import pl.wpulik.service.ShipmentRepoService;
@@ -37,15 +38,18 @@ public class AdminController {
 	private ShipmentService shipmentService;
 	private ShipmentRepoService shipmentRepoService;
 	private AddressRepoService addressRepoService;
+	private AddressService addressService;
 	
 	@Autowired
 	public AdminController(OrderRepoService orderRepoService, OrderService orderService, 
-			ShipmentService shipmentService, ShipmentRepoService shipmentRepoService, AddressRepoService addressRepoService) {
+			ShipmentService shipmentService, ShipmentRepoService shipmentRepoService, AddressRepoService addressRepoService,
+			AddressService addressService) {
 		this.orderRepoService = orderRepoService;
 		this.orderService = orderService;
 		this.shipmentService = shipmentService;
 		this.shipmentRepoService = shipmentRepoService;
 		this.addressRepoService = addressRepoService;
+		this.addressService = addressService;
 	}
 	
 	@GetMapping("/admin")
@@ -72,6 +76,10 @@ public class AdminController {
 		orderStatus.setOrderId(id);
 		Order order = orderRepoService.getById(id);
 		Address address = order.getAddress();
+		if(address==null) {
+			address = addressService.defaultAddress();
+			order.setAddress(address);
+		}
 		if(order.isCashOnDelivery())
 			order.getShipment().setShipmentCost(order.getShipment().getShipmentCost() + Shipment.CASH_ON_DELIVERY_COST);
 		Set<Product> products = new HashSet<>();
@@ -146,9 +154,17 @@ public class AdminController {
 	
 	@PostMapping("/changeaddress")
 	public String changeAddress(@ModelAttribute Address address, @RequestParam Long orderId) {
-		Long addressId = orderRepoService.getById(orderId).getAddress().getId();
-		address.setId(addressId);
-		addressRepoService.addAddress(address);
+		Long addressId = null;
+		if(orderRepoService.getById(orderId).getAddress() == null) {
+			addressRepoService.addAddress(address);
+			orderService.updateAddress(address, orderId);
+		}
+		else if(orderRepoService.getById(orderId).getAddress().getId() != null) {
+			addressId = orderRepoService.getById(orderId).getAddress().getId();
+			address.setId(addressId);
+			addressRepoService.addAddress(address);
+			
+		}
 		return "redirect:/allorders";
 	}
 	

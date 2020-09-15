@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import pl.wpulik.dto.OrderDTO;
 import pl.wpulik.dto.OrderStatusDTO;
 import pl.wpulik.dto.StatusDTO;
+import pl.wpulik.model.Address;
 import pl.wpulik.model.Order;
 import pl.wpulik.model.Product;
 import pl.wpulik.model.Shipment;
@@ -19,13 +20,15 @@ public class OrderService {
 	
 	private OrderRepoService orderRepoService;
 	private ProductRepoService productRepoService;
+	private AddressRepoService addressRepoService;
 	
 	public OrderService () {}
 	
 	@Autowired
-	public OrderService(OrderRepoService orderRepoService, ProductRepoService productRepoService) {
+	public OrderService(OrderRepoService orderRepoService, ProductRepoService productRepoService, AddressRepoService addressRepoService) {
 		this.orderRepoService = orderRepoService;
 		this.productRepoService = productRepoService;
+		this.addressRepoService = addressRepoService;
 	}
 	public OrderDTO orderDtoMapping(Order order) {
 		OrderDTO orderDto = new OrderDTO();
@@ -117,6 +120,13 @@ public class OrderService {
 		totalCost = Math.round(totalCost * 100)/100.0;
 		order.setTotalPrice(totalCost);
 		return orderRepoService.updateOrder(order);
+	}
+	
+	public Order updateAddress(Address address, Long orderId) {
+		Order order = orderRepoService.getById(orderId);
+		order.setAddress(address);
+		order = orderRepoService.updateOrder(order);
+		return order;
 	}
 	
 	

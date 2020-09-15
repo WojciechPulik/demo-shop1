@@ -25,7 +25,9 @@ public class Address implements Serializable{
 	
 	public Address() {}
 
-	public Address(String zipCode, String city, String street, String buildingNumber, String firstName, String lastName, String phoneNumber) {
+	public Address(String zipCode, String city, String street, String buildingNumber, String firstName, String lastName,
+			String phoneNumber, String email) {
+		super();
 		this.zipCode = zipCode;
 		this.city = city;
 		this.street = street;
@@ -33,7 +35,10 @@ public class Address implements Serializable{
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.phoneNumber = phoneNumber;
+		this.email = email;
 	}
+
+
 
 	public Long getId() {
 		return id;
