@@ -74,31 +74,14 @@ public class AdminController {
 		String status = orderService.status(id);
 		OrderStatusDTO orderStatus = orderService.createStatus();		
 		orderStatus.setOrderId(id);
-		Order order = orderRepoService.getById(id);
-		Address address = order.getAddress();
-		if(address==null) {
-			address = addressService.defaultAddress();
-			order.setAddress(address);
-		}
-		if(order.isCashOnDelivery())
-			order.getShipment().setShipmentCost(order.getShipment().getShipmentCost() + Shipment.CASH_ON_DELIVERY_COST);
-		Set<Product> products = new HashSet<>();
-		Map<Product, Integer> productsMap = new HashMap<>();
-		for(Product p : order.getProducts()) {
-			productsMap.put(p, (productsMap.get(p) == null ? 1 : productsMap.get(p) + 1));
-		}
-		Product product = new Product();
-		for(Product p : productsMap.keySet()) {
-			product = p;
-			product.setAddedQuantity(productsMap.get(p));
-			products.add(product);
-		}
-		model.addAttribute("address", address);
+		Order order = orderRepoService.getById(id);	
+		order = orderService.editOrderValues(order);		
+		model.addAttribute("address", order.getAddress());
 		model.addAttribute("shipments", shipmentService.orderShipment(order.getProducts()));
 		model.addAttribute("shipment", new Shipment());
 		model.addAttribute("orderStatus", orderStatus);
 		model.addAttribute("formOrderStatus", orderService.createStatus());
-		model.addAttribute("products",  products);
+		model.addAttribute("products",  orderService.editedOrderProducts(order));
 		model.addAttribute("order", order);
 		model.addAttribute("status", status);
 		return "/admeditorder";

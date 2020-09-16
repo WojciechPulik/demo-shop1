@@ -1,7 +1,11 @@
 package pl.wpulik.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,14 +25,17 @@ public class OrderService {
 	private OrderRepoService orderRepoService;
 	private ProductRepoService productRepoService;
 	private AddressRepoService addressRepoService;
+	private AddressService addressService;
 	
 	public OrderService () {}
 	
 	@Autowired
-	public OrderService(OrderRepoService orderRepoService, ProductRepoService productRepoService, AddressRepoService addressRepoService) {
+	public OrderService(OrderRepoService orderRepoService, ProductRepoService productRepoService, 
+			AddressRepoService addressRepoService, AddressService addressService) {
 		this.orderRepoService = orderRepoService;
 		this.productRepoService = productRepoService;
 		this.addressRepoService = addressRepoService;
+		this.addressService = addressService;
 	}
 	public OrderDTO orderDtoMapping(Order order) {
 		OrderDTO orderDto = new OrderDTO();
@@ -129,7 +136,31 @@ public class OrderService {
 		return order;
 	}
 	
+	public Order editOrderValues(Order order) {
+		Address address = order.getAddress();
+		if(address==null) {
+			address = addressService.defaultAddress();
+			order.setAddress(address);
+		}
+		if(order.isCashOnDelivery())
+			order.getShipment().setShipmentCost(order.getShipment().getShipmentCost() + Shipment.CASH_ON_DELIVERY_COST);
+		return order;
+	}
 	
+	public Set<Product> editedOrderProducts(Order order){
+		Set<Product> products = new HashSet<>();
+		Map<Product, Integer> productsMap = new HashMap<>();
+		for(Product p : order.getProducts()) {
+			productsMap.put(p, (productsMap.get(p) == null ? 1 : productsMap.get(p) + 1));
+		}
+		Product product = new Product();
+		for(Product p : productsMap.keySet()) {
+			product = p;
+			product.setAddedQuantity(productsMap.get(p));
+			products.add(product);
+		}
+		return products;
+	}
 	
 
 }
