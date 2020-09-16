@@ -12,13 +12,15 @@ public class ProductService {
 	private ProducerRepoService producerRepoService;
 	private ShipmentRepoService shipmentRepoService;
 	private CategoryRepoService categoryRepoService;
+	private ProductRepoService productRepoService;
 	
 	@Autowired
 	public ProductService(ProducerRepoService producerRepoService, ShipmentRepoService shipmentRepoService,
-			CategoryRepoService categoryRepoService) {
+			CategoryRepoService categoryRepoService, ProductRepoService productRepoService) {
 		this.producerRepoService = producerRepoService;
 		this.shipmentRepoService = shipmentRepoService;
 		this.categoryRepoService = categoryRepoService;
+		this.productRepoService = productRepoService;
 	}
 
 	public ProductService() {}
@@ -40,6 +42,23 @@ public class ProductService {
 		product.setPrice(productDto.getPrice());
 		product.setIndex(productDto.getIndex());
 		return product;
+	}
+	
+	public Product productUpdate(Product product) {
+		Product productToUpdate = new Product();
+		productToUpdate = productRepoService.getById(product.getId());
+		System.out.println(productToUpdate);
+		if(!product.getName().isEmpty())
+			productToUpdate.setName(product.getName());
+		if(!product.getDescription().isEmpty())
+			productToUpdate.setDescription(product.getDescription());
+		if(product.getQuantity()!= 0)
+			productToUpdate.setQuantity(product.getQuantity());
+		if(product.getPrice()!=null)
+			productToUpdate.setPrice(product.getPrice());
+		if(!product.getIndex().isEmpty())
+			productToUpdate.setIndex(product.getIndex());
+		return productToUpdate;
 	}
 	
 	

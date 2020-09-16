@@ -1,6 +1,5 @@
 package pl.wpulik.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +13,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import pl.wpulik.dto.ProductDTO;
 import pl.wpulik.model.Category;
 import pl.wpulik.model.Picture;
-import pl.wpulik.model.Producer;
 import pl.wpulik.model.Product;
 import pl.wpulik.model.Shipment;
 import pl.wpulik.service.CategoryRepoService;
-import pl.wpulik.service.PictureRepoService;
-import pl.wpulik.service.ProducerRepoService;
+import pl.wpulik.service.PictureService;
 import pl.wpulik.service.ProductRepoService;
 import pl.wpulik.service.ProductService;
 import pl.wpulik.service.ShipmentRepoService;
@@ -29,34 +26,25 @@ public class ProductController {
 	
 	private ProductRepoService productRepoService;
 	private ProductService productService;
-	private PictureRepoService pictureRepoService;
 	private ShipmentRepoService shipmentRepoService;
-	private ProducerRepoService producerRepoService;
-	private CategoryRepoService categoryRepoService;
+	private CategoryRepoService categoryRepoService; 
+	private PictureService pictureService;
 	
 	@Autowired
-	public ProductController(ProductRepoService productRepoService, PictureRepoService pictureRepoService, 
-			ShipmentRepoService shipmentRepoService, ProducerRepoService producerRepoService, CategoryRepoService categoryRepoService,
-			ProductService productService) {
+	public ProductController(ProductRepoService productRepoService, ShipmentRepoService shipmentRepoService, 
+			CategoryRepoService categoryRepoService, ProductService productService, PictureService pictureService) {
 		this.productRepoService = productRepoService;
-		this.pictureRepoService = pictureRepoService;
 		this.shipmentRepoService = shipmentRepoService;
-		this.producerRepoService = producerRepoService;
 		this.categoryRepoService = categoryRepoService;
 		this.productService = productService;
+		this.pictureService = pictureService;
 	}
 	
 	@GetMapping("/product")
-	public String productCard(@RequestParam Long id, Model model) {
-		Product product = productRepoService.getById(id);
-		List<Picture> pictures = pictureRepoService.getByProductId(id);
-		List<Category> categories = categoryRepoService.getAllCategories();
-		Picture picture = new Picture();
-		if(!pictures.isEmpty()) {
-			picture = pictures.get(0);
-		}else {
-			picture = new Picture("images/noimage.jpg", "No image");
-		}
+	public String productCard(@RequestParam(name="id") Long productId, Model model) {
+		Product product = productRepoService.getById(productId);
+		List<Category> categories = categoryRepoService.getAllCategories();	
+		Picture picture = pictureService.displayPicture(productId);
 		String url = picture.getUrl();
 		model.addAttribute("url", url);
 		model.addAttribute("product", product);
@@ -90,21 +78,8 @@ public class ProductController {
 	}
 	
 	@PostMapping("/updateProd")
-	public String updateProduct(@ModelAttribute Product product) {
-		Product productToUpdate = new Product();
-		productToUpdate = productRepoService.getById(product.getId());
-		System.out.println(productToUpdate);
-		if(!product.getName().isEmpty())
-			productToUpdate.setName(product.getName());
-		if(!product.getDescription().isEmpty())
-			productToUpdate.setDescription(product.getDescription());
-		if(product.getQuantity()!= 0)
-			productToUpdate.setQuantity(product.getQuantity());
-		if(product.getPrice()!=null)
-			productToUpdate.setPrice(product.getPrice());
-		if(!product.getIndex().isEmpty())
-			productToUpdate.setIndex(product.getIndex());
-		productRepoService.updateProduct(productToUpdate);
+	public String updateProduct(@ModelAttribute Product product) {	
+		productRepoService.updateProduct(productService.productUpdate(product));
 		return "redirect:/updateproduct";
 	}
 	
