@@ -4,22 +4,29 @@
 <meta charset="UTF-8"/>
 <link href="/css/index.css" rel="stylesheet"/>
 <link href="/css/admin.css" rel="stylesheet"/>
+<link href="/css/adminlayout.css" rel="stylesheet" />
 <title>Panel administracyjny - aktualizacja produktu</title>
 </head>
 <body>
 	<div th:insert="fragments/header :: header"></div>
 	<p><a th:href="@{/}">Powrót do strony głównej</a></p>
 	<p><a th:href="@{/admin}">Panel Administracyjny</a></p>
-	<br>
+	<div class="left">
+		<div class="left-colum-content">
+			<div th:insert="fragments/leftcolumn :: leftcolumn"></div>
+		</div>	
+	</div>
+	<div class="inner">
 	<h3>Aktualizacja produktu</h3>
 	<div class="choice-block">
 		<div class="inner-input-form">
 			<p><b>Podaj nazwę produktu lub jej fragment:</b></p>
 			<form th:action="@{/search}" method="post">
 				<p><input type="text"th:field="${searchPhrase.phrase}"/></p>
-				<p><input type="submit"value="Wyszukaj"/></p>
+				<p><input class="button-style" type="submit"value="Wyszukaj"/></p>
 			</form>
 		</div>
+	</div>
 	</div>
 </body>
 </html>

@@ -4,6 +4,7 @@
 <meta charset="UTF-8" />
 <link href="/css/index.css" rel="stylesheet" />
 <link href="/css/admin.css" rel="stylesheet" />
+<link href="/css/adminlayout.css" rel="stylesheet" />
 <title>Strona główna</title>
 </head>
 <body>
@@ -14,7 +15,12 @@
 	<p>
 		<a th:href="@{/admin}">Panel Administracyjny</a>
 	</p>
-	<br>
+	<div class="left">
+		<div class="left-colum-content">
+			<div th:insert="fragments/leftcolumn :: leftcolumn"></div>
+		</div>	
+	</div>
+	<div class="inner">
 	<h3>Dodaj produkt do sklepu:</h3>
 	<div class="choice-block">
 		<div class="inner-input-form">
@@ -38,13 +44,15 @@
 				Indeks produktu: <input type="text" th:field="${formProduct.index}" />
 			</p>
 			<div th:object="${producer}">
-				Wybierz producenta: <select th:field="${formProduct.producerId}">
+				Wybierz producenta: <select required th:field="${formProduct.producerId}"> 
 					<option value="">-------------</option>
 					<option th:each="producer:${formProduct.producers}"
-						th:value="${producer.id}" th:text="${producer.name}"></option>
+						th:value="${producer.id}" th:text="${producer.name}">
+					</option>
 				</select>
 			</div>
 			<br>
+			<p>Lub dodaj nowego:<a th:href="@{/addproducer}"><button class="button-style" th:type="submit">Nowy producent</button></a></p>
 			<div th:object="${category}">
 				Wybierz kategorię produktu: <select
 					th:field="${formProduct.categoryId}">
@@ -66,6 +74,7 @@
 			</p>
 		</form>
 		</div>
+	</div>
 	</div>
 </body>
 </html>

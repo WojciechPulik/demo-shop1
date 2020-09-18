@@ -4,20 +4,24 @@
 <meta charset="UTF-8" />
 <link href="/css/index.css" rel="stylesheet" />
 <link href="/css/admin.css" rel="stylesheet" />
+<link href="/css/adminlayout.css" rel="stylesheet" />
 <title>Dodaj producenta</title>
 </head>
 <body>
 	<div th:insert="fragments/header :: header"></div>
-	<br>
-	<h2>Dodaj lub zaktualizuj producenta!</h2>
-	<h3>********************************************************</h3>
 	<p>
 		<a th:href="@{/}">Powrót do strony głównej</a>
 	</p>
 	<p>
 		<a th:href="@{/admin}">Panel Administracyjny</a>
 	</p>
-	<h2>Dodaj producenta do bazy sklepu:</h2>
+	<div class="left">
+		<div class="left-colum-content">
+			<div th:insert="fragments/leftcolumn :: leftcolumn"></div>
+		</div>	
+	</div>
+	<div class="inner">
+	<h2 align="center">Dodaj nowego producenta:</h2>
 	<div class="choice-block">
 		<div class="inner-input-form">
 			<form th:action="@{/saveproducer}" method="post"
@@ -38,6 +42,6 @@
 			</form>
 		</div>
 	</div>
-
+	</div>
 </body>
 </html>

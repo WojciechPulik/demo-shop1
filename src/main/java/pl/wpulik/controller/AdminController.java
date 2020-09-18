@@ -130,7 +130,10 @@ public class AdminController {
 	@GetMapping("/editaddress")
 	public String editDeliveryAddress(@RequestParam Long orderId, Model model) {
 		model.addAttribute("orderId", orderId);
-		model.addAttribute("address", new Address());
+		Address address = new Address();
+		if(orderRepoService.getById(orderId).getAddress() != null)
+			address = orderRepoService.getById(orderId).getAddress();
+		model.addAttribute("address", address);
 		return "/admedad";
 	}
 	

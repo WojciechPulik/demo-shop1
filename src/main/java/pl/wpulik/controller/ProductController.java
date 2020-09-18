@@ -80,13 +80,13 @@ public class ProductController {
 		return "updateproduct";
 	}
 	
-	@PostMapping("/updateProd")//TODO /* ?? */
+	@PostMapping("/updateProd")
 	public String updateProduct(@ModelAttribute Product product) {	
 		productRepoService.updateProduct(productService.productUpdate(product));
 		return String.format("redirect:/updateproduct/%d", product.getId());
 	}
 	
-	@PostMapping("/addShipment")//TODO /* ?? */
+	@PostMapping("/addShipment")
 	public String addShipment(@ModelAttribute Shipment shipment, @RequestParam Long productId) {
 		Product productToUpdate = productRepoService.getById(productId);
 		productToUpdate.getShipments().add(shipment);

@@ -4,18 +4,23 @@
 <meta charset="UTF-8" />
 <link href="/css/index.css" rel="stylesheet" />
 <link href="/css/admin.css" rel="stylesheet" />
+<link href="/css/adminlayout.css" rel="stylesheet" />
 <title>Dodaj kategorię</title>
 </head>
 <body>
 	<div th:insert="fragments/header :: header"></div>
-	<h2>Dodaj kategorię</h2>
-	<h3>********************************************************</h3>
 	<p>
 		<a th:href="@{/}">Powrót do strony głównej</a>
 	</p>
 	<p>
 		<a th:href="@{/admin}">Panel Administracyjny</a>
 	</p>
+	<div class="left">
+		<div class="left-colum-content">
+			<div th:insert="fragments/leftcolumn :: leftcolumn"></div>
+		</div>	
+	</div>
+	<div class="inner">
 	<h2>Dodaj kategorię do bazy sklepu:</h2>
 	<div class="choice-block">
 		<div class="inner-input-form">
@@ -35,6 +40,7 @@
 				</p>
 			</form>
 		</div>
+	</div>
 	</div>
 </body>
 </html>

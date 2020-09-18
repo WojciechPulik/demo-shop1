@@ -4,12 +4,19 @@
 <meta charset="UTF-8"/>
 <link href="/css/admin.css" rel="stylesheet"/>
 <link href="/css/index.css" rel="stylesheet"/>
-<title>Strona główna</title>
+<link href="/css/adminlayout.css" rel="stylesheet"/>
+<title>Lista zamówień</title>
 </head>
 <body>
 	<div th:insert="fragments/header :: header"></div>
 	<p><a th:href="@{/}">Powrót do strony głównej</a></p>
 	<p><a th:href="@{/admin}">Panel Administracyjny</a></p>
+	<div class="left">
+		<div class="left-colum-content">
+			<div th:insert="fragments/leftcolumn :: leftcolumn"></div>
+		</div>
+	</div>
+	<div class="inner">
 	<table border="2">
 		<tr>
 			<th>Nr zamówienia</th>
@@ -30,6 +37,6 @@
 			<td><a th:href="@{/editorder(id=*{id})}"><button class="button-style" th:type="submit">Edytuj</button></a></td>
 		</tr>
 	</table>
-	
+	</div>
 </body>
 </html>

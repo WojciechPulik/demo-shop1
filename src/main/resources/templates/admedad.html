@@ -4,12 +4,19 @@
 <meta charset="UTF-8"/>
 <link href="/css/index.css" rel="stylesheet"/>
 <link href="/css/admin.css" rel="stylesheet"/>
+<link href="/css/adminlayout.css" rel="stylesheet"/>
 <title>Adres do wysyłki</title>
 </head>
 <body>
 	<div th:insert="fragments/header :: header"></div>
 	<p><a th:href="@{/}">Powrót do strony głównej</a></p>
-	<h2 align="center">Adres wysyłki</h2>
+	<div class="left">
+		<div class="left-colum-content">
+			<div th:insert="fragments/leftcolumn :: leftcolumn"></div>
+		</div>
+	</div>
+	<div class="inner">
+	<h2 align="center">Edytuj adres wysyłki</h2>
 	<p class="text-sec-header" align="center" th:text="'Zamówienie nr ' + ${orderId}">Zamówienie nr</p>
 	<div align="center" >
 	<div class="user-form">
@@ -24,9 +31,10 @@
 				<p>Telefon kontaktowy:<input type="text" th:field="*{phoneNumber}"/></p>
 				<p>Adres e-mail:<input type="email" th:field="*{email}"/></p>
 				<input type="hidden" name="orderId" th:value="${orderId}"/>
-				<input class="button-style" type="submit" value="Dodaj"/>	
+				<input class="button-style" type="submit" value="Zmień"/>	
 			</form>
 		</div>
+	</div>
 	</div>
 	</div>
 </body>

@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8"/>
 <link href="/css/index.css" rel="stylesheet"/>
+<link href="/css/admin.css" rel="stylesheet"/>
+<link href="/css/adminlayout.css" rel="stylesheet"/>
 <title>Strona główna</title>
 </head>
 <body>
@@ -10,11 +12,10 @@
 	<h2>Panel Administracyjny</h2>
 	<h3>********************************************************</h3>
 	<p><a th:href="@{/}">Powrót do strony głównej</a></p>
-	<p><a th:href="@{/addproduct}">Dodaj produkt!</a></p>
-	<p><a th:href="@{/addproducer}">Dodaj producenta</a></p>
-	<p><a th:href="@{/addcategory}">Dodaj kategorię</a></p>
-	<p><a th:href="@{/chooseproducts}">Zaktualizuj produkt!</a></p>
-	<p><a th:href="@{/allorders}">Zamówienia</a></p>
-	
+	<div class="left">
+		<div class="left-colum-content">
+			<div th:insert="fragments/leftcolumn :: leftcolumn"></div>
+		</div>	
+	</div>
 </body>
 </html>

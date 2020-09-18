@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"/>
+<link href="/css/index.css" rel="stylesheet"/>
+<link href="/css/admin.css" rel="stylesheet"/>
+<link href="/css/adminlayout.css" rel="stylesheet"/>
+</head>
+<body>
+	<header th:fragment="leftcolumn">
+		<div class="left-column-list">
+			<p><a th:href="@{/addproduct}">Dodaj produkt!</a></p>
+			<p><a th:href="@{/addproducer}">Dodaj producenta</a></p>
+			<p><a th:href="@{/addcategory}">Dodaj kategorię</a></p>
+			<p><a th:href="@{/chooseproducts}">Zaktualizuj produkt!</a></p>
+			<p><a th:href="@{/allorders}">Zamówienia</a></p>
+		</div>
+	</header>
+</body>
+</html>

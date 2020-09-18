@@ -4,14 +4,21 @@
 <meta charset="UTF-8"/>
 <link href="/css/admin.css" rel="stylesheet"/>
 <link href="/css/index.css" rel="stylesheet"/>
+<link href="/css/adminlayout.css" rel="stylesheet"/>
 <title>Strona główna</title>
 </head>
 <body>
 	<div th:insert="fragments/header :: header"></div>
 	<p><a th:href="@{/}">Powrót do strony głównej</a></p>
 	<p><a th:href="@{/admin}">Panel Administracyjny</a></p>
-	<h2 th:text="'Zamówienie nr: ' + ${order.id}">Nr zamówienia</h2>
-	
+	<div class="left">
+		<div class="left-colum-content">
+			<div th:insert="fragments/leftcolumn :: leftcolumn"></div>
+		</div>
+	</div>
+	<div class="inner">
+	<h2 align="center" th:text="'Zamówienie nr: ' + ${order.id}">Nr zamówienia</h2>
+	<div align="center">
 	<table border="2">
 		<tr>
 			<th>Nazwa produktu</th>
@@ -31,7 +38,7 @@
 				<input type="number"step="1"min="0" name="newQuantity"/>
 				<input type="hidden" name="productId" th:value="*{id}"/>
 				<input type="hidden" name="orderId" th:value="${order.id}"/>
-				<input class="button-style" type="submit"value="Zmień ilość produktów"/>
+				<input class="button-style" type="submit"value="Zmień ilość"/>
 				</div></form>
 			</td>	
 			<td th:text="*{valueOfAll()}"></td>
@@ -52,6 +59,8 @@
 			<td th:text="'Całkowita suma zamówienia: ' + ${order.totalPrice} + ' zł'"></td>
 		</tr>
 	</table>
+	</div>
+	<br>
 	<div class="choice-block">
 	<div><p>Status:<b><span th:text="${status}"></span></b><p></div>
 	<form th:action="@{/setstatus}" method="post">
@@ -123,7 +132,7 @@
 		
 		</div>
 	</div>
-	
+	</div>
 </body>
 </html>
 
