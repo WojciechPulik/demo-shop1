@@ -10,7 +10,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
@@ -21,8 +20,6 @@ import java.util.List;
 
 
 @Entity(name = "products")
-@NamedQuery(name="Product.findByNameFragment", 
-	query="SELECT p FROM products p WHERE p.name LIKE :startWith OR p.name LIKE :insideWith")
 public class Product implements Serializable{
 	private static final long serialVersionUID = 1L;
 	

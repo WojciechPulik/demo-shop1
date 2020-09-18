@@ -12,7 +12,7 @@ import pl.wpulik.model.Product;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long>{
 	
-	@Query(name="Product.findByNameFragment")
+	@Query("SELECT p FROM products p WHERE p.name LIKE :startWith OR p.name LIKE :insideWith")
 	List<Product> findByNameFragment(@Param("startWith")String startWith, @Param("insideWith")String insideWith);
 	
 }

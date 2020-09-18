@@ -13,10 +13,13 @@
 	<br>
 	<h3>Aktualizacja produktu</h3>
 	<div class="choice-block">
-	<form th:action="@{/search}" method="post">
-		<p><input type="text"th:field="${searchPhrase.phrase}"/></p>
-		<p><input type="submit"value="Wyszukaj"/></p>
-	</form>
+		<div class="inner-input-form">
+			<p><b>Podaj nazwę produktu lub jej fragment:</b></p>
+			<form th:action="@{/search}" method="post">
+				<p><input type="text"th:field="${searchPhrase.phrase}"/></p>
+				<p><input type="submit"value="Wyszukaj"/></p>
+			</form>
+		</div>
 	</div>
 </body>
 </html>
