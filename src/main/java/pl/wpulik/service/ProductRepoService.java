@@ -75,7 +75,16 @@ public class ProductRepoService {
 		return productRepository.findByNameFragment(startWith, insideWith);
 		
 	}
+	public void removeShipmentFromProduct(Long productId, Long shipmentId) {
+		Product product = productRepository.getOne(productId);
+		Shipment shipment = shipmentRepository.getOne(shipmentId);
+		product.getShipments().removeIf(next -> next.getId() == (shipmentId));
+		shipment.getProducts().removeIf(next -> next.getId() == (productId));
+		shipmentRepository.save(shipment);
+		productRepository.save(product);
+	}
 	
+
 	
 	
 

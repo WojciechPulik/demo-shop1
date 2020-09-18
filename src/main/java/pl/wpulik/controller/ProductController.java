@@ -94,6 +94,14 @@ public class ProductController {
 		return String.format("redirect:/updateproduct/%d", productId);
 	}
 	
+	@PostMapping("/dropshipment")
+	public String dropShipment(@ModelAttribute Shipment shipment, @RequestParam Long productId) {
+		System.out.println("dostawa do usunięcia: " + shipment.toString());
+		System.out.println("product ID: " + productId);
+		productRepoService.removeShipmentFromProduct(productId, shipment.getId());
+		return String.format("redirect:/updateproduct/%d", productId);
+	}
+	
 	@GetMapping("/chooseproducts")
 	public String productChoice(Model model) {
 		model.addAttribute("searchPhrase", new SearchParamDTO());

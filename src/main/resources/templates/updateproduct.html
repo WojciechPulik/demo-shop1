@@ -21,8 +21,10 @@
 		</div>
 	</div>
 	<div class="inner">
-		<p th:text="${formProduct.name}">Produkt</p>
-		<h3>Zaktualizuj dane produktu:</h3>
+		<div align="center">
+			<div class="text-product-name"><p th:text="${formProduct.name}">Produkt</p></div>
+		</div>
+		<h3 align="center">Zaktualizuj dane produktu:</h3>
 		<div class="choice-block">
 			<div class="inner-input-form">
 				<form th:action="@{/updateProd}" method="post">
@@ -53,23 +55,36 @@
 			</div>
 		</div>
 		<br>
-		<h3>Dodaj sposób dostawy:</h3>
+		<h3>Zarządzaj opcjami dostaw:</h3>
 		<div class="choice-block">
 			<div class="inner-input-form">
-				<form th:action="@{/addShipment}" method="post">
-					<p th:text="'Sposoby dostawy dla produktu: ' + ${formProduct.name}">Id produktu: brak </p>
+				<p th:text="'Sposoby dostawy dla produktu: ' + ${formProduct.name} + ':'">Id produktu: brak </p>
+				<ul th:each="shipment:${formProduct.shipments}">
+					<li th:text="${shipment.name} + ' - ' + ${shipment.shipmentCost} + ' zł'">Lista możliwych dostaw</li>
+				</ul>
+				<form th:action="@{/addShipment}" method="post">	
 					<input type="hidden" name="productId" th:value="${formProduct.id}" />	
 					<div th:object="${shipment}">
-						Wybierz nowy sposób dostawy: <select th:field="${shipment.id}">
+						Dodaj nowy sposób dostawy: <select th:field="${shipment.id}">
 							<option value="">-------------</option>
 							<option th:each="shipment:${shipments}" th:value="${shipment.id}"
 								th:text="${shipment.name}"></option>
 						</select>
-					</div>
-					<p>
 						<input class="button-style" type="submit" value="Dodaj dostawę" />
-					</p>
+					</div>
+						<br>
 				</form>
+				<form th:action="@{/dropshipment}" method="post">	
+					<input type="hidden" name="productId" th:value="${formProduct.id}" />	
+					<div>
+						Wybierz dostawę do usunięcia: <select th:field="${shipment.id}">
+							<option value="">-------------</option>
+							<option th:each="shipment:${formProduct.shipments}" th:value="${shipment.id}" th:text="${shipment.name}"></option>
+						</select>
+						<input class="button-style" type="submit" value="Usuń dostawę" />
+					</div>					
+				</form>
+				<br>
 			</div>
 		</div>
 	</div>

@@ -61,6 +61,10 @@ public class ShipmentRepoService {
 		shipment = shipmentRepository.save(shipment);
 	}
 	
+	public Shipment updateShipment(Shipment shipment) {
+		return shipmentRepository.save(shipment);
+	}
+	
 	
 	
 }

@@ -35,10 +35,9 @@ fieldset{
 	
 }
 .inner-input-form{
-	margin-left:10px;
-	
+	margin-left:10px;	
+	margin-down:10px;
 }
-
 .button-style{
 	input-style-type:none;
 	background-color:#556B2F;
@@ -47,7 +46,15 @@ fieldset{
 	color:white;
 	font-weight:bold;
 }
-
+.text-product-name{
+	font-size:20px;
+	text-align:center;
+	font-weight:bold;
+	background-color:#E0FFFF;
+	border:2px solid #2F4F4F;
+	border-radius:7px;
+	width:30%;
+}
 
 
 
