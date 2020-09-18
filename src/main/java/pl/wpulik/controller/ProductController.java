@@ -7,10 +7,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import pl.wpulik.dto.ProductDTO;
+import pl.wpulik.dto.SearchParamDTO;
 import pl.wpulik.model.Category;
 import pl.wpulik.model.Picture;
 import pl.wpulik.model.Product;
@@ -89,6 +91,25 @@ public class ProductController {
 		productToUpdate.getShipments().add(shipment);
 		productRepoService.updateProduct(productToUpdate);
 		return "redirect:/updateproduct";
+	}
+	
+	@GetMapping("/chooseproducts")
+	public String productChoice(Model model) {
+		model.addAttribute("searchPhrase", new SearchParamDTO());
+		return "/productschoice";
+	}
+	
+	@PostMapping("/search")
+	public String findByNameFragment(@ModelAttribute SearchParamDTO searchPhrase, Model model) {
+		model.addAttribute("searchPhrase", searchPhrase);
+		return String.format("redirect:/foundproducts/%s", searchPhrase.getPhrase());
+	}
+	
+	@GetMapping("/foundproducts/{searchPhrase}")
+	public String foundProducts(@PathVariable String searchPhrase, Model model) {
+		List<Product> foundProducts = productService.findByNameFragment(searchPhrase);
+		model.addAttribute("foundProducts", foundProducts);
+		return "/foundproductslist";
 	}
 	
 	private boolean checkNotEmpty(ProductDTO product) {

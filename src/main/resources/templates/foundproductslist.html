@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"/>
+<link href="/css/admin.css" rel="stylesheet"/>
+<link href="/css/index.css" rel="stylesheet"/>
+<title>Panel administracyjny - aktualizacja produktu</title>
+</head>
+<body>
+	<div th:insert="fragments/header :: header"></div>
+	<p><a th:href="@{/}">Powrót do strony głównej</a></p>
+	<p><a th:href="@{/admin}">Panel Administracyjny</a></p>
+	<br>
+	<h3>Aktualizacja produktu</h3>
+	<p><b>Wybierz produkt do edycji:</b>
+	<table border="2">
+		<tr>
+			<th>Id</th>
+			<th>Nazwa</th>
+			<th>Indeks</th>
+			<th>Cena PLN</th>
+			<th>Ilość magazynowa</th>
+		</tr>
+		<tr th:each="product:${foundProducts}"th:object="${product}">
+			<td th:text="*{id}"></td>
+			<td th:text="*{name}"></td>
+			<td th:text="*{index}"></td>
+			<td th:text="*{price}"></td>
+			<td th:text="*{quantity}"></td>
+			<td><a th:href="@{/editproduct(id=*{id})}"><button th:type="submit">Edytuj</button></a></td>
+		</tr>
+	</table>
+	
+		
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"/>
+<link href="/css/index.css" rel="stylesheet"/>
+<link href="/css/admin.css" rel="stylesheet"/>
+<title>Panel administracyjny - aktualizacja produktu</title>
+</head>
+<body>
+	<div th:insert="fragments/header :: header"></div>
+	<p><a th:href="@{/}">Powrót do strony głównej</a></p>
+	<p><a th:href="@{/admin}">Panel Administracyjny</a></p>
+	<br>
+	<h3>Aktualizacja produktu</h3>
+	<div class="choice-block">
+	<form th:action="@{/search}" method="post">
+		<p><input type="text"th:field="${searchPhrase.phrase}"/></p>
+		<p><input type="submit"value="Wyszukaj"/></p>
+	</form>
+	</div>
+</body>
+</html>

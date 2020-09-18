@@ -71,6 +71,10 @@ public class ProductRepoService {
 		product.setOrders(orders);	
 	}
 	
+	public List<Product> findByNameFragment(String startWith, String insideWith){
+		return productRepository.findByNameFragment(startWith, insideWith);
+		
+	}
 	
 	
 	

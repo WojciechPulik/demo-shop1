@@ -1,5 +1,7 @@
 package pl.wpulik.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -61,6 +63,11 @@ public class ProductService {
 		return productToUpdate;
 	}
 	
+	public List<Product> findByNameFragment(String phrase){
+		String startWithOut = phrase + "%";
+		String insideWithOut = "%" + phrase + "%";
+		return productRepoService.findByNameFragment(startWithOut, insideWithOut);
+	}
 	
 
 }
