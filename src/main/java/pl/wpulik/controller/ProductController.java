@@ -70,27 +70,28 @@ public class ProductController {
 		return "addproduct";
 	}
 	
-	@GetMapping("/updateproduct")
-	public String updateProductCard(Model model) {
+	@GetMapping("/updateproduct/{prodId}")
+	public String updateProductCard(@PathVariable Long prodId, Model model) {
 		List<Shipment> shipments = shipmentRepoService.getAllShipments();
-		model.addAttribute("formProduct", new Product());
+		Product product = productRepoService.getById(prodId);
+		model.addAttribute("formProduct", product);
 		model.addAttribute("shipment",  new Shipment());
 		model.addAttribute("shipments",  shipments);
 		return "updateproduct";
 	}
 	
-	@PostMapping("/updateProd")
+	@PostMapping("/updateProd")//TODO /* ?? */
 	public String updateProduct(@ModelAttribute Product product) {	
 		productRepoService.updateProduct(productService.productUpdate(product));
-		return "redirect:/updateproduct";
+		return String.format("redirect:/updateproduct/%d", product.getId());
 	}
 	
-	@PostMapping("/addShipment")
+	@PostMapping("/addShipment")//TODO /* ?? */
 	public String addShipment(@ModelAttribute Shipment shipment, @RequestParam Long productId) {
 		Product productToUpdate = productRepoService.getById(productId);
 		productToUpdate.getShipments().add(shipment);
 		productRepoService.updateProduct(productToUpdate);
-		return "redirect:/updateproduct";
+		return String.format("redirect:/updateproduct/%d", productId);
 	}
 	
 	@GetMapping("/chooseproducts")

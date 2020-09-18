@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <link href="/css/index.css" rel="stylesheet"/>
+<link href="/css/admin.css" rel="stylesheet"/>
 <title>Adres do wysyłki</title>
 </head>
 <body>
@@ -23,7 +24,7 @@
 				<p>Telefon kontaktowy:<input type="text" th:field="*{phoneNumber}"/></p>
 				<p>Adres e-mail:<input type="email" th:field="*{email}"/></p>
 				<input type="hidden" name="orderId" th:value="${orderId}"/>
-				<input type="submit" value="Dodaj"/>	
+				<input class="button-style" type="submit" value="Dodaj"/>	
 			</form>
 		</div>
 	</div>

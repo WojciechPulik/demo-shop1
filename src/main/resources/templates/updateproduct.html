@@ -1,36 +1,70 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8"/>
-<link href="/css/index.css" rel="stylesheet"/>
+<meta charset="UTF-8" />
+<link href="/css/index.css" rel="stylesheet" />
+<link href="/css/admin.css" rel="stylesheet" />
 <title>Panel administracyjny - aktualizacja produktu</title>
 </head>
 <body>
 	<div th:insert="fragments/header :: header"></div>
-	<p><a th:href="@{/}">Powrót do strony głównej</a></p>
-	<p><a th:href="@{/admin}">Panel Administracyjny</a></p>
+	<p>
+		<a th:href="@{/}">Powrót do strony głównej</a>
+	</p>
+	<p>
+		<a th:href="@{/admin}">Panel Administracyjny</a>
+	</p>
 	<br>
+	<p th:text="${formProduct.name}">Produkt</p>
 	<h3>Zaktualizuj dane produktu:</h3>
-	<form th:action="@{/updateProd}" method="post">
-		<p>Id produktu: <input type="number"step="1"min="1"th:field="${formProduct.id}"/></p>
-		<p>Nazwa produktu: <input type="text"th:field="${formProduct.name}"/></p>
-		<p>Opis produktu: <textarea cols="60" rows="5" th:field="${formProduct.description}"></textarea></p>
-		<p>Ilość magazynowa: <input type="number"step="1"min="0"th:field="${formProduct.quantity}"/></p>
-		<p>Cena: <input type="number"step="0.01"min="0"th:field="${formProduct.price}"/> zł</p>
-		<p>Indeks produktu: <input type="text"th:field="${formProduct.index}"/></p>
-		<p><input type="submit"value="Zaktualizuj"/></p>		
-	</form>
-	<br>
-	<h3>Dodaj sposób dostawy:</h3>	
-	<form th:action="@{/addShipment}" method="post">
-		<p>Id produktu: <input type="number"step="1"min="1"name="productId"/></p>
-		<div th:object="${shipment}">Wybierz sposób dostawy:
-		<select th:field="${shipment.id}">
-			<option value="">-------------</option>
-			<option th:each="shipment:${shipments}" th:value="${shipment.id}" th:text="${shipment.name}"></option>			
-		</select>
+	<div class="choice-block">
+		<div class="inner-input-form">
+			<form th:action="@{/updateProd}" method="post">
+				<input type="hidden" th:field="${formProduct.id}" />
+				<p>
+					Nazwa produktu: <input type="text" th:field="${formProduct.name}" />
+				</p>
+				<p>
+					Opis produktu:
+					<textarea cols="60" rows="5" th:field="${formProduct.description}"></textarea>
+				</p>
+				<p>
+					Ilość magazynowa: <input type="number" step="1" min="0"
+						th:field="${formProduct.quantity}" />
+				</p>
+				<p>
+					Cena: <input type="number" step="0.01" min="0"
+						th:field="${formProduct.price}" /> zł
+				</p>
+				<p>
+					Indeks produktu: <input type="text" th:field="${formProduct.index}" />
+				</p>
+				<p>
+					<input class="button-style" type="submit" value="Zaktualizuj"/>
+				</p>
+			</form>
 		</div>
-		<p><input type="submit"value="Dodaj dostawę"/></p>
-	</form>		
+	</div>
+	<br>
+	<h3>Dodaj sposób dostawy:</h3>
+	<div class="choice-block">
+		<div class="inner-input-form">
+	<form th:action="@{/addShipment}" method="post">
+		<p>
+			Id produktu: <input type="number" step="1" min="1" name="productId" />
+		</p>
+		<div th:object="${shipment}">
+			Wybierz sposób dostawy: <select th:field="${shipment.id}">
+				<option value="">-------------</option>
+				<option th:each="shipment:${shipments}" th:value="${shipment.id}"
+					th:text="${shipment.name}"></option>
+			</select>
+		</div>
+		<p>
+			<input class="button-style" type="submit" value="Dodaj dostawę" />
+		</p>
+	</form>
+	</div>
+	</div>
 </body>
 </html>

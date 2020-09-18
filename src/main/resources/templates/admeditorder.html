@@ -31,7 +31,7 @@
 				<input type="number"step="1"min="0" name="newQuantity"/>
 				<input type="hidden" name="productId" th:value="*{id}"/>
 				<input type="hidden" name="orderId" th:value="${order.id}"/>
-				<input type="submit"value="Zmień ilość produktów"/>
+				<input class="button-style" type="submit"value="Zmień ilość produktów"/>
 				</div></form>
 			</td>	
 			<td th:text="*{valueOfAll()}"></td>
@@ -39,7 +39,7 @@
 				<form th:action="@{/removeproduct}" method="post"><div>
 				<input type="hidden" name="productId" th:value="*{id}"/>
 				<input type="hidden" name="orderId" th:value="${order.id}"/>
-				<input type="submit"value="Usuń"/>
+				<input class="button-style" type="submit"value="Usuń"/>
 				</div></form>
 			</td>
 		</tr>
@@ -64,12 +64,13 @@
 					th:text="${orderStatus.name}">Status</option>
 		</select>	
 		<input type="hidden" name="orderId" th:value="${orderStatus.orderId}"/>
-		<input type="submit"value="Zmień Status"/>
+		<input class="button-style" type="submit"value="Zmień Status"/>
 		</div>
 	</form>
 	</div>
 	
 	<div class="choice-block">
+		<div class="inner-input-form">
 		<div><p th:text="${order.shipment.name} + ' - ' + ${order.shipment.shipmentCost} + ' zł'">Dostawa</p></div>
 		<form th:object="${shipment}" method="post" th:action="@{/changeshipment}">
 			<fieldset>
@@ -82,14 +83,17 @@
 				</ul>
 			</fieldset>
 			<input type="hidden" name="orderId" th:value="${order.id}"/>
-			<p><input type="submit" value="Zmień"/></p>
+			<p><input class="button-style" type="submit" value="Zmień"/></p>
 		</form>
 	</div>
+	</div>
 	<div class="choice-block">
+		<div class="inner-input-form">
 		<div><p>Sposób płatności:
 			<span th:if="${order.isCashOnDelivery()}" th:text="Pobranie"></span>
 			<span th:if="${!order.isCashOnDelivery()}" th:text="Przedpłata"></span>
 			</p>
+		</div>
 		</div>
 		<form method="post" th:action="@{/cashondelivery}">
 			<fieldset>
@@ -102,7 +106,7 @@
 					</label>
 			</fieldset>
 			<input type="hidden" name="orderId" th:value="${order.id}"/>
-			<p><input type="submit" value="Zmień"/></p>
+			<p><input class="button-style" type="submit" value="Zmień"/></p>
 		</form>
 	</div>
 	<div class="choice-block">
@@ -114,7 +118,7 @@
 				<p th:text="*{phoneNumber}"></p>
 				<p th:text="*{email}"></p>
 				
-				<a th:href="@{/editaddress(orderId=${order.id})}"><button th:type="submit">Edytuj</button></a>
+				<a th:href="@{/editaddress(orderId=${order.id})}"><button class="button-style" th:type="submit">Edytuj</button></a>
 			</div>
 		
 		</div>
