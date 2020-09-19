@@ -21,6 +21,7 @@ import pl.wpulik.model.Order;
 import pl.wpulik.model.Product;
 import pl.wpulik.model.Shipment;
 import pl.wpulik.model.User;
+import pl.wpulik.service.CategoryRepoService;
 import pl.wpulik.service.OrderRepoService;
 import pl.wpulik.service.ProductRepoService;
 import pl.wpulik.service.ShipmentRepoService;
@@ -36,6 +37,7 @@ public class OrderController {
 	private UserService userService;
 	private ShipmentRepoService shipmentRepoService;
 	private ShipmentService shipmentService;
+	private CategoryRepoService categoryRepoService;
 	private boolean isCashOnDeliverySet;
 	private List<Product> products = new ArrayList<>();
 	private Double totalOrderCost;
@@ -43,12 +45,14 @@ public class OrderController {
 		
 	@Autowired
 	public OrderController(OrderRepoService orderRepoService, ProductRepoService productRepoService, 
-			UserService userService, ShipmentRepoService shipmentRepoService, ShipmentService shipmentService) {
+			UserService userService, ShipmentRepoService shipmentRepoService, ShipmentService shipmentService,
+			CategoryRepoService categoryRepoService) {
 		this.orderRepoService = orderRepoService;
 		this.productRepoService = productRepoService;
 		this.userService = userService;
 		this.shipmentRepoService = shipmentRepoService;
 		this.shipmentService = shipmentService;
+		this.categoryRepoService = categoryRepoService;
 	}
 	
 	@GetMapping("/shoppingcard")
@@ -68,6 +72,7 @@ public class OrderController {
 			totalCost = totalCost + orderShipment.getShipmentCost();
 		}
 		totalOrderCost = Math.round(totalCost * 100)/100.0;
+		model.addAttribute("categories", categoryRepoService.getAllCategories());
 		model.addAttribute("shipments", shipmentService.orderShipment(products));
 		model.addAttribute("shipment", orderShipment);
 		model.addAttribute("totalCost", totalOrderCost);

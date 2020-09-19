@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8"/>
 <link href="/css/index.css" rel="stylesheet"/>
+<link href="/css/admin.css" rel="stylesheet"/>
+<link href="/css/adminlayout.css" rel="stylesheet"/>
 <title th:text="${category.name}"></title>
 </head>
 <body>
@@ -10,10 +12,7 @@
 	<p><a th:href="@{/}">Strona główna</a></p>
 	<p><a th:href="@{/shoppingcard}">Twój koszyk</a></p>
 	<div id="left">
-		<p>Kategorie produktów:</p>
-		<ul th:each="category:${categories}">
-			<li><a th:href="@{/category(id=${category.id})}" th:text="${category.name}"></a>
-		</ul>
+		<div th:insert="fragments/categorycolumn :: catcol"></div>
 	</div>
 	<div id="inner">
 		<div align="center"><p class="category_inner_name" th:text="${category.name}"></p></div>

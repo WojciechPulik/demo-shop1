@@ -3,11 +3,17 @@
 <head>
 <meta charset="UTF-8"/>
 <link href="/css/index.css" rel="stylesheet"/>
+<link href="/css/admin.css" rel="stylesheet"/>
+<link href="/css/adminlayout.css" rel="stylesheet"/>
 <title>Adres do wysyłki</title>
 </head>
 <body>
 	<div th:insert="fragments/header :: header"></div>
 	<p><a th:href="@{/}">Powrót do strony głównej</a></p>
+	<div id="left">
+		<div th:insert="fragments/categorycolumn :: catcol"></div>
+	</div>
+	<div id="inner">
 	<h2 align="center">Adres wysyłki</h2>
 	<p class="text-sec-header" align="center" th:text="'Zamówienie nr ' + ${orderId}">Zamówienie nr</p>
 	<div align="center" >
@@ -26,6 +32,7 @@
 				<input type="submit" value="Dodaj"/>	
 			</form>
 		</div>
+	</div>
 	</div>
 	</div>
 </body>

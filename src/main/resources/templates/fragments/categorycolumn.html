@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"/>
+<link href="/css/index.css" rel="stylesheet"/>
+<link href="/css/admin.css" rel="stylesheet"/>
+<link href="/css/adminlayout.css" rel="stylesheet"/>
+</head>
+<body>
+	<header th:fragment="catcol">
+		<div>
+			<div class="left-col-head">
+				<p>Kategorie produktów:</p>
+			</div>
+			<div class="cat-col-list">
+				<ul th:each="category:${categories}">
+					<li><a th:href="@{/category(id=${category.id})}" th:text="${category.name}"></a>
+				</ul>
+			</div>
+		</div>
+	</header>
+</body>
+</html>

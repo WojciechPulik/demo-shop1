@@ -3,16 +3,15 @@
 <head>
 <meta charset="UTF-8"/>
 <link href="/css/index.css" rel="stylesheet"/>
+<link href="/css/admin.css" rel="stylesheet"/>
+<link href="/css/adminlayout.css" rel="stylesheet"/>
 <title>Strona główna</title>
 </head>
 <body>
 	<div th:insert="fragments/header :: header"></div>
 	<p><a th:href="@{/}">Powrót do strony głównej</a></p>
 	<div id="left">
-		<p>Kategorie produktów:</p>
-		<ul th:each="category:${categories}">
-			<li><a th:href="@{/category(id=${category.id})}" th:text="${category.name}"></a>
-		</ul>
+		<div th:insert="fragments/categorycolumn :: catcol"></div>
 	</div>
 	<div id="inner">
 	<h1 th:text="${product.name}">Nazwa Produktu</h1>

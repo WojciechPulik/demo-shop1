@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import pl.wpulik.model.Address;
 import pl.wpulik.model.Order;
 import pl.wpulik.service.AddressRepoService;
+import pl.wpulik.service.CategoryRepoService;
 import pl.wpulik.service.OrderRepoService;
 
 @Controller
@@ -19,15 +20,18 @@ public class AddressController {
 	
 	private AddressRepoService addressRepoService;
 	private OrderRepoService orderRepoService;
+	private CategoryRepoService categoryRepoService;
 	
 	@Autowired
-	public AddressController(AddressRepoService addressRepoService, OrderRepoService orderRepoService) {
+	public AddressController(AddressRepoService addressRepoService, OrderRepoService orderRepoService, CategoryRepoService categoryRepoService) {
 		this.addressRepoService = addressRepoService;
 		this.orderRepoService = orderRepoService;
+		this.categoryRepoService = categoryRepoService;
 	}
 	
 	@GetMapping("/deliveryaddress/{orderId}")
-	public String addressToOrder(@PathVariable Long orderId, Model model) {	
+	public String addressToOrder(@PathVariable Long orderId, Model model) {
+		model.addAttribute("categories", categoryRepoService.getAllCategories());
 		model.addAttribute("orderId", orderId);
 		model.addAttribute("address", new Address());	
 		return "/orderaddress";
