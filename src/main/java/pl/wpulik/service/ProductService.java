@@ -1,8 +1,14 @@
 package pl.wpulik.service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import pl.wpulik.dto.ProductDTO;
@@ -15,17 +21,37 @@ public class ProductService {
 	private ShipmentRepoService shipmentRepoService;
 	private CategoryRepoService categoryRepoService;
 	private ProductRepoService productRepoService;
+	private PictureRepoService pictureRepoService;
 	
 	@Autowired
 	public ProductService(ProducerRepoService producerRepoService, ShipmentRepoService shipmentRepoService,
-			CategoryRepoService categoryRepoService, ProductRepoService productRepoService) {
+			CategoryRepoService categoryRepoService, ProductRepoService productRepoService, PictureRepoService pictureRepoService) {
 		this.producerRepoService = producerRepoService;
 		this.shipmentRepoService = shipmentRepoService;
 		this.categoryRepoService = categoryRepoService;
 		this.productRepoService = productRepoService;
+		this.pictureRepoService = pictureRepoService;
 	}
 
 	public ProductService() {}
+	
+	public Page<Product> findPaginated(Pageable pageable){
+		List<Product> products = setMainPictureInProduct();
+		List<Product> list = new ArrayList<>();
+		int pageSize = pageable.getPageSize();
+		int currentPage = pageable.getPageNumber();
+		int startItem = currentPage * pageSize;	
+		if(products.size() < startItem) {
+			list = Collections.emptyList();
+		} else {
+			int toIndex = Math.min(startItem + pageSize, products.size());
+			list = products.subList(startItem, toIndex);
+		}	
+		Page<Product> productPage 
+			= new PageImpl<Product>(list, PageRequest.of(currentPage, pageSize), products.size());
+		
+		return productPage;	
+	}
 	
 	public ProductDTO createProductDTO() {
 		ProductDTO productDto = new ProductDTO();
@@ -69,5 +95,17 @@ public class ProductService {
 		return productRepoService.findByNameFragment(startWithOut, insideWithOut);
 	}
 	
-
+	private List<Product> setMainPictureInProduct() {	
+		List<Product> products = productRepoService.getAllProducts();	
+		for(Product p: products) {
+			if(!pictureRepoService.getByProductId(p.getId()).isEmpty()) {				
+				p.setMainPicture(pictureRepoService
+						.getByProductId(p.getId())
+						.get(0).getUrl());
+			}else {
+				p.setMainPicture("images/noimage.jpg");
+			}
+		}
+		return products;
+	}
 }
