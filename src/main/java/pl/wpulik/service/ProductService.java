@@ -35,8 +35,8 @@ public class ProductService {
 
 	public ProductService() {}
 	
-	public Page<Product> findPaginated(Pageable pageable){
-		List<Product> products = setMainPictureInProduct();
+	public Page<Product> findPaginatedProducts(Pageable pageable, Long categoryId){
+		List<Product> products = setMainPictureInProduct(categoryId);
 		List<Product> list = new ArrayList<>();
 		int pageSize = pageable.getPageSize();
 		int currentPage = pageable.getPageNumber();
@@ -95,8 +95,13 @@ public class ProductService {
 		return productRepoService.findByNameFragment(startWithOut, insideWithOut);
 	}
 	
-	private List<Product> setMainPictureInProduct() {	
-		List<Product> products = productRepoService.getAllProducts();	
+	private List<Product> setMainPictureInProduct(Long categoryId) {
+		List<Product> products = new ArrayList<>();
+		if(categoryId != null) {
+			products = categoryRepoService.getById(categoryId).getProducts();
+		} else {
+			products = productRepoService.getAllProducts();
+		}
 		for(Product p: products) {
 			if(!pictureRepoService.getByProductId(p.getId()).isEmpty()) {				
 				p.setMainPicture(pictureRepoService

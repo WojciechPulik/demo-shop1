@@ -14,7 +14,7 @@
 			</div>
 			<div class="cat-col-list">
 				<ul th:each="category:${categories}">
-					<li><a th:href="@{/category(id=${category.id})}" th:text="${category.name}"></a>
+					<li><a th:href="@{/category(categoryId=${category.id})}" th:text="${category.name}"></a>
 				</ul>
 			</div>
 		</div>
