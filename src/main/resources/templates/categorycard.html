@@ -9,8 +9,10 @@
 </head>
 <body>
 	<div th:insert="fragments/header :: header"></div>
-	<p><a th:href="@{/}">Strona główna</a></p>
-	<p><a th:href="@{/shoppingcard}">Twój koszyk</a></p>
+	<div class="main-buttons-block">
+		<div class="main-buttons"><p><a th:href="@{/}">Strona główna</a></p></div>
+		<div class="main-buttons"><p><a th:href="@{/shoppingcard}">Twój koszyk</a></p></div>
+	</div>
 	<div id="left">
 		<div th:insert="fragments/categorycolumn :: catcol"></div>
 	</div>
