@@ -14,6 +14,8 @@ import pl.wpulik.model.Order;
 import pl.wpulik.service.AddressRepoService;
 import pl.wpulik.service.CategoryRepoService;
 import pl.wpulik.service.OrderRepoService;
+import pl.wpulik.utils.MailService;
+import pl.wpulik.utils.MailMessagesContent;
 
 @Controller
 public class AddressController {
@@ -21,12 +23,15 @@ public class AddressController {
 	private AddressRepoService addressRepoService;
 	private OrderRepoService orderRepoService;
 	private CategoryRepoService categoryRepoService;
+	private MailService mailService;
 	
 	@Autowired
-	public AddressController(AddressRepoService addressRepoService, OrderRepoService orderRepoService, CategoryRepoService categoryRepoService) {
+	public AddressController(AddressRepoService addressRepoService, OrderRepoService orderRepoService, 
+			CategoryRepoService categoryRepoService, MailService mailService) {
 		this.addressRepoService = addressRepoService;
 		this.orderRepoService = orderRepoService;
 		this.categoryRepoService = categoryRepoService;
+		this.mailService = mailService;
 	}
 	
 	@GetMapping("/deliveryaddress/{orderId}")
@@ -43,6 +48,9 @@ public class AddressController {
 		Order order = orderRepoService.getById(orderId);
 		order.setAddress(addressToAdd);
 		orderRepoService.updateOrder(order);
+		mailService.sendMail(address.getEmail(), 
+				MailMessagesContent.getOrderConfirmationMessageSubject() + orderId, 
+				MailMessagesContent.getOrderConfirmationMessage(address.getFirstName()), false);
 		return "/thanks";
 	}
 
