@@ -22,7 +22,8 @@ public class MailMessagesContent {
 				+ "\n * E-mail: wojciechpulik@gmail.com "
 				+ "\n "
 				+ "\nZespół splepu internetowego 'Mydło i Powidło'"
-				+ "\n**Mydło i Powidło Sp. z o.o.**";
+				+ "\n**Mydło i Powidło Sp. z o.o.**"
+				+ "\n**Kapitał zakładowy: Kanapka z Salcesonem**";
 		return orderConfirmationMessage;
 	}
 	
