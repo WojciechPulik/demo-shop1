@@ -1,13 +1,11 @@
 package pl.wpulik.service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -36,20 +34,7 @@ public class ProductService {
 	public ProductService() {}
 	
 	public Page<Product> findPaginatedProducts(Pageable pageable, Long categoryId){
-		List<Product> products = setMainPictureInProduct(categoryId);
-		List<Product> list = new ArrayList<>();
-		int pageSize = pageable.getPageSize();
-		int currentPage = pageable.getPageNumber();
-		int startItem = currentPage * pageSize;	
-		if(products.size() < startItem) {
-			list = Collections.emptyList();
-		} else {
-			int toIndex = Math.min(startItem + pageSize, products.size());
-			list = products.subList(startItem, toIndex);
-		}	
-		Page<Product> productPage 
-			= new PageImpl<Product>(list, PageRequest.of(currentPage, pageSize), products.size());
-		
+		Page<Product> productPage = setMainPictureInProduct(pageable, categoryId);
 		return productPage;	
 	}
 	
@@ -95,14 +80,16 @@ public class ProductService {
 		return productRepoService.findByNameFragment(startWithOut, insideWithOut);
 	}
 	
-	private List<Product> setMainPictureInProduct(Long categoryId) {
+	private Page<Product> setMainPictureInProduct(Pageable pageable, Long categoryId) {
 		List<Product> products = new ArrayList<>();
+		Page<Product> productsPage = new PageImpl<>(products);
 		if(categoryId != null) {
 			products = categoryRepoService.getById(categoryId).getProducts();
+			productsPage = new PageImpl<>(products);
 		} else {
-			products = productRepoService.getAllProducts();
+			productsPage = productRepoService.getAllProducts(pageable);
 		}
-		for(Product p: products) {
+		for(Product p: productsPage) {
 			if(!pictureRepoService.getByProductId(p.getId()).isEmpty()) {				
 				p.setMainPicture(pictureRepoService
 						.getByProductId(p.getId())
@@ -111,6 +98,6 @@ public class ProductService {
 				p.setMainPicture("images/noimage.jpg");
 			}
 		}
-		return products;
+		return productsPage;
 	}
 }
