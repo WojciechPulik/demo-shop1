@@ -50,7 +50,7 @@ public class AddressController {
 		orderRepoService.updateOrder(order);
 		mailService.sendMail(address.getEmail(), 
 				MailMessagesContent.getOrderConfirmationMessageSubject() + orderId, 
-				MailMessagesContent.getOrderConfirmationMessage(address.getFirstName()), false);
+				MailMessagesContent.getOrderConfirmationMessage(address.getFirstName()), true);
 		return "/thanks";
 	}
 
