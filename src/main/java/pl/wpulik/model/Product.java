@@ -47,7 +47,7 @@ public class Product implements Serializable{
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "producer_id")
 	private Producer producer;
-	@ManyToMany(fetch = FetchType.EAGER/*, cascade = CascadeType.MERGE*/)
+	@ManyToMany
 	@JoinTable(
 			name = "products_orders",
 			joinColumns = {@JoinColumn(name = "product_id", referencedColumnName="id_product")},

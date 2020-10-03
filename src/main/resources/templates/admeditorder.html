@@ -33,7 +33,7 @@
 			<td th:text="*{price}"></td>
 			<td th:text="*{addedQuantity}"></td>
 			
-			<td>
+			<td><!-- niepoprawny orderId - chyba będzie DTO -->
 				<form th:action="@{/updatequantity}" method="post"><div>
 				<input type="number"step="1"min="0" name="newQuantity"/>
 				<input type="hidden" name="productId" th:value="*{id}"/>

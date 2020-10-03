@@ -82,14 +82,17 @@ public class ProductRepoService {
 		
 	}
 	public void removeShipmentFromProduct(Long productId, Long shipmentId) {
-		Product product = productRepository.getOne(productId);
-		Shipment shipment = shipmentRepository.getOne(shipmentId);
+		Product product = productRepository.findById(productId).get();
+		Shipment shipment = shipmentRepository.findById(shipmentId).get();
 		product.getShipments().removeIf(next -> next.getId() == (shipmentId));
 		shipment.getProducts().removeIf(next -> next.getId() == (productId));
 		shipmentRepository.save(shipment);
 		productRepository.save(product);
 	}
 	
+	public List<Order> getProductOrders(Long productId){
+		return productRepository.findById(productId).get().getOrders();
+	}
 
 	
 	

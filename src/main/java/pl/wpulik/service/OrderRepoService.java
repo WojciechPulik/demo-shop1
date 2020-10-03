@@ -19,10 +19,12 @@ import pl.wpulik.repository.OrderRepository;
 public class OrderRepoService {
 	
 	private OrderRepository orderRepository;
+	private ProductRepoService productRepoService;
 	
 	@Autowired
-	public OrderRepoService(OrderRepository orderRepository) {
+	public OrderRepoService(OrderRepository orderRepository, ProductRepoService productRepoService) {
 		this.orderRepository = orderRepository;
+		this.productRepoService = productRepoService;
 	}
 	
 	public Order getById(Long id) {
@@ -46,10 +48,11 @@ public class OrderRepoService {
 		resultList = orderRepository.findAll();
 		return resultList;
 	}
-	/* Use only when order is being created!*/
+	/* Use only when order is being created!*/ //TODO: nadmiarowe inserty do bazy (albo i nie)
 	public void addProductsToOrder(Long orderId, List<Product> products) {
 		Order order = orderRepository.findById(orderId).get();
 		for(Product prod: products) {
+			prod.setOrders(productRepoService.getProductOrders(prod.getId()));
 			for(int i = 0; i < prod.getAddedQuantity(); i++) {
 				order.addProducts(prod);
 			}
@@ -60,6 +63,7 @@ public class OrderRepoService {
 	public Order updateProductsInOrder(Long orderId, List<Product> products) {
 		Order order = orderRepository.findById(orderId).get();
 		for(Product p : products) {
+			p.setOrders(productRepoService.getProductOrders(p.getId()));
 			order.addProducts(p);
 		}		
 		return orderRepository.save(order);
