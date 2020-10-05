@@ -7,6 +7,8 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,11 +45,10 @@ public class OrderRepoService {
 		return updatedOrder;
 	}
 	
-	public List<Order> getAllOrders(){
-		List<Order> resultList = new ArrayList<>();
-		resultList = orderRepository.findAll();
-		return resultList;
+	public Page<Order> getAllOrders(Pageable pageable){
+		return orderRepository.findAllByIdDesc(pageable);
 	}
+	
 	/* Use only when order is being created!*/ //TODO: nadmiarowe inserty do bazy (albo i nie)
 	public void addProductsToOrder(Long orderId, List<Product> products) {
 		Order order = orderRepository.findById(orderId).get();

@@ -27,7 +27,7 @@
 			<th>Status</th>
 			<th>Edytuj</th>
 		</tr>
-		<tr th:each="order:${orders}"th:object="${order}">
+		<tr th:each="order : ${orders}"th:object="${order}">
 			<td th:text="*{id}"></td>
 			<td th:text="*{datePurchase}"></td>
 			<td th:text="*{user.getFirstName()} + ' ' + *{user.getLastname()}"></td>
@@ -37,6 +37,17 @@
 			<td><a th:href="@{/editorder(id=*{id})}"><button class="button-style" th:type="submit">Edytuj</button></a></td>
 		</tr>
 	</table>
+		<div align="center">
+			<div th:if="${orderPage.totalPages > 0}" class="pagination"
+				th:each="pageNumber : ${pageNumbers}">
+				<a th:href="@{/allorders/(size=${orderPage.size}, page=${pageNumber})}"
+					th:text="${pageNumber}"
+					th:class="${pageNumber==orderPage.number + 1} ? active"></a>
+			</div>
+		</div>
 	</div>
 </body>
 </html>
+
+
+

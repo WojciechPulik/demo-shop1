@@ -31,7 +31,7 @@ public class Order implements Serializable{
 	@Column(name = "id_order")
 	private Long id;
 	@ManyToMany(mappedBy = "orders",
-			cascade = CascadeType.MERGE)
+			cascade = CascadeType.MERGE) 
 	@Fetch(FetchMode.JOIN)
 	private List<Product> products = new ArrayList<>();
 	private LocalDateTime datePurchase;

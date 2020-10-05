@@ -9,6 +9,8 @@ import java.util.Set;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import pl.wpulik.dto.OrderDTO;
@@ -37,6 +39,11 @@ public class OrderService {
 		this.addressRepoService = addressRepoService;
 		this.addressService = addressService;
 	}
+	
+	public Page<Order> findPaginatedOrders(Pageable pageable){
+		return orderRepoService.getAllOrders(pageable);
+	}
+	
 	public OrderDTO orderDtoMapping(Order order) {
 		OrderDTO orderDto = new OrderDTO();
 		orderDto.setId(order.getId());
