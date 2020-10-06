@@ -2,7 +2,6 @@ package pl.wpulik.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -44,7 +43,7 @@ public class Product implements Serializable{
 	private boolean isActive = false;
 	private boolean isPromoted = false;
 	private boolean isDiscounted = false;	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne
 	@JoinColumn(name = "producer_id")
 	private Producer producer;
 	@ManyToMany

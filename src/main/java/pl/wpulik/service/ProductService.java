@@ -38,6 +38,10 @@ public class ProductService {
 		return productPage;	
 	}
 	
+	public Page<Product> findPaginatedProductsForAdmin(Pageable pageable){
+		return productRepoService.getAllProducts(pageable);
+	}
+	
 	public ProductDTO createProductDTO() {
 		ProductDTO productDto = new ProductDTO();
 		productDto.setProducers(producerRepoService.getAllProducers());
