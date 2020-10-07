@@ -26,6 +26,29 @@
 		</div>
 		<h3 align="center">Zaktualizuj dane produktu:</h3>
 		<div class="choice-block">
+			<div align="center">
+				<p class= "active-product-text" th:classappend="${formProduct.isActive()} ? 'true' : 'false'"
+					th:text="${formProduct.isActive()} ? 'Produkt aktywny!' : 'Produkt niekatywny!'"></p>
+			</div>
+			<div align="center">
+				<form method="post" th:action="@{/setproductactive}">
+				
+					<div th:if="${formProduct.isActive()}">
+						<input type="hidden" name="isActive" th:value="${!formProduct.isActive()}"/>
+						<input type="hidden" name="productId" th:value="${formProduct.id}"/>
+					</div>
+					
+					<div th:if="${!formProduct.isActive()}">
+						<input type="hidden" name="isActive"th:value="${!formProduct.isActive()}"/>
+						<input type="hidden" name="productId" th:value="${formProduct.id}"/>
+					</div>
+						
+					<input class="active-product-button" th:classappend="${formProduct.isActive()} ? 'true' : 'false'"
+						type="submit" th:value="${formProduct.isActive()} ? 'Dezaktywuj produkt' : 'Aktywuj produkt'"/>
+				</form>
+			</div>
+		</div>
+		<div class="choice-block">
 			<div class="inner-input-form">
 				<form th:action="@{/updateProd}" method="post">
 					<input type="hidden" th:field="${formProduct.id}" />
@@ -54,10 +77,9 @@
 				</form>
 			</div>
 		</div>
-		<br>
-		<h3>Zarządzaj opcjami dostaw:</h3>
 		<div class="choice-block">
 			<div class="inner-input-form">
+				<h3>Zarządzaj opcjami dostaw:</h3>
 				<p th:text="'Sposoby dostawy dla produktu: ' + ${formProduct.name} + ':'">Id produktu: brak </p>
 				<ul th:each="shipment:${formProduct.shipments}">
 					<li th:text="${shipment.name} + ' - ' + ${shipment.shipmentCost} + ' zł'">Lista możliwych dostaw</li>

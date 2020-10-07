@@ -78,6 +78,12 @@ public class ProductService {
 		return productToUpdate;
 	}
 	
+	public Product setProductActiv(boolean isActive, Long productId) {
+		Product toUpdate = productRepoService.getById(productId);
+		toUpdate.setActive(isActive);
+		return productRepoService.updateProduct(toUpdate);	
+	}
+	
 	public List<Product> findByNameFragment(String phrase){
 		String startWithOut = phrase + "%";
 		String insideWithOut = "%" + phrase + "%";

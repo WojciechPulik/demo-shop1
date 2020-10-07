@@ -19,6 +19,7 @@ fieldset{
 	border: 2px solid #2F4F4F;
 	border-radius:3px;
 	width:100%;
+	margin-bottom:10px;
 }
 .delivery-address{
 	font-size:20;
@@ -83,6 +84,32 @@ fieldset{
 	border:2px solid #2F4F4F;
 	border-radius:7px;
 	width:30%;
+}
+.active-product-button.true{
+	input-style-type:none;
+	background-color:#556B2F;
+	border-radius:5px;
+	border: 2px solid #2F4F4F;
+	color:white;
+	font-weight:bold;
+	margin-bottom:10px;
+}
+.active-product-button.false{
+	input-style-type:none;
+	background-color:#B22222;
+	border-radius:5px;
+	border: 2px solid #8B0000;
+	color:white;
+	font-weight:bold;
+	margin-bottom:10px;
+}
+.active-product-text.true{
+	color:#556B2F;
+	font-weight:bold;
+}
+.active-product-text.false{
+	color:#B22222;
+	font-weight:bold;
 }
 
 
