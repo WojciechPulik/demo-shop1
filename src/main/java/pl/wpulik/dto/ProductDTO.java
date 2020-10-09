@@ -3,6 +3,8 @@ package pl.wpulik.dto;
 import java.io.Serializable;
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import pl.wpulik.model.Category;
 import pl.wpulik.model.Producer;
 import pl.wpulik.model.Shipment;
@@ -23,6 +25,7 @@ public class ProductDTO implements Serializable{
 	private Long producerId;
 	private Long shipmentId;
 	private Long categoryId;
+	private MultipartFile multipartFile;
 	private List<Producer> producers;
 	private List<Shipment> shipments;
 	private List<Category> categories;
@@ -125,6 +128,14 @@ public class ProductDTO implements Serializable{
 		this.categoryId = categoryId;
 	}	
 	
+	public MultipartFile getMultipartFile() {
+		return multipartFile;
+	}
+
+	public void setMultipartFile(MultipartFile multipartFile) {
+		this.multipartFile = multipartFile;
+	}
+
 	public List<Producer> getProducers() {
 		return producers;
 	}

@@ -38,10 +38,7 @@ public class ProductRepoService {
 	
 	public ProductRepoService() {}
 	
-	public Product addProduct(Product product, Long producerId, Long categoryId, Long shipmentId ) {
-		product.setProducer(producerRepository.findById(producerId).get());
-		product.getCategories().add(categoryRepository.findById(categoryId).get());
-		product.getShipments().add(shipmentRepository.findById(shipmentId).get());
+	public Product addProduct(Product product) {
 		productRepository.save(product);
 		return product;
 	}

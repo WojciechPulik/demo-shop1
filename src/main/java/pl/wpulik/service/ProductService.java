@@ -8,9 +8,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import pl.wpulik.dto.ProductDTO;
+import pl.wpulik.model.Picture;
 import pl.wpulik.model.Product;
+import pl.wpulik.utils.FileStorageService;
 
 @Service
 public class ProductService {
@@ -20,18 +23,32 @@ public class ProductService {
 	private CategoryRepoService categoryRepoService;
 	private ProductRepoService productRepoService;
 	private PictureRepoService pictureRepoService;
+	private PictureService pictureService;
 	
 	@Autowired
 	public ProductService(ProducerRepoService producerRepoService, ShipmentRepoService shipmentRepoService,
-			CategoryRepoService categoryRepoService, ProductRepoService productRepoService, PictureRepoService pictureRepoService) {
+			CategoryRepoService categoryRepoService, ProductRepoService productRepoService, 
+			PictureRepoService pictureRepoService, PictureService pictureService) {
 		this.producerRepoService = producerRepoService;
 		this.shipmentRepoService = shipmentRepoService;
 		this.categoryRepoService = categoryRepoService;
 		this.productRepoService = productRepoService;
 		this.pictureRepoService = pictureRepoService;
+		this.pictureService = pictureService;
 	}
 
 	public ProductService() {}
+	
+	public Product addNewProduct(Product product, Long producerId, Long categoryId, Long shipmentId, MultipartFile file ) {
+		product.setProducer(producerRepoService.getById(producerId));
+		product.getCategories().add(categoryRepoService.getById(categoryId));
+		product.getShipments().add(shipmentRepoService.getById(shipmentId));
+		Picture picture = pictureService.uploadProductPicture(file);
+		if(!file.isEmpty());
+			product.getPictures().add(picture);
+		productRepoService.addProduct(product);
+		return product;
+	}
 	
 	public Page<Product> findPaginatedProducts(Pageable pageable, Long categoryId){
 		Page<Product> productPage = setMainPictureInProduct(pageable, categoryId);

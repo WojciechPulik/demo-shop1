@@ -5,11 +5,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import pl.wpulik.dto.ProductDTO;
 import pl.wpulik.dto.SearchParamDTO;
@@ -54,12 +56,14 @@ public class ProductController {
 		return "productcard";
 	}
 	
-	@PostMapping("/save")
+	@PostMapping("/save")//TODO: move to AdminProductController
 	public String addProduct(@ModelAttribute ProductDTO formProduct) {
-		ProductService prodService = new ProductService();	
 		if(checkNotEmpty(formProduct)) {
-			productRepoService.addProduct(prodService.productMapping(formProduct), formProduct.getProducerId(), 
-					formProduct.getCategoryId(), formProduct.getShipmentId());
+			productService.addNewProduct(productService.productMapping(formProduct), 
+					formProduct.getProducerId(), 
+					formProduct.getCategoryId(), 
+					formProduct.getShipmentId(), 
+					formProduct.getMultipartFile());
 		}
 		return "redirect:/admin";
 	}

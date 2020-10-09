@@ -66,7 +66,7 @@ public class Product implements Serializable{
 	private List<Category> categories = new ArrayList<>();
 	@OneToMany
 	@JoinColumn(name = "product_id", referencedColumnName = "id_product")
-	private List<Picture> pictures;
+	private List<Picture> pictures = new ArrayList<>();
 	
 	public Product() {}
 	

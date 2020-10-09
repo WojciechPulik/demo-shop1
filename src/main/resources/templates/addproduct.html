@@ -24,7 +24,7 @@
 	<h3>Dodaj produkt do sklepu:</h3>
 	<div class="choice-block">
 		<div class="inner-input-form">
-		<form th:action="@{/save}" method="post">
+		<form th:action="@{/save}" method="post" enctype="multipart/form-data">
 			<p>
 				Nazwa produktu: <input type="text" th:field="${formProduct.name}" />
 			</p>
@@ -32,6 +32,9 @@
 				Opis produktu:
 				<textarea cols="60" rows="5" th:field="${formProduct.description}"></textarea>
 			</p>
+			<p>
+				Dodaj zdjęcie:
+				<input type="file" th:field="${formProduct.multipartFile}"/>
 			<p>
 				Ilość magazynowa: <input type="number" step="1" min="0"
 					th:field="${formProduct.quantity}" />
