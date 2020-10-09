@@ -56,6 +56,9 @@ public class ProductRepoService {
 		return productRepository.findAll(pageable);
 	}
 	
+	public Page<Product> getAllActiveProducts(Pageable pageable){
+		return productRepository.findAllActive(pageable);
+	}
 	public List<Picture> getPictures(Long productId){
 		Product product = productRepository.findById(productId).get();
 		List<Picture> pictures = product.getPictures();

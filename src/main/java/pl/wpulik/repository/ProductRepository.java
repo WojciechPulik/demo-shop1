@@ -17,7 +17,12 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
 	@Query("SELECT p FROM products p WHERE p.name LIKE :startWith OR p.name LIKE :insideWith")
 	List<Product> findByNameFragment(@Param("startWith")String startWith, @Param("insideWith")String insideWith);
 	
+	@Query("SELECT p FROM products p WHERE p.isActive = true")
+	Page<Product> findAllActive(Pageable pageable);
+	
 	Page<Product> findAll(Pageable pageable);
 	
+	@Query("SELECT p FROM products p LEFT JOIN categories c ON c.id = :categoryId WHERE p.isActive = true")
+	Page<Product> findAllActiveByCategory(Pageable pageable, @Param("categoryId") Long categoryId);
 	
 }

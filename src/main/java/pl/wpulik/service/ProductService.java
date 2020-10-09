@@ -110,10 +110,9 @@ public class ProductService {
 		List<Product> products = new ArrayList<>();
 		Page<Product> productsPage = new PageImpl<>(products);
 		if(categoryId != null) {
-			products = categoryRepoService.getById(categoryId).getProducts();
-			productsPage = new PageImpl<>(products);
+			productsPage = categoryRepoService.getAllActiveProductsByCategory(pageable, categoryId);
 		} else {
-			productsPage = productRepoService.getAllProducts(pageable);
+			productsPage = productRepoService.getAllActiveProducts(pageable);
 		}
 		for(Product p: productsPage) {
 			if(!pictureRepoService.getByProductId(p.getId()).isEmpty()) {				
