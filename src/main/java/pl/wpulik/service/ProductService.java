@@ -13,7 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 import pl.wpulik.dto.ProductDTO;
 import pl.wpulik.model.Picture;
 import pl.wpulik.model.Product;
-import pl.wpulik.utils.FileStorageService;
 
 @Service
 public class ProductService {

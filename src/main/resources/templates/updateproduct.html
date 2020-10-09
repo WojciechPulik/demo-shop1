@@ -50,6 +50,18 @@
 		</div>
 		<div class="choice-block">
 			<div class="inner-input-form">
+				<form enctype="multipart/form-data" method="post" th:action="@{/uploadproductimage}">
+					<p>
+						Dodaj zdjęcie:
+						<input type="hidden" name="productId" th:value="${formProduct.id}"/>
+						<input class="button-style" type="file" name="file"/>
+						<input class="button-style" type="submit" name="Dodaj"/>
+					<p>
+				</form>
+			</div>
+		</div>
+		<div class="choice-block">
+			<div class="inner-input-form">
 				<form th:action="@{/updateProd}" method="post">
 					<input type="hidden" th:field="${formProduct.id}" />
 					<p>

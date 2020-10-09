@@ -13,8 +13,6 @@ import pl.wpulik.model.Order;
 import pl.wpulik.model.Picture;
 import pl.wpulik.model.Product;
 import pl.wpulik.model.Shipment;
-import pl.wpulik.repository.CategoryRepository;
-import pl.wpulik.repository.ProducerRepository;
 import pl.wpulik.repository.ProductRepository;
 import pl.wpulik.repository.ShipmentRepository;
 
@@ -23,16 +21,11 @@ import pl.wpulik.repository.ShipmentRepository;
 public class ProductRepoService {
 	
 	private ProductRepository productRepository;
-	private ProducerRepository producerRepository;
-	private CategoryRepository categoryRepository;
 	private ShipmentRepository shipmentRepository;
 	
 	@Autowired
-	public ProductRepoService(ProductRepository productRepository, ProducerRepository producerRepository, CategoryRepository categoryRepository,
-			ShipmentRepository shipmentRepository) {
+	public ProductRepoService(ProductRepository productRepository, ShipmentRepository shipmentRepository) {
 		this.productRepository = productRepository;
-		this.producerRepository = producerRepository;
-		this.categoryRepository = categoryRepository;
 		this.shipmentRepository = shipmentRepository;
 	}
 	
