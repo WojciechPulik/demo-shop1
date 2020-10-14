@@ -26,17 +26,15 @@ public class OrderService {
 	
 	private OrderRepoService orderRepoService;
 	private ProductRepoService productRepoService;
-	private AddressRepoService addressRepoService;
 	private AddressService addressService;
 	
 	public OrderService () {}
 	
 	@Autowired
 	public OrderService(OrderRepoService orderRepoService, ProductRepoService productRepoService, 
-			AddressRepoService addressRepoService, AddressService addressService) {
+			AddressService addressService) {
 		this.orderRepoService = orderRepoService;
 		this.productRepoService = productRepoService;
-		this.addressRepoService = addressRepoService;
 		this.addressService = addressService;
 	}
 	

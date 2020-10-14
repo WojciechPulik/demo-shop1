@@ -22,7 +22,8 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
 	
 	Page<Product> findAll(Pageable pageable);
 	
-	@Query("SELECT p FROM products p LEFT JOIN categories c ON c.id = :categoryId WHERE p.isActive = true")
+	@Query("SELECT p FROM products p JOIN p.categories c WHERE c.id = :categoryId AND p.isActive = true")
 	Page<Product> findAllActiveByCategory(Pageable pageable, @Param("categoryId") Long categoryId);
+	
 	
 }
