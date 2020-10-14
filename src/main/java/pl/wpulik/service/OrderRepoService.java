@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import pl.wpulik.model.Product;
 import pl.wpulik.model.Order;
+import pl.wpulik.model.OrderProduct;
 import pl.wpulik.repository.OrderRepository;
 
 @Service
@@ -22,11 +23,14 @@ public class OrderRepoService {
 	
 	private OrderRepository orderRepository;
 	private ProductRepoService productRepoService;
+	private OrderProductService orderProductService;
 	
 	@Autowired
-	public OrderRepoService(OrderRepository orderRepository, ProductRepoService productRepoService) {
+	public OrderRepoService(OrderRepository orderRepository, ProductRepoService productRepoService,
+			OrderProductService orderProductService) {
 		this.orderRepository = orderRepository;
 		this.productRepoService = productRepoService;
+		this.orderProductService = orderProductService;
 	}
 	
 	public Order getById(Long id) {
@@ -52,6 +56,10 @@ public class OrderRepoService {
 	/* Use only when order is being created!*/ //TODO: nadmiarowe inserty do bazy (albo i nie)
 	public void addProductsToOrder(Long orderId, List<Product> products) {
 		Order order = orderRepository.findById(orderId).get();
+		// Adds also OrderProduct to DB
+		List<OrderProduct> orderProducts = orderProductService.orderProductMapping(products);
+		orderProductService.saveOrderProducts(orderProducts, order);
+		order.setOrderProducts(orderProducts);
 		for(Product prod: products) {
 			prod.setOrders(productRepoService.getProductOrders(prod.getId()));
 			for(int i = 0; i < prod.getAddedQuantity(); i++) {

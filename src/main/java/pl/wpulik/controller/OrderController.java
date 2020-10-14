@@ -62,7 +62,6 @@ public class OrderController {
 		model.addAttribute("order", new Order());
 		Double totalCost = 0.0;
 		Double value = 0.0;
-		totalCost = 0.0;
 		for(Product p: products) {
 			value = Math.round(p.getPrice()*p.getAddedQuantity() * 100)/100.0;
 			p.setSummaryCost(value);

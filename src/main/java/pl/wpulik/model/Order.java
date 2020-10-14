@@ -17,6 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.Fetch;
@@ -38,6 +39,8 @@ public class Order implements Serializable{
 	private LocalDateTime dateRecived;
 	private LocalDateTime dateSent;
 	private String orderDetails;
+	@OneToMany(mappedBy="order")
+	private List<OrderProduct> orderProducts = new ArrayList<>();
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "user_id")
 	private User user;
@@ -52,16 +55,6 @@ public class Order implements Serializable{
 	@OneToOne
 	private Address address;
 	
-	public void addProducts(Product product) {
-		this.products.add(product);
-		product.getOrders().add(this);
-	}
-	
-	public void removeProducts(Product product) {
-		this.products.removeIf(next -> next.equals(product));
-		product.getOrders().removeIf(next -> next.equals(this));
-	}
-	
 	public Order() {}
 
 	public Order(List<Product> products, LocalDateTime datePurchase, String orderDetails, User user,
@@ -73,6 +66,16 @@ public class Order implements Serializable{
 		this.isPayed = isPayed;
 		this.isCashOnDelivery = isCashOnDelivery;
 		this.totalPrice = totalPrice;
+	}
+	
+	public void addProducts(Product product) {
+		this.products.add(product);
+		product.getOrders().add(this);
+	}
+	
+	public void removeProducts(Product product) {
+		this.products.removeIf(next -> next.equals(product));
+		product.getOrders().removeIf(next -> next.equals(this));
 	}
 	
 	public Long getId() {
@@ -186,6 +189,14 @@ public class Order implements Serializable{
 
 	public void setAddress(Address address) {
 		this.address = address;
+	}
+
+	public List<OrderProduct> getOrderProducts() {
+		return orderProducts;
+	}
+
+	public void setOrderProducts(List<OrderProduct> orderProducts) {
+		this.orderProducts = orderProducts;
 	}
 
 	@Override
