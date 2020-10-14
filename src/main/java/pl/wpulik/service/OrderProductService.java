@@ -1,0 +1,58 @@
+package pl.wpulik.service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import pl.wpulik.model.Order;
+import pl.wpulik.model.OrderProduct;
+import pl.wpulik.model.Product;
+
+@Service
+public class OrderProductService {
+	
+	private OrderProductRepoService orderProductRepoService;
+
+	public OrderProductService() {}
+
+	@Autowired
+	public OrderProductService(OrderProductRepoService orderProductRepoService) {
+		this.orderProductRepoService = orderProductRepoService;
+	}
+	
+	public List<OrderProduct> orderProductMapping(List<Product> products){
+		List<OrderProduct> orderProducts = new ArrayList<>();
+		for(Product p : products)
+			orderProducts.add(productMapping(p));
+		return orderProducts;
+	}
+	
+	public void saveOrderProducts(List<OrderProduct> orderProducts, Order order) {
+		for(OrderProduct op : orderProducts) {
+			op.setOrder(order);
+			orderProductRepoService.save(op);
+		}
+			
+	}
+	
+	private OrderProduct productMapping (Product product) {
+		OrderProduct resultProduct = new OrderProduct();
+		resultProduct.setProductId(product.getId());
+		resultProduct.setIndex(product.getIndex());
+		resultProduct.setName(product.getName());
+		resultProduct.setPrice(product.getPrice());
+		resultProduct.setAddedQuantity(product.getAddedQuantity());
+		resultProduct.setSummaryCost(Math
+				.round(resultProduct.getAddedQuantity() * resultProduct.getPrice() * 100)/100.0);
+		if(product.getDiscount() != null)
+			resultProduct.setDiscount(product.getDiscount());
+		return resultProduct;
+	}
+	
+	
+	
+	
+
+}
