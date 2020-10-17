@@ -19,6 +19,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -31,9 +32,7 @@ public class Order implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_order")
 	private Long id;
-	@ManyToMany(mappedBy = "orders",
-			cascade = CascadeType.MERGE) 
-	@Fetch(FetchMode.JOIN)
+	@Transient
 	private List<Product> products = new ArrayList<>();
 	private LocalDateTime datePurchase;
 	private LocalDateTime dateRecived;

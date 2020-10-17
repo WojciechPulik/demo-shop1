@@ -46,11 +46,7 @@ public class Product implements Serializable{
 	@ManyToOne
 	@JoinColumn(name = "producer_id")
 	private Producer producer;
-	@ManyToMany
-	@JoinTable(
-			name = "products_orders",
-			joinColumns = {@JoinColumn(name = "product_id", referencedColumnName="id_product")},
-			inverseJoinColumns = {@JoinColumn(name = "order_id", referencedColumnName="id_order")})
+	@Transient
 	private List<Order> orders = new ArrayList<>();
 	@ManyToMany
 	@JoinTable(

@@ -24,13 +24,15 @@ public class OrderRepoService {
 	private OrderRepository orderRepository;
 	private ProductRepoService productRepoService;
 	private OrderProductService orderProductService;
+	private OrderProductRepoService orderProductRepoService;
 	
 	@Autowired
 	public OrderRepoService(OrderRepository orderRepository, ProductRepoService productRepoService,
-			OrderProductService orderProductService) {
+			OrderProductService orderProductService, OrderProductRepoService orderProductRepoService) {
 		this.orderRepository = orderRepository;
 		this.productRepoService = productRepoService;
 		this.orderProductService = orderProductService;
+		this.orderProductRepoService = orderProductRepoService;
 	}
 	
 	public Order getById(Long id) {
@@ -54,37 +56,33 @@ public class OrderRepoService {
 	}
 	
 	/* Use only when order is being created!*/ //TODO: nadmiarowe inserty do bazy (albo i nie)
+	/*After refactoring*/
 	public void addProductsToOrder(Long orderId, List<Product> products) {
 		Order order = orderRepository.findById(orderId).get();
-		// Adds also OrderProduct to DB
 		List<OrderProduct> orderProducts = orderProductService.orderProductMapping(products);
 		orderProductService.saveOrderProducts(orderProducts, order);
-		order.setOrderProducts(orderProducts);
-		for(Product prod: products) {
-			prod.setOrders(productRepoService.getProductOrders(prod.getId()));
-			for(int i = 0; i < prod.getAddedQuantity(); i++) {
-				order.addProducts(prod);
-			}
-		}
+		
 		orderRepository.save(order);
 	}
 	
-	public Order updateProductsInOrder(Long orderId, List<Product> products) {
-		Order order = orderRepository.findById(orderId).get();
-		for(Product p : products) {
-			p.setOrders(productRepoService.getProductOrders(p.getId()));
-			order.addProducts(p);
-		}		
+	/*new method for OrderProduct*/ //to remove?
+	public Order updateOrderProductsInOrder(Long orderId, List<OrderProduct> products) {
+		Order order = orderRepository.getOne(orderId);
+		for(OrderProduct op : products) {
+			orderProductRepoService.save(op);
+			order.getOrderProducts().add(op);
+		}
 		return orderRepository.save(order);
 	}
-	
+
+	//TODO: remove after refactoring
 	public List<Product> getProductsFromOrder (Long orderId){
 		List<Product> resultList = new ArrayList<>();
 		Order order = orderRepository.findById(orderId).get();
 		resultList = order.getProducts();
 		return resultList;
 	}
-	
+	//TODO: remove after refactoring
 	public Order removeAllProducts(Long orderId) {
 		Order order = orderRepository.findById(orderId).get();
 		Set<Product> products = new HashSet<>();

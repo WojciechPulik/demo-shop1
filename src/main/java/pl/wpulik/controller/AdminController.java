@@ -81,13 +81,14 @@ public class AdminController {
 		OrderStatusDTO orderStatus = orderService.createStatus();		
 		orderStatus.setOrderId(id);
 		Order order = orderRepoService.getById(id);	
+		System.out.println(order.getTotalPrice());
 		order = orderService.editOrderValues(order);		
 		model.addAttribute("address", order.getAddress());
 		model.addAttribute("shipments", shipmentService.orderShipment(order.getProducts()));
 		model.addAttribute("shipment", new Shipment());
 		model.addAttribute("orderStatus", orderStatus);
 		model.addAttribute("formOrderStatus", orderService.createStatus());
-		model.addAttribute("products",  orderService.editedOrderProducts(order));
+		model.addAttribute("products",  order.getOrderProducts());
 		model.addAttribute("order", order);
 		model.addAttribute("status", status);
 		return "/admeditorder";
@@ -96,13 +97,14 @@ public class AdminController {
 	@PostMapping("/updatequantity")
 	public String updateQuantity(@RequestParam Long orderId, @RequestParam Long productId, 
 			@RequestParam Integer newQuantity, Model model) {	
-		orderService.updateQuantity(orderId, productId, newQuantity);
+		Order order = orderService.updateOrderProductQuantity(orderId, productId, newQuantity);
+		orderService.recountOrderCost(order);
 		return editOrder(orderId, model);
 	}
 	
 	@PostMapping("/removeproduct")
 	public String removeProductfromOrder(@RequestParam Long orderId, @RequestParam Long productId, Model model) {
-		orderService.updateQuantity(orderId, productId, 0);
+		orderService.removeOrderProductFromOrder(orderId, productId);
 		return editOrder(orderId, model);
 	}
 

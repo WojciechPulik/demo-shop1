@@ -83,9 +83,6 @@ public class ProductRepoService {
 		productRepository.save(product);
 	}
 	
-	public List<Order> getProductOrders(Long productId){
-		return productRepository.findById(productId).get().getOrders();
-	}
 
 	
 	

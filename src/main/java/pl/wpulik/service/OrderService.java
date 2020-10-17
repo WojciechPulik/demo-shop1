@@ -18,6 +18,7 @@ import pl.wpulik.dto.OrderStatusDTO;
 import pl.wpulik.dto.StatusDTO;
 import pl.wpulik.model.Address;
 import pl.wpulik.model.Order;
+import pl.wpulik.model.OrderProduct;
 import pl.wpulik.model.Product;
 import pl.wpulik.model.Shipment;
 
@@ -26,17 +27,17 @@ public class OrderService {
 	
 	private OrderRepoService orderRepoService;
 	private ProductRepoService productRepoService;
-	private AddressRepoService addressRepoService;
+	private OrderProductRepoService orderProductRepoService;
 	private AddressService addressService;
 	
 	public OrderService () {}
 	
 	@Autowired
 	public OrderService(OrderRepoService orderRepoService, ProductRepoService productRepoService, 
-			AddressRepoService addressRepoService, AddressService addressService) {
+			OrderProductRepoService orderProductRepoService, AddressService addressService) {
 		this.orderRepoService = orderRepoService;
 		this.productRepoService = productRepoService;
-		this.addressRepoService = addressRepoService;
+		this.orderProductRepoService = orderProductRepoService;
 		this.addressService = addressService;
 	}
 	
@@ -47,7 +48,7 @@ public class OrderService {
 	public OrderDTO orderDtoMapping(Order order) {
 		OrderDTO orderDto = new OrderDTO();
 		orderDto.setId(order.getId());
-		orderDto.setProducts(order.getProducts());
+		orderDto.setOrderProducts(order.getOrderProducts());
 		orderDto.setDatePurchase(order.getDatePurchase());
 		orderDto.setDateRecived(order.getDateRecived());
 		orderDto.setDateSent(order.getDateSent());
@@ -108,25 +109,39 @@ public class OrderService {
 		return order;
 	}
 	
-	public Order updateQuantity (Long orderId, Long productId, Integer newQuantity) {
+	
+	/*New method for OrderProduct*/
+	public Order updateOrderProductQuantity(Long orderId, Long productId, Integer newQuantity) {
 		Order order = orderRepoService.getById(orderId);
-		List<Product> products = new ArrayList<>();
-		order.getProducts().forEach(products::add);
-		Product productToUpdate = productRepoService.getById(productId);
-		products.removeIf(next -> next.equals(productToUpdate));
-		for(int i = 0; i < newQuantity; i++) {
-			products.add(productToUpdate);
-		}
-		orderRepoService.removeAllProducts(orderId);
-		orderRepoService.updateProductsInOrder(orderId, products);
-		recountOrderCost(order);
+		List<OrderProduct> products = new ArrayList<>();
+		order.getOrderProducts().forEach(products::add);
+		OrderProduct productToUpdate = orderProductRepoService.getById(productId);
+		products.removeIf(next -> next.getProductId() == productId);
+		productToUpdate.setAddedQuantity(newQuantity);
+		products.add(productToUpdate);
+		order.setOrderProducts(products);
+		orderProductRepoService.removeAllProductsFromOrder(orderId);
+		//orderRepoService.updateOrderProductsInOrder(orderId, products);
+		orderRepoService.updateOrder(order);
+		return order;
+	}
+	/*New method for OrderProduct*/
+	public Order removeOrderProductFromOrder(Long orderId, Long productId) {
+		Order order = orderRepoService.getById(orderId);
+		List<OrderProduct> orderProducts = order.getOrderProducts();
+		orderProducts.removeIf(next -> next.getProductId() == productId);
+		orderProductRepoService.removeAllProductsFromOrder(orderId);
+		order.setOrderProducts(orderProducts);
+		orderRepoService.updateOrderProductsInOrder(orderId, orderProducts);
+		order.setTotalPrice(recountOrderCost(order).getTotalPrice());
 		return order;
 	}
 	
+	/*Refactored method for OrderProduct*/
 	public Order recountOrderCost(Order order) {
 		Double totalCost = 0.0;
-		for(Product p : order.getProducts()) {
-			totalCost += p.getPrice();
+		for(OrderProduct p : order.getOrderProducts()) {
+			totalCost += p.valueOfAll();
 		}
 		totalCost += order.getShipment().getShipmentCost();
 		if(order.isCashOnDelivery())
@@ -152,20 +167,5 @@ public class OrderService {
 		if(order.isCashOnDelivery())
 			order.getShipment().setShipmentCost(order.getShipment().getShipmentCost() + Shipment.CASH_ON_DELIVERY_COST);
 		return order;
-	}
-	
-	public Set<Product> editedOrderProducts(Order order){
-		Set<Product> products = new HashSet<>();
-		Map<Product, Integer> productsMap = new HashMap<>();
-		for(Product p : order.getProducts()) {
-			productsMap.put(p, (productsMap.get(p) == null ? 1 : productsMap.get(p) + 1));
-		}
-		Product product = new Product();
-		for(Product p : productsMap.keySet()) {
-			product = p;
-			product.setAddedQuantity(productsMap.get(p));
-			products.add(product);
-		}
-		return products;
 	}
 }

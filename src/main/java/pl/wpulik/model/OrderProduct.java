@@ -43,6 +43,11 @@ public class OrderProduct implements Serializable{
 		this.price = price;
 		this.summaryCost = summaryCost;
 	}
+	
+	public Double valueOfAll() {
+		Double result = Math.round(addedQuantity * price * 100)/100.0;
+		return result;
+	}
 
 	public Long getId() {
 		return id;
