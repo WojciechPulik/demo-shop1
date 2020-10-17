@@ -76,13 +76,12 @@ public class AdminController {
 	}
 	
 	@GetMapping("/editorder")
-	public String editOrder(@RequestParam Long id, Model model) {
-		String status = orderService.status(id);
+	public String editOrder(@RequestParam Long orderId, Model model) {
+		String status = orderService.status(orderId);
 		OrderStatusDTO orderStatus = orderService.createStatus();		
-		orderStatus.setOrderId(id);
-		Order order = orderRepoService.getById(id);	
-		System.out.println(order.getTotalPrice());
-		order = orderService.editOrderValues(order);		
+		orderStatus.setOrderId(orderId);
+		Order order = orderRepoService.orderWithProducts(orderId);
+		order = orderService.editOrderValues(order);
 		model.addAttribute("address", order.getAddress());
 		model.addAttribute("shipments", shipmentService.orderShipment(order.getProducts()));
 		model.addAttribute("shipment", new Shipment());
@@ -104,7 +103,8 @@ public class AdminController {
 	
 	@PostMapping("/removeproduct")
 	public String removeProductfromOrder(@RequestParam Long orderId, @RequestParam Long productId, Model model) {
-		orderService.removeOrderProductFromOrder(orderId, productId);
+		Order order = orderService.removeOrderProductFromOrder(orderId, productId);
+		orderService.recountOrderCost(order);
 		return editOrder(orderId, model);
 	}
 

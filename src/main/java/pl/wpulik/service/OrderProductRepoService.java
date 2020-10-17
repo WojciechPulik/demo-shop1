@@ -33,7 +33,8 @@ public class OrderProductRepoService {
 	public Order removeAllProductsFromOrder(Long orderId) {
 		Order order = orderRepository.getOne(orderId);
 		order.getOrderProducts().clear();	
-		return orderRepository.save(order);
+		order = orderRepository.save(order);
+		return order;
 	}
 	
 	

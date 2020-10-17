@@ -1,11 +1,7 @@
 package pl.wpulik.service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,24 +15,21 @@ import pl.wpulik.dto.StatusDTO;
 import pl.wpulik.model.Address;
 import pl.wpulik.model.Order;
 import pl.wpulik.model.OrderProduct;
-import pl.wpulik.model.Product;
 import pl.wpulik.model.Shipment;
 
 @Service
 public class OrderService {
 	
 	private OrderRepoService orderRepoService;
-	private ProductRepoService productRepoService;
 	private OrderProductRepoService orderProductRepoService;
 	private AddressService addressService;
 	
 	public OrderService () {}
 	
 	@Autowired
-	public OrderService(OrderRepoService orderRepoService, ProductRepoService productRepoService, 
-			OrderProductRepoService orderProductRepoService, AddressService addressService) {
+	public OrderService(OrderRepoService orderRepoService, OrderProductRepoService orderProductRepoService,
+			AddressService addressService) {
 		this.orderRepoService = orderRepoService;
-		this.productRepoService = productRepoService;
 		this.orderProductRepoService = orderProductRepoService;
 		this.addressService = addressService;
 	}
@@ -116,28 +109,24 @@ public class OrderService {
 		List<OrderProduct> products = new ArrayList<>();
 		order.getOrderProducts().forEach(products::add);
 		OrderProduct productToUpdate = orderProductRepoService.getById(productId);
-		products.removeIf(next -> next.getProductId() == productId);
+		orderProductRepoService.removeAllProductsFromOrder(orderId);
+		products.removeIf(next -> next.getId() == productId);
 		productToUpdate.setAddedQuantity(newQuantity);
 		products.add(productToUpdate);
 		order.setOrderProducts(products);
-		orderProductRepoService.removeAllProductsFromOrder(orderId);
-		//orderRepoService.updateOrderProductsInOrder(orderId, products);
-		orderRepoService.updateOrder(order);
-		return order;
-	}
-	/*New method for OrderProduct*/
-	public Order removeOrderProductFromOrder(Long orderId, Long productId) {
-		Order order = orderRepoService.getById(orderId);
-		List<OrderProduct> orderProducts = order.getOrderProducts();
-		orderProducts.removeIf(next -> next.getProductId() == productId);
-		orderProductRepoService.removeAllProductsFromOrder(orderId);
-		order.setOrderProducts(orderProducts);
-		orderRepoService.updateOrderProductsInOrder(orderId, orderProducts);
-		order.setTotalPrice(recountOrderCost(order).getTotalPrice());
 		return order;
 	}
 	
-	/*Refactored method for OrderProduct*/
+	public Order removeOrderProductFromOrder(Long orderId, Long productId) {
+		Order order = orderRepoService.getById(orderId);
+		List<OrderProduct> orderProducts = new ArrayList<>();
+		order.getOrderProducts().forEach(orderProducts::add);
+		orderProducts.removeIf(next -> next.getId() == productId);
+		orderProductRepoService.removeAllProductsFromOrder(orderId);
+		order.setOrderProducts(orderProducts);
+		return order;
+	}
+	
 	public Order recountOrderCost(Order order) {
 		Double totalCost = 0.0;
 		for(OrderProduct p : order.getOrderProducts()) {

@@ -7,13 +7,30 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import pl.wpulik.model.OrderProduct;
 import pl.wpulik.model.Product;
 import pl.wpulik.model.Shipment;
 
 @Service
 public class ShipmentService {
+	
+	private ProductRepoService productRepoService;
+	
+	@Autowired
+	public ShipmentService(ProductRepoService productRepoService) {
+		this.productRepoService = productRepoService;
+	}
+	
+	//TODO: remove
+	public List<Shipment> orderProductShipment(List<OrderProduct> orderProducts){
+		List<Product> products = new ArrayList<>();
+		for(OrderProduct op : orderProducts)
+			products.add(productRepoService.getById(op.getProductId()));
+		return orderShipment(products);
+	}
 
 	public List<Shipment> orderShipment(List<Product> orderProducts){
 		Set<Product> setProd = new HashSet<>(orderProducts);
