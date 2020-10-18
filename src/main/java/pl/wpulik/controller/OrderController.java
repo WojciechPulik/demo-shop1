@@ -1,12 +1,7 @@
 package pl.wpulik.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -62,7 +57,6 @@ public class OrderController {
 		model.addAttribute("order", new Order());
 		Double totalCost = 0.0;
 		Double value = 0.0;
-		totalCost = 0.0;
 		for(Product p: products) {
 			value = Math.round(p.getPrice()*p.getAddedQuantity() * 100)/100.0;
 			p.setSummaryCost(value);

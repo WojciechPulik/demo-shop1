@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.time.LocalDateTime;
 import java.util.List;
 
-
+import pl.wpulik.model.OrderProduct;
 import pl.wpulik.model.Product;
 import pl.wpulik.model.Shipment;
 import pl.wpulik.model.User;
@@ -14,7 +14,7 @@ public class OrderDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	private Long id;
-	private List<Product> products = new ArrayList<>();
+	private List<OrderProduct> products = new ArrayList<>();
 	private LocalDateTime datePurchase;
 	private LocalDateTime dateRecived;
 	private LocalDateTime dateSent;
@@ -38,11 +38,11 @@ public class OrderDTO implements Serializable{
 		this.id = id;
 	}
 
-	public List<Product> getProducts() {
+	public List<OrderProduct> getOrderProducts() {
 		return products;
 	}
 
-	public void setProducts(List<Product> products) {
+	public void setOrderProducts(List<OrderProduct> products) {
 		this.products = products;
 	}
 
