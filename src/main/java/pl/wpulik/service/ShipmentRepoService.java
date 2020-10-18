@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import pl.wpulik.model.Category;
-import pl.wpulik.model.Product;
 import pl.wpulik.model.Shipment;
 import pl.wpulik.repository.CategoryRepository;
 import pl.wpulik.repository.ShipmentRepository;

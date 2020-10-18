@@ -24,13 +24,6 @@ public class ShipmentService {
 		this.productRepoService = productRepoService;
 	}
 	
-	//TODO: remove
-	public List<Shipment> orderProductShipment(List<OrderProduct> orderProducts){
-		List<Product> products = new ArrayList<>();
-		for(OrderProduct op : orderProducts)
-			products.add(productRepoService.getById(op.getProductId()));
-		return orderShipment(products);
-	}
 
 	public List<Shipment> orderShipment(List<Product> orderProducts){
 		Set<Product> setProd = new HashSet<>(orderProducts);
