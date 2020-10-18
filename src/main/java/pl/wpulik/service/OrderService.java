@@ -21,27 +21,16 @@ import pl.wpulik.model.Shipment;
 public class OrderService {
 	
 	private OrderRepoService orderRepoService;
-<<<<<<< HEAD
-	private ProductRepoService productRepoService;
-=======
 	private OrderProductRepoService orderProductRepoService;
->>>>>>> order-refactoring
 	private AddressService addressService;
 	
 	public OrderService () {}
 	
 	@Autowired
-<<<<<<< HEAD
-	public OrderService(OrderRepoService orderRepoService, ProductRepoService productRepoService, 
-			AddressService addressService) {
-		this.orderRepoService = orderRepoService;
-		this.productRepoService = productRepoService;
-=======
 	public OrderService(OrderRepoService orderRepoService, OrderProductRepoService orderProductRepoService,
 			AddressService addressService) {
 		this.orderRepoService = orderRepoService;
 		this.orderProductRepoService = orderProductRepoService;
->>>>>>> order-refactoring
 		this.addressService = addressService;
 	}
 	
