@@ -54,7 +54,8 @@ public class OrderRepoService {
 	public void addProductsToOrder(Long orderId, List<Product> products) {
 		Order order = orderRepository.findById(orderId).get();
 		List<OrderProduct> orderProducts = orderProductService.orderProductMapping(products);
-		orderProductService.saveOrderProducts(orderProducts, order);	
+		orderProductService.saveOrderProducts(orderProducts, order);
+		productRepoService.changeProductStockQuantity(orderProducts);
 		orderRepository.save(order);
 	}
 	

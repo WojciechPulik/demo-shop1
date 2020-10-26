@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import pl.wpulik.model.Order;
+import pl.wpulik.model.OrderProduct;
 import pl.wpulik.model.Picture;
 import pl.wpulik.model.Product;
 import pl.wpulik.model.Shipment;
@@ -81,6 +82,19 @@ public class ProductRepoService {
 		shipment.getProducts().removeIf(next -> next.getId() == (productId));
 		shipmentRepository.save(shipment);
 		productRepository.save(product);
+	}
+	
+	public void changeProductStockQuantity(List<OrderProduct> orderProducts){
+		System.out.println(orderProducts.toString());
+		for(OrderProduct op : orderProducts) {
+			substractFromProductStock(op.getProductId(), op.getAddedQuantity());
+		}
+	}
+	
+	private Product substractFromProductStock(Long productId, Integer productQuantity) {
+		Product product = productRepository.getOne(productId);
+		product.setQuantity(product.getQuantity() - productQuantity);
+		return productRepository.save(product);
 	}
 	
 
