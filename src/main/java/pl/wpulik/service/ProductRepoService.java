@@ -85,7 +85,6 @@ public class ProductRepoService {
 	}
 	
 	public void changeProductStockQuantity(List<OrderProduct> orderProducts){
-		System.out.println(orderProducts.toString());
 		for(OrderProduct op : orderProducts) {
 			substractFromProductStock(op.getProductId(), op.getAddedQuantity());
 		}
