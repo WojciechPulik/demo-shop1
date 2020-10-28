@@ -2,6 +2,7 @@ package pl.wpulik.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -88,6 +89,19 @@ public class ProductRepoService {
 		for(OrderProduct op : orderProducts) {
 			substractFromProductStock(op.getProductId(), op.getAddedQuantity());
 		}
+	}
+	
+	public void updateProductStockQuantity(List<OrderProduct> orderProducts, Long productId, Integer newQuantity) {
+		Stream<OrderProduct> productStream = orderProducts.stream();
+		Integer addedQuantity = productStream
+						.filter(p -> p.getProductId()==productId)
+						.mapToInt(p -> p.getAddedQuantity())
+						.sum();
+		System.out.println("Ilość produktu w zamówieniu (ze streama): " + addedQuantity);
+		Product product = productRepository.getOne(productId);
+		product.setQuantity(product.getQuantity() + addedQuantity - newQuantity);
+		product = productRepository.save(product);
+		System.out.println("Ilość produktu po update'cie w db: " + product.getQuantity());
 	}
 	
 	private Product substractFromProductStock(Long productId, Integer productQuantity) {

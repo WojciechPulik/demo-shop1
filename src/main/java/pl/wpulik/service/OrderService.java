@@ -23,15 +23,17 @@ public class OrderService {
 	private OrderRepoService orderRepoService;
 	private OrderProductRepoService orderProductRepoService;
 	private AddressService addressService;
+	private ProductRepoService productRepoService;
 	
 	public OrderService () {}
 	
 	@Autowired
 	public OrderService(OrderRepoService orderRepoService, OrderProductRepoService orderProductRepoService,
-			AddressService addressService) {
+			AddressService addressService, ProductRepoService productRepoService) {
 		this.orderRepoService = orderRepoService;
 		this.orderProductRepoService = orderProductRepoService;
 		this.addressService = addressService;
+		this.productRepoService = productRepoService;
 	}
 	
 	public Page<Order> findPaginatedOrders(Pageable pageable){
@@ -104,13 +106,15 @@ public class OrderService {
 	
 	
 	/*New method for OrderProduct*/
-	public Order updateOrderProductQuantity(Long orderId, Long productId, Integer newQuantity) {
+	public Order updateOrderProductQuantity(Long orderId, Long orderProductId, Integer newQuantity) {
 		Order order = orderRepoService.getById(orderId);
 		List<OrderProduct> products = new ArrayList<>();
 		order.getOrderProducts().forEach(products::add);
-		OrderProduct productToUpdate = orderProductRepoService.getById(productId);
+		OrderProduct productToUpdate = orderProductRepoService.getById(orderProductId);
+		//increases the product stock quantity in DB by the product quantity in the order:
+		productRepoService.updateProductStockQuantity(products, productToUpdate.getProductId(), newQuantity); 
 		orderProductRepoService.removeAllProductsFromOrder(orderId);
-		products.removeIf(next -> next.getId() == productId);
+		products.removeIf(next -> next.getId() == orderProductId);
 		productToUpdate.setAddedQuantity(newQuantity);
 		products.add(productToUpdate);
 		order.setOrderProducts(products);
