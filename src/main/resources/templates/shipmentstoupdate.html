@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"/>
+<link href="/css/admin.css" rel="stylesheet"/>
+<link href="/css/index.css" rel="stylesheet"/>
+<link href="/css/adminlayout.css" rel="stylesheet"/>
+<title>Dostawy</title>
+</head>
+<body>
+	<div th:insert="fragments/header :: header"></div>
+	<p><a th:href="@{/}">Powrót do strony głównej</a></p>
+	<p><a th:href="@{/admin}">Panel Administracyjny</a></p>
+	<div class="left">
+		<div class="left-colum-content">
+			<div th:insert="fragments/leftcolumn :: leftcolumn"></div>
+		</div>
+	</div>
+	<div class="inner">
+	
+		<div class="choice-block">
+			<div class="inner-input-form">
+				<h3 align="center">Wybier dostawę do aktualizacji:</h3>
+				<table border="2" align="center">
+					<tr>
+						<th>Dostawca</th>
+						<th>Nazwa Dostawy</th>
+						<th>Maks. Waga</th>
+						<th>Koszt PLN</th>
+						<th>Edytuj</th>
+					</tr>
+					<tr th:each="shipment : ${shipments}"th:object="${shipment}">
+						<td th:text="*{supplier}"></td>
+						<td th:text="*{name}"></td>
+						<td th:text="*{maxWeight}"></td>
+						<td th:text="*{shipmentCost} + ' '"></td>
+						<td><a th:href="@{/editshipmentcard(shipmentId=*{id})}"><button class="button-style" th:type="submit">Edytuj</button></a></td>
+					</tr>
+				</table>
+				
+			</div>
+		</div>	
+	</div>
+</body>
+</html>
+
+
+
+

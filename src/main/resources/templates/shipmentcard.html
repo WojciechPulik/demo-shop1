@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"/>
+<link href="/css/admin.css" rel="stylesheet"/>
+<link href="/css/index.css" rel="stylesheet"/>
+<link href="/css/adminlayout.css" rel="stylesheet"/>
+<title>Dostawy</title>
+</head>
+<body>
+	<div th:insert="fragments/header :: header"></div>
+	<p><a th:href="@{/}">Powrót do strony głównej</a></p>
+	<p><a th:href="@{/admin}">Panel Administracyjny</a></p>
+	<div class="left">
+		<div class="left-colum-content">
+			<div th:insert="fragments/leftcolumn :: leftcolumn"></div>
+		</div>
+	</div>
+	<div class="inner">
+	
+		<div class="choice-block">
+			<div class="inner-input-form">
+				<h3 align="center">Dodaj nową opcję dostawy:</h3>
+				<form th:action="@{/saveshipment}" method="post">
+					<p>Dostawca usług kurierskich:
+						<input type="text" th:field="${shipment.supplier}"/>
+					</p>
+					<p>Nazwa dostawy:
+						<input type="text" th:field="${shipment.name}"/>
+					</p>
+					<p>Opis:
+						<textarea cols="60" rows="5" th:field="${shipment.description}"></textarea>
+					</p>
+					<p>Maksymalna waga przesyłki:
+						<input type="number" th:field="${shipment.maxWeight}"/>
+					</p>
+					<p>Koszt wysyłki:
+						<input type="number" th:field="${shipment.shipmentCost}"/>
+					</p>
+					<p>
+						<input class="button-style" type="submit" value="Dodaj opcję dostawy" />
+					</p>
+				</form>
+			</div>
+		</div>	
+	</div>
+</body>
+</html>
+
+
+
+
