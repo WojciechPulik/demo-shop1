@@ -97,11 +97,9 @@ public class ProductRepoService {
 						.filter(p -> p.getProductId()==productId)
 						.mapToInt(p -> p.getAddedQuantity())
 						.sum();
-		System.out.println("Ilość produktu w zamówieniu (ze streama): " + addedQuantity);
 		Product product = productRepository.getOne(productId);
 		product.setQuantity(product.getQuantity() + addedQuantity - newQuantity);
 		product = productRepository.save(product);
-		System.out.println("Ilość produktu po update'cie w db: " + product.getQuantity());
 	}
 	
 	private Product substractFromProductStock(Long productId, Integer productQuantity) {
