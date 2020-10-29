@@ -37,6 +37,10 @@ public class OrderProductRepoService {
 		return order;
 	}
 	
+	public void removeOrderProduct(Long orderProductId) {
+		orderProductRepository.deleteById(orderProductId);
+	}
+	
 	
 	
 

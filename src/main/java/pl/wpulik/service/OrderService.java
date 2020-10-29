@@ -111,7 +111,7 @@ public class OrderService {
 		List<OrderProduct> products = new ArrayList<>();
 		order.getOrderProducts().forEach(products::add);
 		OrderProduct productToUpdate = orderProductRepoService.getById(orderProductId);
-		//increases the product stock quantity in DB by the product quantity in the order:
+		//update the product stock quantity in DB by the product quantity in the order:
 		productRepoService.updateProductStockQuantity(products, productToUpdate.getProductId(), newQuantity); 
 		orderProductRepoService.removeAllProductsFromOrder(orderId);
 		products.removeIf(next -> next.getId() == orderProductId);
@@ -121,12 +121,20 @@ public class OrderService {
 		return order;
 	}
 	
-	public Order removeOrderProductFromOrder(Long orderId, Long productId) {
+	public Order removeOrderProductFromOrder(Long orderId, Long orderProductId) {
 		Order order = orderRepoService.getById(orderId);
 		List<OrderProduct> orderProducts = new ArrayList<>();
 		order.getOrderProducts().forEach(orderProducts::add);
-		orderProducts.removeIf(next -> next.getId() == productId);
+		Long productId = orderProducts.stream()
+							.filter(p -> p.getId()==orderProductId)
+							.mapToLong(p -> p.getProductId())
+							.findFirst()
+							.getAsLong();
+		//update the product stock quantity in DB after product removal from the order:
+		productRepoService.updateProductStockQuantity(orderProducts, productId, 0);
+		orderProducts.removeIf(next -> next.getId() == orderProductId);
 		orderProductRepoService.removeAllProductsFromOrder(orderId);
+		orderProductRepoService.removeOrderProduct(orderProductId);
 		order.setOrderProducts(orderProducts);
 		return order;
 	}
