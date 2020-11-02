@@ -21,6 +21,7 @@
 			<li>********************************************</li>
 			<li><a  class="product_name" th:href="@{/product(id=${product.id})}"th:text="${product.name}"></a></li>
 			<li><img th:src="@{${product.mainPicture}}"width=100></li>
+			<li class="red-bold" th:if="${product.quantity} == 0" th:text="'Produkt niedostępny!'"></li>
 			<li th:text="'Indeks: ' + ${product.index}">Index produktu</li>
 			<li th:text="'Cena: ' + ${product.price} + ' zł'">Cena produktu</li>
 			<li>

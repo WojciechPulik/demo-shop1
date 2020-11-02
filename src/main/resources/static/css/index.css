@@ -133,3 +133,7 @@ img{
 	color: white;
 	border-radius: 2px;
 }
+.red-bold{
+	color:red;
+	font-weight:bold;
+}
