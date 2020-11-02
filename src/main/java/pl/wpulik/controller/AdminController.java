@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -25,6 +26,7 @@ import pl.wpulik.model.Shipment;
 import pl.wpulik.service.AddressRepoService;
 import pl.wpulik.service.OrderRepoService;
 import pl.wpulik.service.OrderService;
+import pl.wpulik.service.ProductRepoService;
 import pl.wpulik.service.ShipmentRepoService;
 import pl.wpulik.service.ShipmentService;
 
@@ -36,15 +38,18 @@ public class AdminController {
 	private ShipmentService shipmentService;
 	private ShipmentRepoService shipmentRepoService;
 	private AddressRepoService addressRepoService;
+	private ProductRepoService productRepoService; 
 	
 	@Autowired
 	public AdminController(OrderRepoService orderRepoService, OrderService orderService, 
-			ShipmentService shipmentService, ShipmentRepoService shipmentRepoService, AddressRepoService addressRepoService) {
+			ShipmentService shipmentService, ShipmentRepoService shipmentRepoService, 
+			AddressRepoService addressRepoService, ProductRepoService productRepoService) {
 		this.orderRepoService = orderRepoService;
 		this.orderService = orderService;
 		this.shipmentService = shipmentService;
 		this.shipmentRepoService = shipmentRepoService;
 		this.addressRepoService = addressRepoService;
+		this.productRepoService = productRepoService;
 	}
 	
 	@GetMapping("/admin")
@@ -94,9 +99,12 @@ public class AdminController {
 	}
 	
 	@PostMapping("/updatequantity")
-	public String updateQuantity(@RequestParam Long orderId, @RequestParam Long productId, 
-			@RequestParam Integer newQuantity, Model model) {	
-		Order order = orderService.updateOrderProductQuantity(orderId, productId, newQuantity);
+	public String updateQuantity(@RequestParam Long orderId, @RequestParam Long orderProductId, 
+			@RequestParam Integer newQuantity, @RequestParam Integer addedToOrder, 
+			@RequestParam Long productId,Model model) {	
+		if(!productRepoService.isStockEnough(productId, newQuantity, addedToOrder))
+			return String.format("redirect:/outofstock/%d", orderId);
+		Order order = orderService.updateOrderProductQuantity(orderId, orderProductId, newQuantity);
 		orderService.recountOrderCost(order);
 		return editOrder(orderId, model);
 	}
@@ -156,10 +164,15 @@ public class AdminController {
 		else if(orderRepoService.getById(orderId).getAddress().getId() != null) {
 			addressId = orderRepoService.getById(orderId).getAddress().getId();
 			address.setId(addressId);
-			addressRepoService.addAddress(address);
-			
+			addressRepoService.addAddress(address);			
 		}
 		return "redirect:/allorders";
+	}
+	
+	@GetMapping("/outofstock/{orderId}")
+	public String outOfStockInfo(@PathVariable Long orderId, Model model) {
+		model.addAttribute("orderId", orderId);
+		return "/outofstock";
 	}
 	
 	

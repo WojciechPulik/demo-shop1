@@ -105,7 +105,7 @@ public class OrderService {
 	}
 	
 	
-	/*New method for OrderProduct*/
+	
 	public Order updateOrderProductQuantity(Long orderId, Long orderProductId, Integer newQuantity) {
 		Order order = orderRepoService.getById(orderId);
 		List<OrderProduct> products = new ArrayList<>();

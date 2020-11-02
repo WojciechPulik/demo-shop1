@@ -102,6 +102,11 @@ public class ProductRepoService {
 		product = productRepository.save(product);
 	}
 	
+	public boolean isStockEnough(Long productId, Integer newQuantity, Integer addedToOrder) {
+		Product product = productRepository.getOne(productId);
+		return product.getQuantity() >= newQuantity - addedToOrder;
+	}
+	
 	private Product substractFromProductStock(Long productId, Integer productQuantity) {
 		Product product = productRepository.getOne(productId);
 		product.setQuantity(product.getQuantity() - productQuantity);

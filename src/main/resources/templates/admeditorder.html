@@ -5,7 +5,7 @@
 <link href="/css/admin.css" rel="stylesheet"/>
 <link href="/css/index.css" rel="stylesheet"/>
 <link href="/css/adminlayout.css" rel="stylesheet"/>
-<title>Strona główna</title>
+<title>Admin</title>
 </head>
 <body>
 	<div th:insert="fragments/header :: header"></div>
@@ -36,8 +36,10 @@
 			<td>
 				<form th:action="@{/updatequantity}" method="post"><div>
 				<input type="number"step="1"min="0" name="newQuantity"/>
-				<input type="hidden" name="productId" th:value="*{id}"/>
+				<input type="hidden" name="orderProductId" th:value="*{id}"/>
 				<input type="hidden" name="orderId" th:value="${order.id}"/>
+				<input type="hidden" name="addedToOrder" th:value="*{addedQuantity}"/>
+				<input type="hidden" name="productId" th:value="*{productId}"/>
 				<input class="button-style" type="submit"value="Zmień ilość"/>
 				</div></form>
 			</td>	
