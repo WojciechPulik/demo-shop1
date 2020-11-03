@@ -38,6 +38,8 @@ public class Product implements Serializable{
 	@Transient
 	private Double summaryCost;
 	@Transient
+	private Boolean isAvailable;
+	@Transient
 	private String mainPicture;
 	private Double discount;
 	private boolean isActive = false;
@@ -167,6 +169,14 @@ public class Product implements Serializable{
 		this.summaryCost = summaryCost;
 	}
 	
+	public Boolean getIsAvailable() {
+		return isAvailable;
+	}
+
+	public void setIsAvailable(Boolean isAvailable) {
+		this.isAvailable = isAvailable;
+	}
+
 	public boolean isActive() {
 		return isActive;
 	}

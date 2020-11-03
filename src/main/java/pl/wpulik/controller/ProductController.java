@@ -43,8 +43,10 @@ public class ProductController {
 	}
 	
 	@GetMapping("/product")
-	public String productCard(@RequestParam(name="id") Long productId, Model model) {
+	public String productCard(@RequestParam(name="id") Long productId, 
+			@RequestParam(defaultValue="true", required = true) Boolean isAvailable, Model model) {
 		Product product = productRepoService.getById(productId);
+		product.setIsAvailable(isAvailable);
 		List<Category> categories = categoryRepoService.getAllCategories();	
 		Picture picture = pictureService.displayPicture(productId);
 		String url = picture.getUrl();

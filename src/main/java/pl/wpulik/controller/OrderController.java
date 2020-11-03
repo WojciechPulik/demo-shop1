@@ -84,6 +84,13 @@ public class OrderController {
 		model.addAttribute("productId", productId);
 		model.addAttribute("addedQuantity", addedQuantity);
 		Product product = productRepoService.getById(productId);
+		Integer productsInOrder = products.stream()
+				.filter(p -> p.getId()==productId)
+				.mapToInt(p ->p.getAddedQuantity())
+				.sum();
+		if(product.getQuantity() < addedQuantity + productsInOrder) {
+			return String.format("redirect:/product?id=%d&isAvailable=false", productId);
+		}
 		product.setAddedQuantity(addedQuantity);
 		for(Product p: products) {
 			if(p.getId()==product.getId()) {
@@ -94,7 +101,7 @@ public class OrderController {
 		if(!isAdded) {
 			products.add(product);
 		}
-		return "redirect:/";
+		return "redirect:/shoppingcard";
 	}
 	
 	@PostMapping("/sendorder")
