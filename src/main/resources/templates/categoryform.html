@@ -33,7 +33,14 @@
 					<textarea cols="50" rows="4" th:field="*{description}"></textarea>
 				</p>
 				<p>
-					Kategoria nadrzędna:<input type="number" th:field="*{overridingCategoryId}" />
+					Kategoria nadrzędna:
+					<select th:field="*{overridingCategoryId}">
+						<option value="">-------------</option>
+						<option th:value="0">USTAW JAKO KATEGORIĘ GŁÓWNĄ</option>
+						<option th:each="category:${allCategories}" th:value="${category.id}"
+							th:text="${category.name}"></option>
+					
+					</select>
 				</p>
 				<p>
 					<input class="button-style" type="submit" value="Dodaj kategorię" />

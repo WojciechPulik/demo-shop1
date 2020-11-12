@@ -40,7 +40,7 @@ public class ProductService {
 	
 	public Product addNewProduct(Product product, Long producerId, Long categoryId, Long shipmentId, MultipartFile file ) {
 		product.setProducer(producerRepoService.getById(producerId));
-		product.getCategories().add(categoryRepoService.getById(categoryId));
+		product.setCategories(categoryRepoService.allRelatedCategories(categoryId));
 		product.getShipments().add(shipmentRepoService.getById(shipmentId));
 		Picture picture = pictureService.uploadProductPicture(file);
 		if(!file.isEmpty());

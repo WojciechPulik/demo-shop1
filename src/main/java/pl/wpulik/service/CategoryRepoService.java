@@ -1,5 +1,6 @@
 package pl.wpulik.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,8 @@ import pl.wpulik.repository.ShipmentRepository;
 @Transactional
 @Service
 public class CategoryRepoService {
+	
+	private List<Category> resultList = new ArrayList<>();
 	
 	private CategoryRepository categoryRepository;
 	private ShipmentRepository shipmentRepository;
@@ -57,6 +60,14 @@ public class CategoryRepoService {
 			shipment.addCategories(cat);
 		shipment = shipmentRepository.save(shipment);
 		System.out.println(shipment.toString());
+	}
+	
+	public List<Category> allRelatedCategories(Long categoryId){
+		Category category = categoryRepository.findById(categoryId).get();
+		resultList.add(category);
+		if(category.getOverridingCategoryId() != 0) 
+			allRelatedCategories(category.getOverridingCategoryId()); //Recursion
+		return resultList;
 	}
 	
 	

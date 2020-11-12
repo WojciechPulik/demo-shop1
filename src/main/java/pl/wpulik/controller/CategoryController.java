@@ -35,6 +35,7 @@ public class CategoryController {
 
 	@GetMapping("/addcategory")
 	public String categoryForm(Model model) {
+		model.addAttribute("allCategories", categoryRepoService.getAllCategories());
 		model.addAttribute("category", new Category());
 		return "categoryform";
 	}
