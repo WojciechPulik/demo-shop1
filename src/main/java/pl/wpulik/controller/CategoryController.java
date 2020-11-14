@@ -63,10 +63,14 @@ public class CategoryController {
 				.collect(Collectors.toList());
 		model.addAttribute("pageNumbers", pageNumbers);
 	}
-	List<Category> categories = categoryRepoService.getAllCategories();
+	List<Category> categories = categoryRepoService.getMainCategories();
+	List<Category> subcategories = categoryRepoService.getAllCategoriesForCategory(categoryId);
 	Category category = categoryRepoService.getById(categoryId);
+	if(subcategories.isEmpty())
+		subcategories = categoryRepoService.getAllCategoriesForCategory(category.getOverridingCategoryId());
+	model.addAttribute("subcategories", subcategories);
 	model.addAttribute("categories", categories);
-	model.addAttribute("category", category);
+	model.addAttribute("subCategory", category);
 	model.addAttribute("addedQuantity", addedQuantity);
 		return "categorycard";
 	}

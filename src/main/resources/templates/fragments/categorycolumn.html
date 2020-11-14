@@ -15,6 +15,26 @@
 			<div class="cat-col-list">
 				<ul th:each="category:${categories}">
 					<li><a th:href="@{/category(categoryId=${category.id})}" th:text="${category.name}"></a>
+						<div th:if="${subcategories} != null and ${category.id} == ${subCategory.id}">
+							<ul th:each="category:${subcategories}">
+								<li><a class="subcategory" th:href="@{/category(categoryId=${category.id})}" th:text="${category.name}"></a></li>
+							</ul>
+							
+						</div>
+						<div th:if="${subcategories} != null and ${subCategory.overridingCategoryId} != 0 
+								and ${subCategory.overridingCategoryId} == ${category.id}">
+							<ul th:each="category:${subcategories}">
+								<li><a class="subcategory" th:href="@{/category(categoryId=${category.id})}"
+									th:text="${category.name}"></a>
+								<div th:if="${subcategories} != null and ${subCategory.overridingCategoryId} != 0 
+										and ${subCategory.overridingCategoryId} == ${category.id}">
+									<ul th:each="category:${subcategories}">
+										<li><a class="subcategory" th:href="@{/category(categoryId=${category.id})}"th:text="${category.name}"></a>
+									</ul>
+								</div>
+							</ul>
+						</div>
+					</li>
 				</ul>
 			</div>
 		</div>

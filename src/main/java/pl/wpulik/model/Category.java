@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -34,6 +35,8 @@ public class Category implements Serializable{
 	private List<Shipment> shipments  = new ArrayList<>();
 	@ManyToMany(mappedBy = "categories")
 	private List<Product> products = new ArrayList<>();
+	@Transient
+	private Category overridingCategory;
 	
 	public Category() {}
 
@@ -102,6 +105,14 @@ public class Category implements Serializable{
 
 	public void setProducts(List<Product> products) {
 		this.products = products;
+	}
+	
+	public Category getOverridingCategory() {
+		return overridingCategory;
+	}
+
+	public void setOverridingCategory(Category overridingCategory) {
+		this.overridingCategory = overridingCategory;
 	}
 
 	@Override

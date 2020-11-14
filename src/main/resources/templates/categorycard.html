@@ -5,7 +5,7 @@
 <link href="/css/index.css" rel="stylesheet"/>
 <link href="/css/admin.css" rel="stylesheet"/>
 <link href="/css/adminlayout.css" rel="stylesheet"/>
-<title th:text="${category.name}"></title>
+<title th:text="${subCategory.name}"></title>
 </head>
 <body>
 	<div th:insert="fragments/header :: header"></div>
@@ -17,7 +17,7 @@
 		<div th:insert="fragments/categorycolumn :: catcol"></div>
 	</div>
 	<div id="inner">
-		<div align="center"><p class="category_inner_name" th:text="${category.name}"></p></div>
+		<div align="center"><p class="category_inner_name" th:text="${subCategory.name}"></p></div>
 		<ul th:each="product : ${productPage.content}">
 			<li>********************************************</li>
 			<li><a  class="product_name" th:href="@{/product(id=${product.id})}"th:text="${product.name}"></a></li>

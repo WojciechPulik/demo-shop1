@@ -20,7 +20,8 @@ import pl.wpulik.repository.ShipmentRepository;
 @Service
 public class CategoryRepoService {
 	
-	private List<Category> resultList = new ArrayList<>();
+	private List<Category> resultRelatedList = new ArrayList<>();
+	private List<Category> resultNodeList = new ArrayList<>(0);
 	
 	private CategoryRepository categoryRepository;
 	private ShipmentRepository shipmentRepository;
@@ -49,6 +50,19 @@ public class CategoryRepoService {
 	public List<Category> getAllCategories(){
 		return categoryRepository.findAll();
 	}
+	public List<Category> getMainCategories(){
+		return categoryRepository.getAllMainCategories(0L);
+	}
+	
+	public List<Category> getAllCategoriesForCategory(Long categoryId){//TODO check if works well
+		List<Category> resultList = new ArrayList<>();
+		for(Category c : categoryRepository.getAllMainCategories(categoryId)) {
+			if(c.getOverridingCategoryId() != 0)
+				resultList.add(categoryNodes(c));
+		}
+		resultList.forEach(System.out::print);
+		return resultList;
+	}
 	
 	public Page<Product> getAllActiveProductsByCategory(Pageable pageable, Long categoryId){
 		return productRepository.findAllActiveByCategory(pageable, categoryId);
@@ -64,12 +78,35 @@ public class CategoryRepoService {
 	
 	public List<Category> allRelatedCategories(Long categoryId){
 		Category category = categoryRepository.findById(categoryId).get();
-		resultList.add(category);
+		resultRelatedList.add(category);
 		if(category.getOverridingCategoryId() != 0) 
 			allRelatedCategories(category.getOverridingCategoryId()); //Recursion
-		return resultList;
+		return resultRelatedList;
 	}
 	
+	private Category categoryNodes(Category category) {//TODO check if works well; can I make loop easier?
+		resultNodeList.add(category);
+		if(category.getOverridingCategoryId() != 0) 
+			categoryNodes(categoryRepository.findById(category.getOverridingCategoryId()).get()); //Recursion
+		//creating category object with nested higher category objects:
+		int size = resultNodeList.size();
+		Category resultCategory = category;
+		if(category.getOverridingCategoryId() != 0) {
+			resultCategory = resultNodeList.get(size - 2); 
+			resultCategory.setOverridingCategory(resultNodeList.get(size - 1));
+			Category tempCategory = new Category();	
+			if(size >= 3) {
+				for(int i = size - 3; i <= 0 ; i--) {
+					tempCategory = resultNodeList.get(i);
+					tempCategory.setOverridingCategory(resultCategory);
+					resultCategory = tempCategory;		
+				}
+			}
+			System.out.println(resultCategory.getName() + " -> " + resultCategory.getOverridingCategory().getName());
+		}
+		return resultCategory;
+		
+	}
 	
 	
 	

@@ -48,7 +48,7 @@ public class HomeController {
 					.collect(Collectors.toList());
 			model.addAttribute("pageNumbers", pageNumbers);
 		}
-		List<Category> categories = categoryRepoService.getAllCategories();	
+		List<Category> categories = categoryRepoService.getMainCategories();	
 		model.addAttribute("categories", categories);
 		model.addAttribute("addedQuantity", addedQuantity);
 		return "index";

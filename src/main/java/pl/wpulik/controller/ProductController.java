@@ -47,7 +47,7 @@ public class ProductController {
 			@RequestParam(defaultValue="true", required = true) Boolean isAvailable, Model model) {
 		Product product = productRepoService.getById(productId);
 		product.setIsAvailable(isAvailable);
-		List<Category> categories = categoryRepoService.getAllCategories();	
+		List<Category> categories = categoryRepoService.getMainCategories();	
 		Picture picture = pictureService.displayPicture(productId);
 		String url = picture.getUrl();
 		model.addAttribute("url", url);
