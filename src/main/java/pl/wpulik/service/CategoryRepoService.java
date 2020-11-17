@@ -21,7 +21,7 @@ import pl.wpulik.repository.ShipmentRepository;
 public class CategoryRepoService {
 	
 	private List<Category> resultRelatedList = new ArrayList<>();
-	private List<Category> resultNodeList = new ArrayList<>(0);
+	private List<Category> categoriesTree = new ArrayList<>();
 	
 	private CategoryRepository categoryRepository;
 	private ShipmentRepository shipmentRepository;
@@ -38,6 +38,9 @@ public class CategoryRepoService {
 	public CategoryRepoService() {}
 	
 	public Category addCategory(Category category) {
+		Category categoryToSetHaveSubcategory = getById(category.getOverridingCategoryId());
+		categoryToSetHaveSubcategory.setHaveSubcategory(true);
+		categoryRepository.save(categoryToSetHaveSubcategory);
 		categoryRepository.save(category);
 		return category;
 	}
@@ -54,14 +57,15 @@ public class CategoryRepoService {
 		return categoryRepository.getAllMainCategories(0L);
 	}
 	
-	public List<Category> getAllCategoriesForCategory(Long categoryId){//TODO check if works well
-		List<Category> resultList = new ArrayList<>();
-		for(Category c : categoryRepository.getAllMainCategories(categoryId)) {
-			if(c.getOverridingCategoryId() != 0)
-				resultList.add(categoryNodes(c));
+	public List<Category> getCategoriesTreeForCategory(Long categoryId){
+		List <Category> catTree = getCategoriesTree(categoryId);
+		List <Category> reversedCatTree = new ArrayList<>();
+		for(int i = catTree.size() - 1; i >= 0; i--) {
+			reversedCatTree.add(catTree.get(i));
 		}
-		resultList.forEach(System.out::print);
-		return resultList;
+		clearCategoriesTree();
+		return reversedCatTree;
+		
 	}
 	
 	public Page<Product> getAllActiveProductsByCategory(Pageable pageable, Long categoryId){
@@ -73,7 +77,6 @@ public class CategoryRepoService {
 		for(Category cat: categories)
 			shipment.addCategories(cat);
 		shipment = shipmentRepository.save(shipment);
-		System.out.println(shipment.toString());
 	}
 	
 	public List<Category> allRelatedCategories(Long categoryId){
@@ -84,31 +87,23 @@ public class CategoryRepoService {
 		return resultRelatedList;
 	}
 	
-	private Category categoryNodes(Category category) {//TODO check if works well; can I make loop easier?
-		resultNodeList.add(category);
-		if(category.getOverridingCategoryId() != 0) 
-			categoryNodes(categoryRepository.findById(category.getOverridingCategoryId()).get()); //Recursion
-		//creating category object with nested higher category objects:
-		int size = resultNodeList.size();
-		Category resultCategory = category;
-		if(category.getOverridingCategoryId() != 0) {
-			resultCategory = resultNodeList.get(size - 2); 
-			resultCategory.setOverridingCategory(resultNodeList.get(size - 1));
-			Category tempCategory = new Category();	
-			if(size >= 3) {
-				for(int i = size - 3; i <= 0 ; i--) {
-					tempCategory = resultNodeList.get(i);
-					tempCategory.setOverridingCategory(resultCategory);
-					resultCategory = tempCategory;		
-				}
-			}
-			System.out.println(resultCategory.getName() + " -> " + resultCategory.getOverridingCategory().getName());
-		}
-		return resultCategory;
-		
+	private List<Category> getCategoriesTree(Long categoryId){	
+		Category category = getById(categoryId);
+		//if(category.getHaveSubcategory())
+			category.setSubcategories(categoryRepository.getAllMainCategories(categoryId));
+		categoriesTree.add(category);
+		if(category.getOverridingCategoryId() != 0)
+			return getCategoriesTree(category.getOverridingCategoryId()); //Recursion
+		return categoriesTree;
 	}
 	
+	private void clearResultRelatedList() {
+		resultRelatedList = new ArrayList<>();
+	}	
 	
+	private void clearCategoriesTree() {
+		categoriesTree = new ArrayList<>();
+	}
 	
 	
 	

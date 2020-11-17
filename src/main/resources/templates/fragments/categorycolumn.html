@@ -15,25 +15,41 @@
 			<div class="cat-col-list">
 				<ul th:each="category:${categories}">
 					<li><a th:href="@{/category(categoryId=${category.id})}" th:text="${category.name}"></a>
-						<div th:if="${subcategories} != null and ${category.id} == ${subCategory.id}">
-							<ul th:each="category:${subcategories}">
-								<li><a class="subcategory" th:href="@{/category(categoryId=${category.id})}" th:text="${category.name}"></a></li>
+						<div th:if="${categoriesTree} != null and ${category.id} == ${categoriesTree[0].id}">
+							<ul th:each="subcategory1:${categoriesTree[0].subcategories}">
+								<li><a class="subcategory" 
+									th:href="@{/category(categoryId=${subcategory1.id})}"
+									th:text="${subcategory1.name}"></a>
+									
+						            <div th:if="${treeSize} > 1 and ${categoriesTree[1].id} == ${subcategory1.id}"> 
+										<ul th:each="subcategory2:${categoriesTree[1].subcategories}">
+											<li><a class="subcategory" 
+												th:href="@{/category(categoryId=${subcategory2.id})}"
+												th:text="${subcategory2.name}"></a>
+												
+												<div th:if="${treeSize} > 2 and ${categoriesTree[2].id} == ${subcategory2.id}"> 
+													<ul th:each="subcategory3:${categoriesTree[2].subcategories}">
+														<li><a class="subcategory" 
+															th:href="@{/category(categoryId=${subcategory3.id})}"
+															th:text="${subcategory3.name}"></a>
+															
+															<div th:if="${treeSize} > 3 and ${categoriesTree[3].id} == ${subcategory3.id}"> 
+																<ul th:each="subcategory4:${categoriesTree[3].subcategories}">
+																	<li><a class="subcategory" 
+																		th:href="@{/category(categoryId=${subcategory4.id})}"
+																		th:text="${subcategory4.name}"></a>
+																	</li>
+																</ul>
+															</div>
+														</li>
+													</ul>
+												</div>
+											</li>
+										</ul>
+									</div>		
+								</li>
 							</ul>
-							
-						</div>
-						<div th:if="${subcategories} != null and ${subCategory.overridingCategoryId} != 0 
-								and ${subCategory.overridingCategoryId} == ${category.id}">
-							<ul th:each="category:${subcategories}">
-								<li><a class="subcategory" th:href="@{/category(categoryId=${category.id})}"
-									th:text="${category.name}"></a>
-								<div th:if="${subcategories} != null and ${subCategory.overridingCategoryId} != 0 
-										and ${subCategory.overridingCategoryId} == ${category.id}">
-									<ul th:each="category:${subcategories}">
-										<li><a class="subcategory" th:href="@{/category(categoryId=${category.id})}"th:text="${category.name}"></a>
-									</ul>
-								</div>
-							</ul>
-						</div>
+						</div>			
 					</li>
 				</ul>
 			</div>

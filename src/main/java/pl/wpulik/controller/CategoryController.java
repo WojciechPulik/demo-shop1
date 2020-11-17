@@ -1,6 +1,7 @@
 package pl.wpulik.controller;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -42,15 +43,16 @@ public class CategoryController {
 
 	@PostMapping("/addcategory")
 	public String addCategory(@ModelAttribute Category category) {
+		category.setHaveSubcategory(false);
 		categoryRepoService.addCategory(category);
 		return "/admin";
 	}
 
 	@GetMapping("/category")
-	public String categoryProducts(@RequestParam Long categoryId, 
+	public String categoryProducts(@RequestParam Long categoryId,
 			Model model,
-		@RequestParam("page") Optional<Integer> page, 
-		@RequestParam("size") Optional<Integer> size) {
+			@RequestParam("page") Optional<Integer> page, 
+			@RequestParam("size") Optional<Integer> size) {
 	Integer addedQuantity = 0;
 	int currentPage = page.orElse(1);
 	int pageSize = size.orElse(4);
@@ -63,16 +65,16 @@ public class CategoryController {
 				.collect(Collectors.toList());
 		model.addAttribute("pageNumbers", pageNumbers);
 	}
+	Category subCategory = categoryRepoService.getById(categoryId);
 	List<Category> categories = categoryRepoService.getMainCategories();
-	List<Category> subcategories = categoryRepoService.getAllCategoriesForCategory(categoryId);
-	Category category = categoryRepoService.getById(categoryId);
-	if(subcategories.isEmpty())
-		subcategories = categoryRepoService.getAllCategoriesForCategory(category.getOverridingCategoryId());
-	model.addAttribute("subcategories", subcategories);
+	List<Category> categoriesTree = categoryRepoService.getCategoriesTreeForCategory(categoryId);
+	int treeSize = categoriesTree.size();
+	model.addAttribute("treeSize", treeSize);
+	model.addAttribute("subCategory", subCategory);
 	model.addAttribute("categories", categories);
-	model.addAttribute("subCategory", category);
+	model.addAttribute("categoriesTree", categoriesTree);
 	model.addAttribute("addedQuantity", addedQuantity);
-		return "categorycard";
+	return "categorycard";
 	}
 
 }

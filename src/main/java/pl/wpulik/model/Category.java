@@ -27,7 +27,8 @@ public class Category implements Serializable{
 	private Long id;
 	private String name;
 	private String description;
-	private Long overridingCategoryId;		
+	private Long overridingCategoryId;	
+	private Boolean haveSubcategory;
 	@OneToMany(mappedBy = "category", fetch = FetchType.EAGER)
 	private List<Picture> pictures = new ArrayList<>();
 	@ManyToMany(mappedBy = "categories",fetch = FetchType.EAGER)//, cascade = CascadeType.PERSIST)
@@ -36,7 +37,7 @@ public class Category implements Serializable{
 	@ManyToMany(mappedBy = "categories")
 	private List<Product> products = new ArrayList<>();
 	@Transient
-	private Category overridingCategory;
+	private List<Category> subcategories = new ArrayList<>();
 	
 	public Category() {}
 
@@ -82,6 +83,14 @@ public class Category implements Serializable{
 	public void setOverridingCategoryId(Long overridingCategoryId) {
 		this.overridingCategoryId = overridingCategoryId;
 	}
+	
+	public Boolean getHaveSubcategory() {
+		return haveSubcategory;
+	}
+
+	public void setHaveSubcategory(Boolean haveSubcategory) {
+		this.haveSubcategory = haveSubcategory;
+	}
 
 	public List<Picture> getPictures() {
 		return pictures;
@@ -106,19 +115,19 @@ public class Category implements Serializable{
 	public void setProducts(List<Product> products) {
 		this.products = products;
 	}
-	
-	public Category getOverridingCategory() {
-		return overridingCategory;
+
+	public List<Category> getSubcategories() {
+		return subcategories;
 	}
 
-	public void setOverridingCategory(Category overridingCategory) {
-		this.overridingCategory = overridingCategory;
+	public void setSubcategories(List<Category> subcategories) {
+		this.subcategories = subcategories;
 	}
 
 	@Override
 	public String toString() {
-		return "Category [id=" + id + ", name=" + name + ", description=" + description /* + ", subcategories="
-				+ subcategories */ + ", pictures=" + pictures + ", shipments=" + shipments + "]";
+		return "Category [id=" + id + ", name=" + name + ", description=" + description
+				+ ", pictures=" + pictures + ", shipments=" + shipments + "]";
 	}
 
 	@Override
