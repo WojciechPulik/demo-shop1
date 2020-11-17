@@ -89,7 +89,7 @@ public class CategoryRepoService {
 	
 	private List<Category> getCategoriesTree(Long categoryId){	
 		Category category = getById(categoryId);
-		//if(category.getHaveSubcategory())
+		if(category.getHaveSubcategory())
 			category.setSubcategories(categoryRepository.getAllMainCategories(categoryId));
 		categoriesTree.add(category);
 		if(category.getOverridingCategoryId() != 0)
