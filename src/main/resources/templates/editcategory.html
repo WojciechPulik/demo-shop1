@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<link href="/css/index.css" rel="stylesheet" />
+<link href="/css/admin.css" rel="stylesheet" />
+<link href="/css/adminlayout.css" rel="stylesheet" />
+<title>Edytuj kategorię</title>
+</head>
+<body>
+	<div th:insert="fragments/header :: header"></div>
+	<p>
+		<a th:href="@{/}">Powrót do strony głównej</a>
+	</p>
+	<p>
+		<a th:href="@{/admin}">Panel Administracyjny</a>
+	</p>
+	<div class="left">
+		<div class="left-colum-content">
+			<div th:insert="fragments/leftcolumn :: leftcolumn"></div>
+		</div>	
+	</div>
+	<div class="inner">
+	<h2>Zaktualizuj kategorię:</h2>
+	<div class="choice-block">
+		<div class="inner-input-form">
+			<form th:action="@{/categoryedition}" method="post"th:object="${category}">
+				<p>
+					Wybierz kategorię do edycji:
+					<select th:field="${category.id}">
+						<option value="">-------------</option>
+						<option th:each="category:${allCategories}" th:value="${category.id}"
+							th:text="${category.name}"></option>	
+					</select>
+				</p>
+				<p><input class="button-style" type="submit" value="Przejdź do katagorii" /></p>
+			</form>
+		</div>
+	</div>
+	</div>
+</body>
+</html>

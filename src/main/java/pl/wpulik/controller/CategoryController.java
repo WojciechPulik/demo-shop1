@@ -1,7 +1,6 @@
 package pl.wpulik.controller;
 
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -20,17 +19,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 import pl.wpulik.model.Category;
 import pl.wpulik.model.Product;
 import pl.wpulik.service.CategoryRepoService;
+import pl.wpulik.service.CategoryService;
 import pl.wpulik.service.ProductService;
 
 @Controller
 public class CategoryController {
 
 	private CategoryRepoService categoryRepoService;
+	private CategoryService categoryService;
 	private ProductService productService;
 
 	@Autowired
-	public CategoryController(CategoryRepoService categoryRepoService, ProductService productService) {
+	public CategoryController(CategoryRepoService categoryRepoService, CategoryService categoryService, 
+			ProductService productService) {
 		this.categoryRepoService = categoryRepoService;
+		this.categoryService = categoryService;
 		this.productService = productService;
 	}
 
@@ -75,6 +78,29 @@ public class CategoryController {
 	model.addAttribute("categoriesTree", categoriesTree);
 	model.addAttribute("addedQuantity", addedQuantity);
 	return "categorycard";
+	}
+	@GetMapping("/editcategory")
+	public String editCategoryChoice(Model model) {
+		model.addAttribute("allCategories", categoryRepoService.getAllCategories());
+		model.addAttribute("category", new Category());
+		return "editcategory";
+	}
+	
+	@PostMapping("/categoryedition")
+	public String editCategoryForm(@ModelAttribute Category category) {
+		return String.format("redirect:/editcategoryform?categoryId=%d", category.getId());
+	}
+	@GetMapping("/editcategoryform{categoryId}")
+	public String editCategory(Model model, @RequestParam Long categoryId){	
+		model.addAttribute("allCategories", categoryRepoService.getAllCategories());
+		model.addAttribute("category", categoryRepoService.getById(categoryId));
+		return "categoryupdateform";
+	}
+	
+	@PostMapping("/updatecategory")
+	public String updateCategory(@ModelAttribute Category category) {
+		categoryService.categoryMapAndUpdate(category);
+		return "admin";
 	}
 
 }

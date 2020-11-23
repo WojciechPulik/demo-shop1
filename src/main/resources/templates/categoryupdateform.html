@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<link href="/css/index.css" rel="stylesheet" />
+<link href="/css/admin.css" rel="stylesheet" />
+<link href="/css/adminlayout.css" rel="stylesheet" />
+<title>Edytuj kategorię</title>
+</head>
+<body>
+	<div th:insert="fragments/header :: header"></div>
+	<p>
+		<a th:href="@{/}">Powrót do strony głównej</a>
+	</p>
+	<p>
+		<a th:href="@{/admin}">Panel Administracyjny</a>
+	</p>
+	<div class="left">
+		<div class="left-colum-content">
+			<div th:insert="fragments/leftcolumn :: leftcolumn"></div>
+		</div>	
+	</div>
+	<div class="inner">
+	<h2>Zaktualizuj kategorię:</h2>
+	<div class="choice-block">
+		<div class="inner-input-form">
+			<div align="center"><h3 th:text="${category.name}"></h3></div>
+			<div class="text-bold-green"><p th:text="'Id: ' + ${category.id}"></p></div>
+			<form th:action="@{/updatecategory}" method="post"	th:object="${category}">
+				<input type="hidden" th:field="${category.id}" th:value="${category.id}" />			
+				<p>Zmień nazwę:<input type="text" th:field="*{name}" th:text="*{name}" th:value="*{id}"/></p>
+				<p>
+					Opis:
+					<textarea cols="50" rows="4" th:field="*{description}" th:text="*{description}"></textarea>
+				</p>
+				<p>
+					Kategoria nadrzędna:
+					<select th:field="${category.overridingCategoryId}">
+						<option value="">-------------</option>
+						<option th:value="0">USTAW JAKO KATEGORIĘ GŁÓWNĄ</option>
+						<option th:each="overridingCat:${allCategories}" th:value="${overridingCat.id}"
+							th:text="${overridingCat.name}" th:selected="${overridingCat.id} == ${category.overridingCategoryId}"></option>
+					
+					</select>
+				</p>
+				<p>
+					<input class="button-style" type="submit" value="Aktualizuj" />
+				</p>
+			</form>
+		</div>
+	</div>
+	</div>
+</body>
+</html>

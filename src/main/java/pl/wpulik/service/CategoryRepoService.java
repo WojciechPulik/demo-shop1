@@ -87,6 +87,21 @@ public class CategoryRepoService {
 		return resultRelatedList;
 	}
 	
+	public Category updateCategory(Category category) {
+		if(category.getOverridingCategoryId() != 0) {
+			Category categoryToSetHaveSubcategory = getById(category.getOverridingCategoryId());
+			categoryToSetHaveSubcategory.setHaveSubcategory(true);
+			categoryRepository.save(categoryToSetHaveSubcategory);
+		}
+		return categoryRepository.save(category);		
+	}
+	
+	public List<Category> categoriesWithOverridingCategory(Long categoryId){
+		List<Category> resultList = new ArrayList<>();
+		resultList = categoryRepository.getAllMainCategories(categoryId);
+		return resultList;
+	}
+	
 	private List<Category> getCategoriesTree(Long categoryId){	
 		Category category = getById(categoryId);
 		if(category.getHaveSubcategory())
@@ -95,10 +110,6 @@ public class CategoryRepoService {
 		if(category.getOverridingCategoryId() != 0)
 			return getCategoriesTree(category.getOverridingCategoryId()); //Recursion
 		return categoriesTree;
-	}
-	
-	private void clearResultRelatedList() {
-		resultRelatedList = new ArrayList<>();
 	}	
 	
 	private void clearCategoriesTree() {
