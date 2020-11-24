@@ -77,10 +77,17 @@ public class ProductController {
 	@GetMapping("/updateproduct/{prodId}")
 	public String updateProductCard(@PathVariable Long prodId, Model model) {
 		List<Shipment> shipments = shipmentRepoService.getAllShipments();
+		List<Category> categories = categoryRepoService.getAllCategories();
 		Product product = productRepoService.getById(prodId);
 		model.addAttribute("formProduct", product);
 		model.addAttribute("shipment",  new Shipment());
 		model.addAttribute("shipments",  shipments);
+		model.addAttribute("category",  new Category());
+		model.addAttribute("categories",  categories);
+		if(product.getMainCategoryId()!=null)
+			model.addAttribute("mainCategoryName", categoryRepoService.getById(product.getMainCategoryId()).getName());
+		if(product.getMainCategoryId()==null)
+			model.addAttribute("mainCategoryName", "brak kategorii głównej");
 		return "updateproduct";
 	}
 	

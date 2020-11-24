@@ -11,20 +11,25 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import pl.wpulik.model.Category;
 import pl.wpulik.model.Product;
+import pl.wpulik.service.CategoryService;
 import pl.wpulik.service.ProductService;
 
 @Controller 
 public class AdminProductController {
 	
 	private ProductService productService;
+	private CategoryService categoryService;
 	
 	@Autowired
-	public AdminProductController(ProductService productService) {
+	public AdminProductController(ProductService productService, CategoryService categoryService) {
 		this.productService = productService;
+		this.categoryService = categoryService;
 	}
 	
 	
@@ -51,7 +56,23 @@ public class AdminProductController {
 		productService.setProductActiv(isActive, productId);
 		return String.format("redirect:/updateproduct/%d", productId);
 	}
-
 	
+	@PostMapping("/setmaincategory")//TODO
+	public String setMainCategoryForProduct(@RequestParam Long productId, @ModelAttribute Category category) {
+		productService.setMainCategory(productId, category.getId());
+		return String.format("redirect:/updateproduct/%d", productId);
+	}
+	
+	@PostMapping("/setnewcategory")//TODO
+	public String addProductToCategory(@RequestParam Long productId, @ModelAttribute Category category) {
+		productService.setAdditionalCategory(productId, category.getId());
+		return String.format("redirect:/updateproduct/%d", productId);
+	}
+
+	@PostMapping("/removefromcategory")//TODO
+	public String removeProductFromCategory(@RequestParam Long productId, @ModelAttribute Category category) {
+		categoryService.removeFromCategory(productId, category.getId());
+		return String.format("redirect:/updateproduct/%d", productId);
+	}
 
 }

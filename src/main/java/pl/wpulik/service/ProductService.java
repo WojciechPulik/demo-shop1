@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import pl.wpulik.dto.ProductDTO;
+import pl.wpulik.model.Category;
 import pl.wpulik.model.Picture;
 import pl.wpulik.model.Product;
 
@@ -20,17 +21,19 @@ public class ProductService {
 	private ProducerRepoService producerRepoService;
 	private ShipmentRepoService shipmentRepoService;
 	private CategoryRepoService categoryRepoService;
+	private CategoryService categoryService;
 	private ProductRepoService productRepoService;
 	private PictureRepoService pictureRepoService;
 	private PictureService pictureService;
 	
 	@Autowired
 	public ProductService(ProducerRepoService producerRepoService, ShipmentRepoService shipmentRepoService,
-			CategoryRepoService categoryRepoService, ProductRepoService productRepoService, 
+			CategoryRepoService categoryRepoService, CategoryService categoryService, ProductRepoService productRepoService, 
 			PictureRepoService pictureRepoService, PictureService pictureService) {
 		this.producerRepoService = producerRepoService;
 		this.shipmentRepoService = shipmentRepoService;
 		this.categoryRepoService = categoryRepoService;
+		this.categoryService = categoryService;
 		this.productRepoService = productRepoService;
 		this.pictureRepoService = pictureRepoService;
 		this.pictureService = pictureService;
@@ -38,6 +41,7 @@ public class ProductService {
 
 	public ProductService() {}
 	
+	//TODO: refactor this method
 	public Product addNewProduct(Product product, Long producerId, Long categoryId, Long shipmentId, MultipartFile file ) {
 		product.setProducer(producerRepoService.getById(producerId));
 		product.setCategories(categoryRepoService.allRelatedCategories(categoryId));
@@ -67,6 +71,7 @@ public class ProductService {
 	}
 	
 	public Product productMapping(ProductDTO productDto) {
+		System.out.println(productDto.getCategoryId());
 		Product product = new Product();
 		product.setId(productDto.getId());
 		product.setName(productDto.getName());
@@ -74,6 +79,11 @@ public class ProductService {
 		product.setQuantity(productDto.getQuantity());
 		product.setPrice(productDto.getPrice());
 		product.setIndex(productDto.getIndex());
+		if(productDto.getMainCategoryId()==null) {
+			productDto.setMainCategoryId(productDto.getCategoryId());
+		}
+		product.setMainCategoryId(productDto.getMainCategoryId());
+		
 		return product;
 	}
 	
@@ -105,6 +115,26 @@ public class ProductService {
 		String insideWithOut = "%" + phrase + "%";
 		return productRepoService.findByNameFragment(startWithOut, insideWithOut);
 	}
+	
+	public Product setMainCategory(Long productId, Long categoryId) {
+		Product product = productRepoService.getById(productId);
+		List<Category> categories = new ArrayList<>();
+		product.getCategories().forEach(categories::add);
+		for(Category c : categories)
+			categoryService.removeFromCategory(productId, c.getId());
+		product.setMainCategoryId(categoryId);
+		product.setCategories(categoryRepoService.allRelatedCategories(categoryId));
+		categoryRepoService.clearResultReladteList();
+		return productRepoService.updateProduct(product);
+	}
+	
+	public Product setAdditionalCategory(Long productId, Long categoryId) {
+		Product product = productRepoService.getById(productId);
+		Category category = categoryRepoService.getById(categoryId);
+		product.getCategories().add(category);
+		return productRepoService.updateProduct(product);
+	}
+	
 	
 	private Page<Product> setMainPictureInProduct(Pageable pageable, Long categoryId) {
 		List<Product> products = new ArrayList<>();

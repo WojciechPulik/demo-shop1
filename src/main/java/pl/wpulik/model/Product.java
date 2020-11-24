@@ -62,6 +62,7 @@ public class Product implements Serializable{
 			joinColumns = {@JoinColumn(name = "product_id", referencedColumnName="id_product")},
 			inverseJoinColumns = {@JoinColumn(name = "category_id", referencedColumnName="id_category")})
 	private List<Category> categories = new ArrayList<>();
+	private Long mainCategoryId;
 	@OneToMany
 	@JoinColumn(name = "product_id", referencedColumnName = "id_product")
 	private List<Picture> pictures = new ArrayList<>();
@@ -223,6 +224,14 @@ public class Product implements Serializable{
 
 	public void setCategories(List<Category> categories) {
 		this.categories = categories;
+	}
+	
+	public Long getMainCategoryId() {
+		return mainCategoryId;
+	}
+
+	public void setMainCategoryId(Long mainCategoryId) {
+		this.mainCategoryId = mainCategoryId;
 	}
 
 	public List<Picture> getPictures() {

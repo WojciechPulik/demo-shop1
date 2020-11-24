@@ -25,6 +25,7 @@ public class ProductDTO implements Serializable{
 	private Long producerId;
 	private Long shipmentId;
 	private Long categoryId;
+	private Long mainCategoryId;
 	private MultipartFile multipartFile;
 	private List<Producer> producers;
 	private List<Shipment> shipments;
@@ -128,6 +129,14 @@ public class ProductDTO implements Serializable{
 		this.categoryId = categoryId;
 	}	
 	
+	public Long getMainCategoryId() {
+		return mainCategoryId;
+	}
+
+	public void setMainCategoryId(Long mainCategoryId) {
+		this.mainCategoryId = mainCategoryId;
+	}
+
 	public MultipartFile getMultipartFile() {
 		return multipartFile;
 	}

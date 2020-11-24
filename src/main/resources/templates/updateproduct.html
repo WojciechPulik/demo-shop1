@@ -89,6 +89,62 @@
 				</form>
 			</div>
 		</div>
+		<!--  -->
+		<div class="choice-block">
+			<div class="inner-input-form">
+				<h3>Zarządzaj opcjami kategorii:</h3>
+				<p class="text-bold-black" th:text="'Kategorie dla produktu: ' + ${formProduct.name} + ':'">Id produktu: brak </p>
+				<p class="text-bold-green" th:if="${formProduct.mainCategoryId} !=null" th:text="'Kategoria główna produktu: ' + ${mainCategoryName}">Brak kategorii</p>
+				<p class="text-bold-green">Dodatkowe kategorie produktu:</p>
+			
+				<div class="text-bold-green">
+					<ul th:each="cat:${formProduct.categories}">
+						<li th:if="${cat.name}!=${mainCategoryName}" th:text="${cat.name}">Lista kategorii produktu</li>
+					</ul>
+				</div>
+				
+				<form th:action="@{/setmaincategory}" method="post">	
+					<input type="hidden" name="productId" th:value="${formProduct.id}" />	
+					<div th:object="${category}">
+						Zmień kategorię główną: <select th:field="${category.id}">
+							<option value="">-------------</option>
+							<option th:each="category:${categories}" th:value="${category.id}"
+								th:text="${category.name}"></option>
+						</select>
+						<input class="button-style" type="submit" value="Zmień" />
+					</div>
+						<br>
+				</form>
+				<form th:action="@{/setnewcategory}" method="post">	
+					<input type="hidden" name="productId" th:value="${formProduct.id}" />	
+					<div th:object="${category}">
+						Dodaj dodatkową kategorię: <select th:field="${category.id}">
+							<option value="">-------------</option>
+							<option th:each="category:${categories}" th:value="${category.id}"
+								th:text="${category.name}"></option>
+						</select>
+						<input class="button-style" type="submit" value="Dodaj" />
+					</div>
+						<br>
+				</form>
+				<form th:action="@{/removefromcategory}" method="post">	
+					<input type="hidden" name="productId" th:value="${formProduct.id}" />	
+					<div th:object="${category}">
+						Usuń kategorię: <select th:field="${category.id}">
+							<option value="">-------------</option>
+							<option th:each="category:${formProduct.categories}" th:value="${category.id}"
+								th:text="${category.name}"></option>
+						</select>
+						<input class="button-style" type="submit" value="Usuń" />
+					</div>
+						<br>
+				</form>
+				<br>
+			</div>
+		</div>
+		
+		
+		<!--  -->
 		<div class="choice-block">
 			<div class="inner-input-form">
 				<h3>Zarządzaj opcjami dostaw:</h3>

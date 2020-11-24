@@ -102,6 +102,10 @@ public class CategoryRepoService {
 		return resultList;
 	}
 	
+	public void clearResultReladteList() {
+		resultRelatedList = new ArrayList<>();
+	}
+	
 	private List<Category> getCategoriesTree(Long categoryId){	
 		Category category = getById(categoryId);
 		if(category.getHaveSubcategory())

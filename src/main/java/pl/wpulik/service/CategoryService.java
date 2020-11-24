@@ -1,18 +1,23 @@
 package pl.wpulik.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import pl.wpulik.model.Category;
+import pl.wpulik.model.Product;
 
 @Service
 public class CategoryService {
 	
 	private CategoryRepoService categoryRepoService;
+	private ProductRepoService productRepoService;
 
 	@Autowired
-	public CategoryService(CategoryRepoService categoryRepoService) {
+	public CategoryService(CategoryRepoService categoryRepoService, ProductRepoService productRepoService) {
 		this.categoryRepoService = categoryRepoService;
+		this.productRepoService = productRepoService;
 	}
 	
 	public Category categoryMapAndUpdate(Category category) {
@@ -24,6 +29,19 @@ public class CategoryService {
 		Category resultCategory = categoryRepoService.updateCategory(catToUpdate);
 		haveSubCategorySet(category, catToUpdateOverriding);
 		return resultCategory;
+	}
+	
+	public void removeFromCategory(Long productId, Long categoryId) {
+		Product product = productRepoService.getById(productId);
+		Category category = categoryRepoService.getById(categoryId);
+		List<Category> categories = product.getCategories(); 
+		List<Product> products = category.getProducts(); 
+		categories.remove(category);
+		products.remove(product);
+		product.setCategories(categories);
+		category.setProducts(products);
+		productRepoService.updateProduct(product);
+		categoryRepoService.updateCategory(category);
 	}
 	
 	//checks if overriding category has subcategory and then set right value:
