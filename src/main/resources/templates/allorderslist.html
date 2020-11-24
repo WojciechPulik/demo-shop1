@@ -29,7 +29,7 @@
 		</tr>
 		<tr th:each="order : ${orders}"th:object="${order}">
 			<td th:text="*{id}"></td>
-			<td th:text="*{datePurchase}"></td>
+			<td th:text="*{getFormattedPurchaseTime()}"></td>
 			<td th:text="*{user.getFirstName()} + ' ' + *{user.getLastname()}"></td>
 			<td th:text="*{shipment.getName()} + ' '"></td>
 			<td th:text="*{totalPrice}"></td>

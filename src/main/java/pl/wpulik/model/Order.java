@@ -3,6 +3,7 @@ package pl.wpulik.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 
@@ -15,18 +16,19 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
 @Entity(name = "orders")
 public class Order implements Serializable{
+	
 	private static final long serialVersionUID = 1L;
+	@Transient
+	private static final String DATE_FORMAT = "dd-MMM-uuuu hh:mm:ss";
+	@Transient
+	private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern(DATE_FORMAT);
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -75,6 +77,22 @@ public class Order implements Serializable{
 	public void removeProducts(Product product) {
 		this.products.removeIf(next -> next.equals(product));
 		product.getOrders().removeIf(next -> next.equals(this));
+	}
+	
+	public String getFormattedPurchaseTime() {
+		return datePurchase.format(FORMATTER);
+	}
+	
+	public String getFormattedReciveTime() {
+		if(dateRecived!=null)
+			return dateRecived.format(FORMATTER);
+		return "--";
+	}
+	
+	public String getFormattedSentTime() {
+		if(dateSent!=null)
+			return dateSent.format(FORMATTER);
+		return "--";
 	}
 	
 	public Long getId() {

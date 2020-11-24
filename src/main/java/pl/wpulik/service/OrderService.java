@@ -47,6 +47,9 @@ public class OrderService {
 		orderDto.setDatePurchase(order.getDatePurchase());
 		orderDto.setDateRecived(order.getDateRecived());
 		orderDto.setDateSent(order.getDateSent());
+		orderDto.setFormattedPurchaseTime(order.getFormattedPurchaseTime());
+		orderDto.setFormattedReciveTime(order.getFormattedReciveTime());
+		orderDto.setFormattedSentTime(order.getFormattedSentTime());
 		orderDto.setOrderDetails(order.getOrderDetails());
 		orderDto.setUser(order.getUser());
 		orderDto.setShipment(order.getShipment());

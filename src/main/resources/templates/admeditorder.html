@@ -64,6 +64,11 @@
 	</div>
 	<br>
 	<div class="choice-block">
+	
+	<p class="text-bold-black" th:text="'Data złożenia zamówienia: ' + ${order.getFormattedPurchaseTime()}"></p>
+	<p class="text-bold-black" th:text="'Data odbioru zamówienia: ' + ${order.getFormattedReciveTime()}"></p>
+	<p class="text-bold-black" th:text="'Data wysyłki zamówienia: ' + ${order.getFormattedSentTime()}"></p>
+	
 	<div><p>Status:<b><span th:text="${status}"></span></b><p></div>
 	<form th:action="@{/setstatus}" method="post">
 		

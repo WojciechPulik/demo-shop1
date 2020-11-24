@@ -6,7 +6,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import pl.wpulik.model.OrderProduct;
-import pl.wpulik.model.Product;
 import pl.wpulik.model.Shipment;
 import pl.wpulik.model.User;
 
@@ -18,6 +17,9 @@ public class OrderDTO implements Serializable{
 	private LocalDateTime datePurchase;
 	private LocalDateTime dateRecived;
 	private LocalDateTime dateSent;
+	private String formattedPurchaseTime;
+	private String formattedReciveTime;
+	private String formattedSentTime;
 	private String orderDetails;
 	private User user;
 	private Shipment shipment;
@@ -36,6 +38,38 @@ public class OrderDTO implements Serializable{
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+	
+	public List<OrderProduct> getProducts() {
+		return products;
+	}
+
+	public void setProducts(List<OrderProduct> products) {
+		this.products = products;
+	}
+
+	public String getFormattedPurchaseTime() {
+		return formattedPurchaseTime;
+	}
+
+	public void setFormattedPurchaseTime(String formattedPurchaseTime) {
+		this.formattedPurchaseTime = formattedPurchaseTime;
+	}
+
+	public String getFormattedReciveTime() {
+		return formattedReciveTime;
+	}
+
+	public void setFormattedReciveTime(String formattedReciveTime) {
+		this.formattedReciveTime = formattedReciveTime;
+	}
+
+	public String getFormattedSentTime() {
+		return formattedSentTime;
+	}
+
+	public void setFormattedSentTime(String formattedSentTime) {
+		this.formattedSentTime = formattedSentTime;
 	}
 
 	public List<OrderProduct> getOrderProducts() {
