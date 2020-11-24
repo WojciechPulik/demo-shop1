@@ -57,19 +57,19 @@ public class AdminProductController {
 		return String.format("redirect:/updateproduct/%d", productId);
 	}
 	
-	@PostMapping("/setmaincategory")//TODO
+	@PostMapping("/setmaincategory")
 	public String setMainCategoryForProduct(@RequestParam Long productId, @ModelAttribute Category category) {
 		productService.setMainCategory(productId, category.getId());
 		return String.format("redirect:/updateproduct/%d", productId);
 	}
 	
-	@PostMapping("/setnewcategory")//TODO
+	@PostMapping("/setnewcategory")
 	public String addProductToCategory(@RequestParam Long productId, @ModelAttribute Category category) {
 		productService.setAdditionalCategory(productId, category.getId());
 		return String.format("redirect:/updateproduct/%d", productId);
 	}
 
-	@PostMapping("/removefromcategory")//TODO
+	@PostMapping("/removefromcategory")
 	public String removeProductFromCategory(@RequestParam Long productId, @ModelAttribute Category category) {
 		categoryService.removeFromCategory(productId, category.getId());
 		return String.format("redirect:/updateproduct/%d", productId);

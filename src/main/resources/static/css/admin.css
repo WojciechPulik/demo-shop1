@@ -114,10 +114,24 @@ fieldset{
 .text-bold-green{
 	color:#556B2F;
 	font-weight:bold;
+	font-size:18px;
 }
 .text-bold-black{
 	color:black;
 	font-weight:bold;
+}
+.text-bold-white{
+	text-decoration:none;
+	text-align:center;
+	color:white;
+	font-weight:bold;
+}
+.green-background{
+	background-color:#556B2F;
+	border-radius:5px;
+	border: 2px solid #2F4F4F;
+	width:22%;
+	height:26px;	
 }
 
 

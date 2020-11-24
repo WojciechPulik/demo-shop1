@@ -54,8 +54,9 @@
 					</option>
 				</select>
 			</div>
-			<br>
-			<p>Lub dodaj nowego:<a th:href="@{/addproducer}"><button class="button-style" th:type="submit">Nowy producent</button></a></p>
+			
+			<p><a th:href="@{/addproducer}" class="text-bold-green">Lub dodaj nowego producenta</a></p>	
+				
 			<div th:object="${category}">
 				Wybierz kategorię główną produktu: <select
 					th:field="${formProduct.categoryId}">
