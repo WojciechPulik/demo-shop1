@@ -14,24 +14,41 @@
 		<div th:insert="fragments/categorycolumn :: catcol"></div>
 	</div>
 	<div id="inner">
-	<h1 th:text="${product.name}">Nazwa Produktu</h1>
-	<img th:src="@{${url}}" alt="obrazek" width=300>
-	<h3>Opis przedmiotu:</h3>
-	<div class="text_left">
-		<p th:text="${product.description}">Opis produktu</p>
-		<p th:text="'Indeks: ' + ${product.index}">Index</p>
-		<p th:text="'Producent: ' + ${product.producer.name}">Producent</p>
-		<p th:text="'Cena: ' + ${product.price} + ' zł'">Cena</p>
-	</div>
-	<div th:if="${product.quantity} != 0">
-		<form th:action="@{/addtoorder}" method="post">
-			<input type="hidden" name="productId" th:value="${product.id}"/>
-			<p>Ilość: <input type="number" name="addedQuantity"min="0"step="1"/>		
-				<button type="submit" value="Add">Dodaj produkt do koszyka</button>
-			</p>
-		</form>
-	</div>
+		<h1 th:text="${product.name}">Nazwa Produktu</h1>
+		<img th:src="@{${url}}" alt="obrazek" width=300>
+	
+		<div align="center">
+			<div align="center" class="image-list-block">
+				<ul th:each="picture : ${product.pictures}">
+					<li class="image-list">
+						<a th:href="@{/product(id=${product.id}, url=${picture.url})}">
+							<img th:src="@{${picture.url}}"height=70>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	
+		
+		<div class="text_left">
+			<h3 align="center">Opis przedmiotu:</h3>
+			<p th:text="${product.description}">Opis produktu</p>
+			<p th:text="'Indeks: ' + ${product.index}">Index</p>
+			<p th:text="'Producent: ' + ${product.producer.name}">Producent</p>
+			<p th:text="'Cena: ' + ${product.price} + ' zł'">Cena</p>
+		</div>
+		
+		<div th:if="${product.quantity} != 0">
+			<form th:action="@{/addtoorder}" method="post">
+				<input type="hidden" name="productId" th:value="${product.id}"/>
+				<p>Ilość: <input type="number" name="addedQuantity"min="0"step="1"/>		
+					<button type="submit" value="Add">Dodaj produkt do koszyka</button>
+				</p>
+			</form>
+		</div>
+		
 		<div align="center"><p class="red-bold"th:if="${product.quantity}==0" th:text="'Chwilowy brak na stanie!'"></p></div>
+		
 		<div align="center">
 			<p class="red-bold" th:if="${product.isAvailable}==false" 
 				th:text="'Brak produktu w takiej ilości. Dostępna ilość: ' + ${product.quantity}"></p>

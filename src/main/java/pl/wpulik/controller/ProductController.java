@@ -44,12 +44,14 @@ public class ProductController {
 	
 	@GetMapping("/product")
 	public String productCard(@RequestParam(name="id") Long productId, 
-			@RequestParam(defaultValue="true", required = true) Boolean isAvailable, Model model) {
+			@RequestParam(defaultValue="true", required = true) Boolean isAvailable, 
+			@RequestParam(required=false) String url, Model model) {
 		Product product = productRepoService.getById(productId);
 		product.setIsAvailable(isAvailable);
 		List<Category> categories = categoryRepoService.getMainCategories();	
 		Picture picture = pictureService.displayPicture(productId);
-		String url = picture.getUrl();
+		if(url==null)
+			url = picture.getUrl();
 		model.addAttribute("url", url);
 		model.addAttribute("product", product);
 		model.addAttribute("categories", categories);

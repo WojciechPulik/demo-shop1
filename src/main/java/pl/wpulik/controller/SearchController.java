@@ -34,7 +34,7 @@ public class SearchController {
 		this.categoryRepoService = categoryRepoService;
 	}
 
-	@PostMapping("/usersearch")
+	@PostMapping(value="/usersearch", produces="text/plain;charset=UTF-8")
 	public String searchByNameFragment(@ModelAttribute SearchParamDTO searchPhrase, Model model) {
 		model.addAttribute("searchPhrase", searchPhrase);
 		return String.format("redirect:/usersearchresult/searchPhrase=%s/", searchPhrase.getPhrase());

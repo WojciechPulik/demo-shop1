@@ -79,6 +79,7 @@ body{
 	font-size:22;
 }
 .text_left{
+	clear:both;
 	text-align:left;
 	margin:5px;
 }
@@ -86,6 +87,16 @@ img{
 	border:1px solid red;
 	margin:0;
 	margin-top:4px;
+}
+.image-list{
+	float:left;
+	margin-right:10px;
+	width:120px;
+}
+.image-list-block{
+	text-align:center;
+	min-width:50%;
+	min-height:110px;
 }
 .user-form{
 	border:3px solid black;

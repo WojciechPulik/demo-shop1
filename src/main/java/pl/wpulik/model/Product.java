@@ -39,7 +39,6 @@ public class Product implements Serializable{
 	private Double summaryCost;
 	@Transient
 	private Boolean isAvailable;
-	@Transient
 	private String mainPicture;
 	private Double discount;
 	private boolean isActive = false;

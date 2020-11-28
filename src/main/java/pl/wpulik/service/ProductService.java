@@ -123,11 +123,11 @@ public class ProductService {
 		Page<Product> productsPage = new PageImpl<>(products);
 		productsPage = productRepoService.findByNameFragmentPage(pageable, startWithOut, insideWithOut);
 		for(Product p: productsPage) {
-			if(!pictureRepoService.getByProductId(p.getId()).isEmpty()) {				
+			if(p.getMainPicture()==null && !pictureRepoService.getByProductId(p.getId()).isEmpty()) {				
 				p.setMainPicture(pictureRepoService
 						.getByProductId(p.getId())
 						.get(0).getUrl());
-			}else {
+			}else if(p.getMainPicture()==null){
 				p.setMainPicture("images/noimage.jpg");
 			}
 		}
@@ -163,11 +163,11 @@ public class ProductService {
 			productsPage = productRepoService.getAllActiveProducts(pageable);
 		}
 		for(Product p: productsPage) {
-			if(!pictureRepoService.getByProductId(p.getId()).isEmpty()) {				
+			if(p.getMainPicture()==null && !pictureRepoService.getByProductId(p.getId()).isEmpty()) {				
 				p.setMainPicture(pictureRepoService
 						.getByProductId(p.getId())
 						.get(0).getUrl());
-			}else {
+			}else if(p.getMainPicture()==null){
 				p.setMainPicture("images/noimage.jpg");
 			}
 		}
