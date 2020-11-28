@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import pl.wpulik.dto.SearchParamDTO;
 import pl.wpulik.model.Category;
 import pl.wpulik.model.Product;
 import pl.wpulik.service.CategoryRepoService;
@@ -72,11 +73,13 @@ public class CategoryController {
 	List<Category> categories = categoryRepoService.getMainCategories();
 	List<Category> categoriesTree = categoryRepoService.getCategoriesTreeForCategory(categoryId);
 	int treeSize = categoriesTree.size();
+	model.addAttribute("categoryId", categoryId);
 	model.addAttribute("treeSize", treeSize);
 	model.addAttribute("subCategory", subCategory);
 	model.addAttribute("categories", categories);
 	model.addAttribute("categoriesTree", categoriesTree);
 	model.addAttribute("addedQuantity", addedQuantity);
+	model.addAttribute("searchPhraseDto", new SearchParamDTO());
 	return "categorycard";
 	}
 	@GetMapping("/editcategory")

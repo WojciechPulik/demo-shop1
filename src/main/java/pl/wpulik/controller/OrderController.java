@@ -66,7 +66,7 @@ public class OrderController {
 			totalCost = totalCost + orderShipment.getShipmentCost();
 		}
 		totalOrderCost = Math.round(totalCost * 100)/100.0;
-		model.addAttribute("categories", categoryRepoService.getAllCategories());
+		model.addAttribute("categories", categoryRepoService.getMainCategories());
 		model.addAttribute("shipments", shipmentService.orderShipment(products));
 		model.addAttribute("shipment", orderShipment);
 		model.addAttribute("totalCost", totalOrderCost);

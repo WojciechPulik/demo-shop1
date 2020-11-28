@@ -76,6 +76,11 @@ public class ProductRepoService {
 		return productRepository.findByNameFragment(startWith, insideWith);
 		
 	}
+	
+	public Page<Product> findByNameFragmentPage(Pageable pageable, String startWith, String insideWith){
+		return productRepository.findByNameFragmentPage(pageable,startWith, insideWith);
+		
+	}
 	public void removeShipmentFromProduct(Long productId, Long shipmentId) {
 		Product product = productRepository.findById(productId).get();
 		Shipment shipment = shipmentRepository.findById(shipmentId).get();

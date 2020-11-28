@@ -17,9 +17,9 @@ fieldset{
 .choice-block{
 	background-color:#DCDCDC;
 	border: 2px solid #2F4F4F;
-	border-radius:3px;
+	border-radius:5px;
 	width:100%;
-	margin-bottom:10px;
+	margin-bottom:5px;
 }
 .delivery-address{
 	font-size:20;
@@ -30,7 +30,7 @@ fieldset{
 	padding-bottom:10px;
 	font-size:16px;
 	text-align:center;
-	width:40%;
+	width:60%;
 	border:1px solid grey;
 	background-color:#E0FFFF;
 	border-radius:3px;
@@ -52,7 +52,7 @@ fieldset{
 }
 .inner-header{
 	border:2px solid black;
-	border-radius:3px;
+	border-radius:5px;
 	background-color:#E0FFFF;
 	width:100%;
 	margin-bottom:8px;

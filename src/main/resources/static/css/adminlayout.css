@@ -1,8 +1,8 @@
 .left{
 	float:left;
 	width:20%;
-	margin:5px;
-	border:3px solid #2F4F4F;
+	margin:3px;
+	border:2px solid #2F4F4F;
 	border-radius:5px;
 	background-color:#DCDCDC;
 	min-height:800px;
@@ -24,6 +24,6 @@
 .inner{
 	float:left;
 	width:75%;
-	margin:0px;
+	margin:3px;
 	min-height:800px;
 }

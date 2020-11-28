@@ -64,25 +64,26 @@
 	</div>
 	<br>
 	<div class="choice-block">
+		<div class="inner-input-form">
+			<p class="text-bold-black" th:text="'Data złożenia zamówienia: ' + ${order.getFormattedPurchaseTime()}"></p>
+			<p class="text-bold-black" th:text="'Data odbioru zamówienia: ' + ${order.getFormattedReciveTime()}"></p>
+			<p class="text-bold-black" th:text="'Data wysyłki zamówienia: ' + ${order.getFormattedSentTime()}"></p>
 	
-	<p class="text-bold-black" th:text="'Data złożenia zamówienia: ' + ${order.getFormattedPurchaseTime()}"></p>
-	<p class="text-bold-black" th:text="'Data odbioru zamówienia: ' + ${order.getFormattedReciveTime()}"></p>
-	<p class="text-bold-black" th:text="'Data wysyłki zamówienia: ' + ${order.getFormattedSentTime()}"></p>
-	
-	<div><p>Status:<b><span th:text="${status}"></span></b><p></div>
-	<form th:action="@{/setstatus}" method="post">
+			<div><p>Status:<b><span th:text="${status}"></span></b><p></div>
+			<form th:action="@{/setstatus}" method="post">
 		
-		<div th:object="${orderStatus}">Zmień status zamówienia:
-		<select th:field="${formOrderStatus.orderStatusId}">
-			<option value="">-------------</option>
-			<option th:each="orderStatus : ${formOrderStatus.statusList}"
-					th:value="${orderStatus.id}"
-					th:text="${orderStatus.name}">Status</option>
-		</select>	
-		<input type="hidden" name="orderId" th:value="${orderStatus.orderId}"/>
-		<input class="button-style" type="submit"value="Zmień Status"/>
-		</div>
-	</form>
+				<div th:object="${orderStatus}">Zmień status zamówienia:
+				<select th:field="${formOrderStatus.orderStatusId}">
+					<option value="">-------------</option>
+					<option th:each="orderStatus : ${formOrderStatus.statusList}"
+							th:value="${orderStatus.id}"
+							th:text="${orderStatus.name}">Status</option>
+				</select>	
+				<input type="hidden" name="orderId" th:value="${orderStatus.orderId}"/>
+				<input class="button-style" type="submit"value="Zmień Status"/>
+				</div>
+			</form>
+		</div>	
 	</div>
 	
 	<div class="choice-block">

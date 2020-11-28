@@ -11,6 +11,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import pl.wpulik.dto.SearchParamDTO;
@@ -20,27 +23,32 @@ import pl.wpulik.service.CategoryRepoService;
 import pl.wpulik.service.ProductService;
 
 @Controller
-public class HomeController {
+public class SearchController {
 	
 	private ProductService productService;
 	private CategoryRepoService categoryRepoService;
 	
 	@Autowired
-	public HomeController(ProductService productService, CategoryRepoService categoryRepoService) {
+	public SearchController(ProductService productService, CategoryRepoService categoryRepoService) {
 		this.productService = productService;
 		this.categoryRepoService = categoryRepoService;
 	}
+
+	@PostMapping("/usersearch")
+	public String searchByNameFragment(@ModelAttribute SearchParamDTO searchPhrase, Model model) {
+		model.addAttribute("searchPhrase", searchPhrase);
+		return String.format("redirect:/usersearchresult/searchPhrase=%s/", searchPhrase.getPhrase());
+	}
 	
-	@GetMapping("/")
-	public String home (Model model, 
+	@GetMapping("/usersearchresult/searchPhrase={searchPhrase}/")
+	public String resultByNameFragmentPage (Model model, @PathVariable String searchPhrase,
 			@RequestParam("page") Optional<Integer> page, 
 			@RequestParam("size") Optional<Integer> size) {
 		Integer addedQuantity = 0;
-		Long categoryId = null;
 		int currentPage = page.orElse(1);
 		int pageSize = size.orElse(4);
-		Page<Product> productPage = productService.findPaginatedProducts(
-				PageRequest.of(currentPage - 1, pageSize), categoryId);
+		Page<Product> productPage = productService.findByNameFragmentPage(
+				PageRequest.of(currentPage - 1, pageSize), searchPhrase);
 		model.addAttribute("productPage", productPage);
 		int totalPages = productPage.getTotalPages();
 		if(totalPages > 0) {
@@ -52,9 +60,9 @@ public class HomeController {
 		List<Category> categories = categoryRepoService.getMainCategories();	
 		model.addAttribute("categories", categories);
 		model.addAttribute("addedQuantity", addedQuantity);
-		model.addAttribute("searchPhrase", new SearchParamDTO());
-		return "index";
+		model.addAttribute("searchPhrase", searchPhrase);
+		model.addAttribute("searchPhraseDto", new SearchParamDTO());
+		return "searchresult";
 	}
-	
 
 }

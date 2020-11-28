@@ -1,16 +1,24 @@
 #center{
 	text-align:center;
 }
-.inner{
-	width:60%;
-	margin:8px;
-	text-align:center;
-	align:center;
-	border:1px solid black;
+.left-card{
+	clear:both;
+	float:left;
+	width:25%;
+	margin:2px;
+	padding:0px;
+	border:2px solid #2F4F4F;
 	border-radius:5px;
-	min-height:800px;
 	background-color:#F0FFFF;
-	font-family:'Copperplate Gothic Light';
+	min-height:800px;
+	
+}
+.inner-card{
+	float:left;
+	width:70%;
+	margin:2px;
+	text-align:center;
+	min-height:800px;
 }
 table{
 	background-color:#F0FFFF;

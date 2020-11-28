@@ -15,17 +15,19 @@
 	<p>
 		<a th:href="@{/admin}">Panel Administracyjny</a>
 	</p>
+	
 	<div class="left">
 		<div class="left-colum-content">
 			<div th:insert="fragments/leftcolumn :: leftcolumn"></div>
 		</div>
 	</div>
-	<div class="inner">
-		<div align="center">
-			<div class="text-product-name"><p th:text="${formProduct.name}">Produkt</p></div>
-		</div>
-		<h3 align="center">Zaktualizuj dane produktu:</h3>
+	
+	<div class="inner">	
 		<div class="choice-block">
+			<h3 align="center">Zaktualizuj dane produktu:</h3>
+			<div align="center">
+				<div class="text-product-name"><p th:text="${formProduct.name}">Produkt</p></div>
+			</div>
 			<div align="center">
 				<p class= "active-product-text" th:classappend="${formProduct.isActive()} ? 'true' : 'false'"
 					th:text="${formProduct.isActive()} ? 'Produkt aktywny!' : 'Produkt niekatywny!'"></p>

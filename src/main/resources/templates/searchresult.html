@@ -5,13 +5,13 @@
 <link href="/css/index.css" rel="stylesheet"/>
 <link href="/css/admin.css" rel="stylesheet"/>
 <link href="/css/adminlayout.css" rel="stylesheet"/>
-<title th:text="${subCategory.name}"></title>
+<title>Wynik wyszukiwania</title>
 </head>
 <body>
 	<div th:insert="fragments/header :: header"></div>
 	<div class="main-buttons-block">
-		<div class="main-buttons"><p><a th:href="@{/}">Strona główna</a></p></div>
 		<div class="main-buttons"><p><a th:href="@{/shoppingcard}">Twój koszyk</a></p></div>
+		<div class="main-buttons"><p><a th:href="@{/admin}">Panel administratora</a></p></div>
 	</div>
 	<div id="left">
 		<div th:insert="fragments/categorycolumn :: catcol"></div>
@@ -24,11 +24,10 @@
 				<input class="button-style" type="submit"value="Wyszukaj"/>
 			</form>
 		</div>
-		<div align="center"><p class="category_inner_name" th:text="${subCategory.name}"></p></div>
 		<ul th:each="product : ${productPage.content}">
 			<li>********************************************</li>
 			<li><a  class="product_name" th:href="@{/product(id=${product.id})}"th:text="${product.name}"></a></li>
-			<li><img th:src="@{${product.mainPicture}}"width=100></li>
+			<li><img th:src="'/'+@{${product.mainPicture}}"width=100></li>
 			<li class="red-bold" th:if="${product.quantity} == 0" th:text="'Produkt niedostępny!'"></li>
 			<li th:text="'Indeks: ' + ${product.index}">Index produktu</li>
 			<li th:text="'Cena: ' + ${product.price} + ' zł'">Cena produktu</li>
@@ -37,8 +36,9 @@
 			</li>
 		</ul>
 		<div th:if="${productPage.totalPages > 0}" class="pagination" 
-			th:each="pageNumber : ${pageNumbers}">
-			<a th:href="@{/category(categoryId=${categoryId}, size=${productPage.size}, page=${pageNumber})}" 
+			th:each="pageNumber : ${pageNumbers}"> 
+			<a th:href="@{/usersearchresult/searchPhrase={searchPhrase}/
+					(searchPhrase=${searchPhrase}, size=${productPage.size}, page=${pageNumber})}" 
 				th:text="${pageNumber}"
 				th:class="${pageNumber==productPage.number + 1} ? active"></a>		
 		</div>

@@ -116,6 +116,24 @@ public class ProductService {
 		return productRepoService.findByNameFragment(startWithOut, insideWithOut);
 	}
 	
+	public Page<Product> findByNameFragmentPage(Pageable pageable, String phrase){
+		String startWithOut = phrase + "%";
+		String insideWithOut = "%" + phrase + "%";
+		List<Product> products = new ArrayList<>();
+		Page<Product> productsPage = new PageImpl<>(products);
+		productsPage = productRepoService.findByNameFragmentPage(pageable, startWithOut, insideWithOut);
+		for(Product p: productsPage) {
+			if(!pictureRepoService.getByProductId(p.getId()).isEmpty()) {				
+				p.setMainPicture(pictureRepoService
+						.getByProductId(p.getId())
+						.get(0).getUrl());
+			}else {
+				p.setMainPicture("images/noimage.jpg");
+			}
+		}
+		return productsPage;
+	}
+	
 	public Product setMainCategory(Long productId, Long categoryId) {
 		Product product = productRepoService.getById(productId);
 		List<Category> categories = new ArrayList<>();
