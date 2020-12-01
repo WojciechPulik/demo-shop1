@@ -8,17 +8,21 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import pl.wpulik.model.Picture;
+import pl.wpulik.model.Product;
 import pl.wpulik.utils.FileStorageService;
 
 @Service
 public class PictureService {
 	
 	private PictureRepoService pictureRepoService;
+	private ProductRepoService productRepoService;
 	private FileStorageService fileStorageService;
 	
 	@Autowired
-	public PictureService(PictureRepoService pictureRepoService, FileStorageService fileStorageService) {
+	public PictureService(PictureRepoService pictureRepoService, ProductRepoService productRepoService, 
+			FileStorageService fileStorageService) {
 		this.pictureRepoService = pictureRepoService;
+		this.productRepoService = productRepoService;
 		this.fileStorageService = fileStorageService;
 	}
 
@@ -38,5 +42,12 @@ public class PictureService {
 		picture.setName(file.getOriginalFilename());
 		picture.setUrl("images/" + fileUuidName);
 		return pictureRepoService.addPicture(picture);
+	}
+	
+	public Product changeMainPictureForProduct(Long productId, Long pictureId) {
+		Product product = productRepoService.getById(productId);
+		Picture picture = pictureRepoService.getById(pictureId);
+		product.setMainPicture(picture.getUrl());
+		return productRepoService.updateProduct(product);
 	}
 }

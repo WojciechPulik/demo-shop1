@@ -50,8 +50,10 @@ public class ProductController {
 		product.setIsAvailable(isAvailable);
 		List<Category> categories = categoryRepoService.getMainCategories();	
 		Picture picture = pictureService.displayPicture(productId);
-		if(url==null)
+		if(url==null && product.getMainPicture()==null)
 			url = picture.getUrl();
+		if(url==null && product.getMainPicture()!=null)
+			url = product.getMainPicture();
 		model.addAttribute("url", url);
 		model.addAttribute("product", product);
 		model.addAttribute("categories", categories);
@@ -86,6 +88,7 @@ public class ProductController {
 		model.addAttribute("shipments",  shipments);
 		model.addAttribute("category",  new Category());
 		model.addAttribute("categories",  categories);
+		model.addAttribute("picture",  new Picture());
 		if(product.getMainCategoryId()!=null)
 			model.addAttribute("mainCategoryName", categoryRepoService.getById(product.getMainCategoryId()).getName());
 		if(product.getMainCategoryId()==null)

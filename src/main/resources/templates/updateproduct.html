@@ -64,6 +64,32 @@
 		</div>
 		<div class="choice-block">
 			<div class="inner-input-form">
+				<h3 align="center">Zdjęcia produktu:</h3>
+				<div class="image-radio-list">
+					<form th:action="@{/productimagesupdate}" method="post" th:object="${picture}">
+						<ul>
+							<li class="image-radio-element" th:each="picture : ${formProduct.pictures}">
+								<input type="radio" th:field="${picture.id}" th:value="${picture.id}">
+									<label th:for="${picture.id}">
+										<img th:src="'/' + @{${picture.url}}" height=60>
+									</label>
+							</li>
+						</ul>
+					<input type="hidden" name="productId" th:value="${formProduct.id}"/>
+					<div class="button-float-clear">
+						<p>Ustaw jako zdjęcie główne:
+							<button class="button-style" type="submit" name="action" value="setMain">Ustaw</button>
+						</p>
+						<p>Usuń zdjęcie z produktu:
+							<button class="button-style" type="submit" name="action" value="remove">Usuń</button>
+						</p>
+					</div>
+				</form>
+				</div>
+			</div>
+		</div>
+		<div class="choice-block">
+			<div class="inner-input-form">
 				<form th:action="@{/updateProd}" method="post">
 					<input type="hidden" th:field="${formProduct.id}" />
 					<p>

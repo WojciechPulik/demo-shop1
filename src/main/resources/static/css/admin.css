@@ -75,6 +75,10 @@ fieldset{
 	border: 2px solid #8B0000;
 	color:white;
 	font-weight:bold;
+	
+}
+.button-float-clear{
+	clear:both;
 }
 .text-product-name{
 	font-size:20px;
@@ -132,6 +136,14 @@ fieldset{
 	border: 2px solid #2F4F4F;
 	width:22%;
 	height:26px;	
+}
+.image-radio-list{
+	min-height:130px;
+}
+.image-radio-element{
+	float:left;
+	width:160px;
+	height:160px;
 }
 
 
