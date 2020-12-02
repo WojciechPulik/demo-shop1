@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import pl.wpulik.model.Picture;
+import pl.wpulik.service.PictureRepoService;
 import pl.wpulik.service.PictureService;
 import pl.wpulik.service.ProductService;
 
@@ -14,12 +15,12 @@ import pl.wpulik.service.ProductService;
 public class PictureController {
 	
 	private PictureService pictureService;
-	private ProductService productService;
+	private PictureRepoService pictureRepoService;
 	
 	@Autowired
-	public PictureController(PictureService pictureService, ProductService productService) {
+	public PictureController(PictureService pictureService, PictureRepoService pictureRepoService) {
 		this.pictureService = pictureService;
-		this.productService = productService;
+		this.pictureRepoService = pictureRepoService;
 	}
 	
 	@PostMapping(value="/productimagesupdate", params="action=setMain")
@@ -30,6 +31,7 @@ public class PictureController {
 	
 	@PostMapping(value="/productimagesupdate", params="action=remove")
 	public String removePictureFromProduct(@ModelAttribute Picture picture, @RequestParam Long productId) {
+		pictureService.removePictureFromProduct(picture.getId(), productId);
 		return String.format("redirect:/updateproduct/%d", productId);
 	}
 	

@@ -7,17 +7,21 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import pl.wpulik.model.Picture;
+import pl.wpulik.model.Product;
 import pl.wpulik.repository.PictureRepository;
+import pl.wpulik.repository.ProductRepository;
 
 @Transactional
 @Service
 public class PictureRepoService {
 	
 	private PictureRepository pictureRepository;
+	private ProductRepository productRepository;
 	
 	@Autowired
-	public PictureRepoService(PictureRepository pictureRepository) {
+	public PictureRepoService(PictureRepository pictureRepository, ProductRepository productRepository) {
 		this.pictureRepository = pictureRepository;
+		this.productRepository = productRepository;
 	}
 	
 	public Picture getById(Long id) {
@@ -28,6 +32,10 @@ public class PictureRepoService {
 	public Picture addPicture(Picture picture) {
 		pictureRepository.save(picture);
 		return picture;		
+	}
+	
+	public void removePictureById(Long pictureId) {
+		pictureRepository.deleteById(pictureId);
 	}
 	
 	public List<Picture> getByProductId(Long productId){
