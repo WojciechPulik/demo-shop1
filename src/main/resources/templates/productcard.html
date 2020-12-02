@@ -21,7 +21,7 @@
 			<div align="center" class="image-list-block">
 				<ul th:each="picture : ${product.pictures}">
 					<li class="image-list">
-						<a th:href="@{/product(id=${product.id}, url=${picture.url})}">
+						<a th:href="@{/product(id=${product.id}, url=${picture.url}, categoryId=${categoryId})}">
 							<img th:src="@{${picture.url}}"height=70>
 						</a>
 					</li>

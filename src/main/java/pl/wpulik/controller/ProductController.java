@@ -45,10 +45,21 @@ public class ProductController {
 	@GetMapping("/product")
 	public String productCard(@RequestParam(name="id") Long productId, 
 			@RequestParam(defaultValue="true", required = true) Boolean isAvailable, 
-			@RequestParam(required=false) String url, Model model) {
+			@RequestParam(required=false) String url,
+			@RequestParam(required=false) Long categoryId, Model model) {
 		Product product = productRepoService.getById(productId);
 		product.setIsAvailable(isAvailable);
-		List<Category> categories = categoryRepoService.getMainCategories();	
+		List<Category> categories = categoryRepoService.getMainCategories();
+		model.addAttribute("categories", categories);
+		if(categoryId!=null) {
+			Category subCategory = categoryRepoService.getById(categoryId);
+			List<Category> categoriesTree = categoryRepoService.getCategoriesTreeForCategory(categoryId);
+			int treeSize = categoriesTree.size();
+			model.addAttribute("categoryId", categoryId);
+			model.addAttribute("treeSize", treeSize);
+			model.addAttribute("subCategory", subCategory);
+			model.addAttribute("categoriesTree", categoriesTree);
+		}
 		Picture picture = pictureService.displayPicture(productId);
 		if(url==null && product.getMainPicture()==null)
 			url = picture.getUrl();
@@ -56,7 +67,6 @@ public class ProductController {
 			url = product.getMainPicture();
 		model.addAttribute("url", url);
 		model.addAttribute("product", product);
-		model.addAttribute("categories", categories);
 		return "productcard";
 	}
 	
