@@ -15,8 +15,12 @@
 	</div>
 	<div id="inner">
 		<h1 th:text="${product.name}">Nazwa Produktu</h1>
-		<img th:src="@{${url}}" alt="obrazek" width=300>
-	
+		
+		<a target="popup" th:href="@{/bigpicture(url=${url}, productName=${product.name})}"
+				th:onclick="window.open(/*[[@{/bigpicture(url=${url}, productName=${product.name})}]]*/
+				, '').focus(); return false">
+			<img th:src="@{${url}}" alt="obrazek" width=300>
+		</a>
 		<div align="center">
 			<div align="center" class="image-list-block">
 				<ul th:each="picture : ${product.pictures}">
