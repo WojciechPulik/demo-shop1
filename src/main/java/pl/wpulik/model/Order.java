@@ -52,6 +52,7 @@ public class Order implements Serializable{
 	private boolean isCashOnDelivery = false;
 	private boolean isPayed = false;
 	private boolean isSent = false;
+	private boolean isCanceled = false;
 	private Double totalPrice;
 	@OneToOne
 	private Address address;
@@ -167,6 +168,14 @@ public class Order implements Serializable{
 		this.isSent = isSent;
 	}
 	
+	public boolean isCanceled() {
+		return isCanceled;
+	}
+
+	public void setCanceled(boolean isCanceled) {
+		this.isCanceled = isCanceled;
+	}
+
 	public Double getTotalPrice() {
 		return totalPrice;
 	}

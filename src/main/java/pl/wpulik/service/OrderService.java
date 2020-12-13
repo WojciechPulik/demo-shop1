@@ -66,6 +66,7 @@ public class OrderService {
 		statuses.add(new StatusDTO(1L, "new", "Złożone"));
 		statuses.add(new StatusDTO(2L, "recived", "Odebrane"));
 		statuses.add(new StatusDTO(3L, "sent", "Wysłane"));
+		statuses.add(new StatusDTO(4L, "canceled", "Anuluj Zamówienie"));
 		OrderStatusDTO orderStatus = new OrderStatusDTO();
 		orderStatus.setStatusList(statuses);
 		return orderStatus;
@@ -85,6 +86,8 @@ public class OrderService {
 			return "Odebrane";
 		if(order.isSent())
 			return "Wysłane";
+		if(order.isCanceled())
+			return "Anulowane";
 		return "Złożone";
 		
 	}
@@ -93,16 +96,24 @@ public class OrderService {
 		if(status.equals("new")) {
 			order.setRecieved(false);
 			order.setSent(false);
+			order.setCanceled(false);
 		}
 		if(status.equals("recived")) {
 			order.setRecieved(true);
 			order.setSent(false);
+			order.setCanceled(false);
 			order.setDateRecived(LocalDateTime.now());
 		}
 		if(status.equals("sent")) {
 			order.setRecieved(false);
 			order.setSent(true);
+			order.setCanceled(false);
 			order.setDateSent(LocalDateTime.now());
+		}
+		if(status.equals("canceled")) {
+			order.setRecieved(false);
+			order.setSent(false);
+			order.setCanceled(true);
 		}
 		return order;
 	}
