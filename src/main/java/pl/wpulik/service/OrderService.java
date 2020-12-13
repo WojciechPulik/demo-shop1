@@ -57,6 +57,7 @@ public class OrderService {
 		orderDto.setCashOnDelivery(order.isCashOnDelivery());
 		orderDto.setPayed(order.isPayed());
 		orderDto.setSent(order.isSent());
+		orderDto.setCanceled(order.isCanceled());
 		orderDto.setTotalPrice(order.getTotalPrice());
 		orderDto.setStatus(status(order.getId()));		
 		return orderDto;

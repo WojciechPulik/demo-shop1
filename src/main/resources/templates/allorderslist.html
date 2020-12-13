@@ -27,13 +27,13 @@
 			<th>Status</th>
 			<th>Edytuj</th>
 		</tr>
-		<tr th:each="order : ${orders}"th:object="${order}">
+		<tr th:each="order : ${orders}"th:object="${order}" class="canceled-row" th:classappend="*{isCanceled()} ? 'true' : 'false'" >
 			<td th:text="*{id}"></td>
 			<td th:text="*{getFormattedPurchaseTime()}"></td>
 			<td th:text="*{user.getFirstName()} + ' ' + *{user.getLastname()}"></td>
 			<td th:text="*{shipment.getName()} + ' '"></td>
 			<td th:text="*{totalPrice}"></td>
-			<td th:text="*{status}"></td>
+			<td th:text="*{status}" class="canceled-field" th:classappend="*{isCanceled()} ? 'true' : 'false'"></td>
 			<td><a th:href="@{/editorder(orderId=*{id})}"><button class="button-style" th:type="submit">Edytuj</button></a></td>
 		</tr>
 	</table>

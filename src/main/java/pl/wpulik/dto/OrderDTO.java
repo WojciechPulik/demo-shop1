@@ -27,6 +27,7 @@ public class OrderDTO implements Serializable{
 	private boolean isCashOnDelivery = false;
 	private boolean isPayed = false;
 	private boolean isSent = false;
+	private boolean isCanceled = false;
 	private Double totalPrice;
 	private String status;
 	
@@ -158,6 +159,15 @@ public class OrderDTO implements Serializable{
 
 	public void setSent(boolean isSent) {
 		this.isSent = isSent;
+	}
+	
+	
+	public boolean isCanceled() {
+		return isCanceled;
+	}
+
+	public void setCanceled(boolean isCanceled) {
+		this.isCanceled = isCanceled;
 	}
 
 	public Double getTotalPrice() {
