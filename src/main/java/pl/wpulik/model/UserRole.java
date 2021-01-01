@@ -22,7 +22,18 @@ public class UserRole {
 	@OneToMany(mappedBy = "role")
 	private List<User> users = new ArrayList<>();
 	
+	public UserRole() {}
 	
+	private UserRole(Long id, String role, String description) {
+		this.id = id;
+		this.role = role;
+		this.description = description;
+	}
+/*
+	public static UserRole setRoleAsUSER() {
+		return new UserRole(1L, "USER", "zwykły użytkownik");
+	}
+*/	
 	public List<User> getUsers() {
 		return users;
 	}

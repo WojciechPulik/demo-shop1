@@ -24,8 +24,8 @@ public class AddressRepoService {
 	}
 	
 	public Address addAddress(Address address) {
-		Address addressToSave = addresRepository.save(address);
-		return addressToSave;
+		return addresRepository.save(address);
+		
 	}
 	
 	

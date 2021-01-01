@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<link href="/css/index.css" rel="stylesheet" />
+<link href="/css/admin.css" rel="stylesheet" />
+<link href="/css/adminlayout.css" rel="stylesheet" />
+<title>Dodaj produkt</title>
+</head>
+<body>
+	<div th:insert="fragments/header :: header"></div>
+	<p>
+		<a th:href="@{/}">Powrót do strony głównej</a>
+	</p>
+	<div class="left">
+		<div class="left-colum-content">
+			<div th:insert="fragments/leftcolumn :: leftcolumn"></div>
+		</div>	
+	</div>
+	<div class="inner">
+	<h3>Dodaj produkt do sklepu:</h3>
+	<div class="choice-block">
+		<div class="inner-input-form">
+		<form th:action="@{/register}" method="post">
+			<p>
+				Imię: <input type="text" th:field="${registDto.firstName}" />
+			</p>
+			<p>
+				Nazwisko: <input type="text" th:field="${registDto.lastname}" />
+			</p>
+			<p>
+				E-mail: <input type="email" th:field="${registDto.email}" />
+			</p>
+			<div th:object="${registDto}">
+				Wybierz płeć:
+				<select th:field="${registDto.gender}">
+					<option value="">-------------</option>
+					<option th:each="gender:${T(pl.wpulik.model.Gender).values()}"
+						th:value="${gender}" th:field="${registDto.gender}" th:text="${gender.displayValue}"></option>	
+				</select>	
+			</div>
+			<p>
+				Nr telefonu: <input type="number" th:field="${registDto.address.phoneNumber}" />
+			</p>
+		
+			<p><b>Adres:</b></p>
+			<p>
+				Ulica: <input type="text" th:field="${registDto.address.street}" />
+				Nr: <input type="text" th:field="${registDto.address.buildingNumber}" />
+			</p>
+			<p>
+				Miejscowość: <input type="text" th:field="${registDto.address.city}" />
+				<!-- Create regex validation for postal code -->
+				Kod pocztowy: <input type="text" th:field="${registDto.address.zipCode}" />
+			</p>
+			
+			<p>
+				Hasło: <input type="password" th:field="${registDto.password}" />
+			</p>
+			<p>
+				<input class="button-style" type="submit" value="Zarejestruj się" />
+			</p>
+		</form>
+		</div>
+	</div>
+	</div>
+</body>
+</html>
