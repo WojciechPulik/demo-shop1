@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"/>
+<link href="/css/index.css" rel="stylesheet"/>
+<link href="/css/admin.css" rel="stylesheet"/>
+<link href="/css/adminlayout.css" rel="stylesheet"/>
+</head>
+<body>
+	<header th:fragment="leftusercolumn">
+		<div class="left-column-list">
+			<p><a th:href="@{/registration}">Zarejestruj się!</a></p><!-- move to main view -->
+			<p><a th:href="@{/userdetails}">Dane użytkownika</a></p>
+			<p><a th:href="@{/userdetailsedit}">Zmień dane użytkownika</a></p>
+			<p><a th:href="@{/userorders}">Zamówienia</a></p>
+		</div>
+	</header>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<link href="/css/index.css" rel="stylesheet" />
+<link href="/css/admin.css" rel="stylesheet" />
+<link href="/css/adminlayout.css" rel="stylesheet" />
+<title>Panel użytkownika</title>
+</head>
+<body>
+	<div th:insert="fragments/header :: header"></div>
+	<p>
+		<a th:href="@{/}">Powrót do strony głównej</a>
+	</p>
+	<div class="left">
+		<div class="left-colum-content">
+			<div th:insert="fragments/leftusercolumn :: leftusercolumn"></div>
+		</div>	
+	</div>
+	
+	<div class="inner">
+		<h2 align="center">Dane użytkownika</h2>
+		<div align="center" >
+			<div class="user-form">
+				<div align="left" class="user-form-inside">
+					<div class="text-bold-green">
+						<p th:text="'ID uzytkownika: '+ ${userDto.id}"></p>
+						<p th:text="'Imię: '+ ${userDto.firstName}"></p>
+						<p th:text="'Nazwisko: '+ ${userDto.lastname}"></p>
+						<p th:text="'Płeć: '+ ${userDto.gender.displayValue}"></p>
+						<p th:text="'e-mail: '+ ${userDto.email}"></p>
+						<p th:text="'Nr telefonu: '+ ${userDto.address.phoneNumber}"></p>
+						<p th:text="'Przyznany rabat: '+ ${userDto.discount} + '%'"></p>
+						<p class="text-bold-black">Adres:</p>
+						<p th:text="${userDto.address.street} + ' ' + ${userDto.address.buildingNumber}"></p>
+						<p th:text="${userDto.address.zipCode} + ' ' + ${userDto.address.city}"></p>
+					</div>
+				</div>
+			</div>
+		</div>		
+	</div>
+		
+</body>
+</html>

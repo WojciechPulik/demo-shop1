@@ -108,7 +108,7 @@ public class OrderController {
 	public String sendOrder(@ModelAttribute Order order, Model model) {
 		model.addAttribute("order",order);	
 		User user = new User();
-		user = userService.getById(1L);
+		user = userService.getById(1L);//TODO: default user for guest, registered user for logged user
 		order.setUser(user);
 		order.setTotalPrice(totalOrderCost);
 		order.setShipment(orderShipment);

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<link href="/css/index.css" rel="stylesheet" />
+<link href="/css/admin.css" rel="stylesheet" />
+<link href="/css/adminlayout.css" rel="stylesheet" />
+<title>Panel użytkownika</title>
+</head>
+<body>
+	<div th:insert="fragments/header :: header"></div>
+	<p>
+		<a th:href="@{/}">Powrót do strony głównej</a>
+	</p>
+	<div class="left">
+		<div class="left-colum-content">
+			<div th:insert="fragments/leftusercolumn :: leftusercolumn"></div>
+		</div>	
+	</div>
+	
+	<div class="inner">
+		<h2 align="center">Dane użytkownika</h2>
+		<div align="center" >
+			<div class="user-form">
+				<div align="left" class="user-form-inside">
+					<form th:action="@{/updateuser}"method="post">
+						<p th:text="'ID uzytkownika: '+ ${userDto.id}"></p>
+						<p>Imię:<input type="text" th:field="${userDto.firstName}" th:text="${userDto.firstName}"/></p>
+						<p>Nazwisko:<input type="text" th:field="${userDto.lastname}" th:text="${userDto.lastname}"/></p>
+						
+						<div th:object="${userDto}">
+						<p>Wybierz płeć:</p>
+							<select th:field="${userDto.gender}">
+								<option value="">-------------</option>
+								<option th:each="gender:${T(pl.wpulik.model.Gender).values()}"
+									th:value="${gender}" th:field="${userDto.gender}" th:text="${gender.displayValue}"></option>	
+							</select>	
+						</div>
+						
+						<p>Email:<input type="email" th:field="${userDto.email}" th:text="${userDto.email}"/></p>
+						<p>Nr telefonu:<input type="text"th:field="${userDto.address.phoneNumber}"  th:text="${userDto.address.phoneNumber}"/></p>
+						<p class="text-bold-black">Adres:</p>
+						<p>Ulica: <input type="text"th:field="${userDto.address.street}"  th:text="${userDto.address.street}"/></p>
+						<p>Nr: <input type="text"th:field="${userDto.address.buildingNumber}"  th:text="${userDto.address.buildingNumber}"/></p>
+						<p>Miejscowość: <input type="text" th:field="${userDto.address.city}" th:text="${userDto.address.city}"/></p>
+						<p>Kod pocztowy: <input type="text"th:field="${userDto.address.zipCode}"  th:text="${userDto.address.zipCode}"/></p>
+						<input type="hidden" th:field="${userDto.address.id}" th:value="${userDto.address.id}"/>
+						<input type="hidden" th:field="${userDto.id}" th:value="${userDto.id}"/>
+						<div align="center">
+							<p>
+								<input class="button-style" type="submit" value="Aktualizuj" />
+							</p>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>		
+	</div>
+		
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<link href="/css/index.css" rel="stylesheet" />
+<link href="/css/admin.css" rel="stylesheet" />
+<link href="/css/adminlayout.css" rel="stylesheet" />
+<title>Panel użytkownika</title>
+</head>
+<body>
+	<div th:insert="fragments/header :: header"></div>
+	<p>
+		<a th:href="@{/}">Powrót do strony głównej</a>
+	</p>
+	<div class="left">
+		<div class="left-colum-content">
+			<div th:insert="fragments/leftusercolumn :: leftusercolumn"></div>
+		</div>	
+	</div>
+	
+	<div class="inner">
+		<h2 align="center" th:text="'Witaj ' + ${userDto.firstName} + '!'"></h2>
+		
+	</div>
+		
+</body>
+</html>
