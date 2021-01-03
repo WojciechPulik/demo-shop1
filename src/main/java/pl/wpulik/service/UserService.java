@@ -1,11 +1,14 @@
 package pl.wpulik.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import pl.wpulik.dto.UserDTO;
 import pl.wpulik.model.Address;
+import pl.wpulik.model.Order;
 import pl.wpulik.model.User;
 import pl.wpulik.repository.UserRepository;
 import pl.wpulik.repository.UserRoleRepository;
@@ -17,13 +20,15 @@ public class UserService {
 	private UserRepository userRepository;
 	private UserRoleRepository userRoleRepository;
 	private AddressRepoService addressRepoService;
+	private OrderRepoService orderRepoService;
 	
 	@Autowired
 	public UserService(UserRepository userRepository, UserRoleRepository userRoleRepository,
-			AddressRepoService addressRepoService) {
+			AddressRepoService addressRepoService, OrderRepoService orderRepoService) {
 		this.userRepository = userRepository;
 		this.userRoleRepository = userRoleRepository;
 		this.addressRepoService = addressRepoService;
+		this.orderRepoService = orderRepoService;
 	}
 	
 	public User addUser(User user) {
@@ -74,6 +79,10 @@ public class UserService {
 		toUpdate.setGender(form.getGender());
 		toUpdate.setEmail(form.getEmail());
 		return toUpdate;
+	}
+	
+	public Page<Order> getAllUserOrders(Pageable pageable, Long userId){
+		return orderRepoService.findAllUserOrders(pageable, userId);
 	}
 	
 

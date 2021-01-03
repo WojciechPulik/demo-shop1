@@ -66,6 +66,10 @@ public class OrderRepoService {
 				.add(productRepoService.getById(op.getProductId()));
 		return order;
 	}
+	 
+	 public Page<Order> findAllUserOrders(Pageable pageable, Long userId){
+		 return orderRepository.findAllByUserId(pageable, userId);
+	 }
 	
 	
 

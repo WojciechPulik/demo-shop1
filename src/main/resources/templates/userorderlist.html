@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"/>
+<link href="/css/index.css" rel="stylesheet"/>
+<link href="/css/admin.css" rel="stylesheet"/>
+<link href="/css/adminlayout.css" rel="stylesheet"/>
+<title>Panel użytkownika</title>
+</head>
+<body>
+	<div th:insert="fragments/header :: header"></div>
+	<div class="main-buttons-block">
+		<div class="main-buttons"><p><a th:href="@{/}">Strona główna</a></p></div>
+		<div class="main-buttons"><p><a th:href="@{/shoppingcard}">Twój koszyk</a></p></div>
+	</div>
+	<div class="left">
+		<div th:insert="fragments/leftusercolumn :: leftusercolumn"></div>
+	</div>
+	<div class="inner">
+		<div><p class="text-bold-black" th:text="${userDto.firstName} + ', to Twoje zamówienia:'"></p></div>
+		<table border="2">
+		<tr>
+			<th>Nr zamówienia</th>
+			<th>Data zamówienia</th>
+			<th>Data odbioru zamówienia</th>
+			<th>Data wysyłki</th>
+			<th>Wysyłka</th>
+			<th>Wartość PLN</th>
+			<th>Status</th>
+			<th>Szczegóły</th>
+		</tr>
+		<tr th:each="order : ${dtoOrders}"th:object="${order}" class="canceled-row" th:classappend="*{isCanceled()} ? 'true' : 'false'" >
+			<td th:text="*{id}"></td>
+			<td th:text="*{getFormattedPurchaseTime()}"></td>
+			<td th:text="*{getFormattedReciveTime()}"></td>
+			<td th:text="*{getFormattedSentTime()}"></td>
+			<td th:text="*{shipment.getName()}"></td>
+			<td th:text="*{totalPrice}"></td>
+			<td th:text="*{status}" class="canceled-field" th:classappend="*{isCanceled()} ? 'true' : 'false'"></td>
+			
+			<td><a th:href="@{/orderdetails(orderId=*{id}, userId=${userDto.id})}">
+				<button class="button-style" th:type="submit">Szczegóły</button></a></td>
+		</tr>
+	</table>
+		<div align="center">
+			<div th:if="${ordersPage.totalPages > 0}" class="pagination" 
+				th:each="pageNumber : ${pageNumbers}">
+				<a th:href="@{/userorders(size=${ordersPage.size}, page=${pageNumber})}" 
+					th:text="${pageNumber}"
+					th:class="${pageNumber==ordersPage.number + 1} ? active"></a>		
+			</div>
+		</div>		
+	</div>
+	
+</body>
+</html>

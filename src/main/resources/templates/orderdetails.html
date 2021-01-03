@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"/>
+<link href="/css/index.css" rel="stylesheet"/>
+<link href="/css/admin.css" rel="stylesheet"/>
+<link href="/css/adminlayout.css" rel="stylesheet"/>
+<title>Panel użytkownika</title>
+</head>
+<body>
+	<div th:insert="fragments/header :: header"></div>
+	<div class="main-buttons-block">
+		<div class="main-buttons"><p><a th:href="@{/}">Strona główna</a></p></div>
+		<div class="main-buttons"><p><a th:href="@{/shoppingcard}">Twój koszyk</a></p></div>
+	</div>
+	<div class="left">
+		<div th:insert="fragments/leftusercolumn :: leftusercolumn"></div>
+	</div>
+	<div class="inner">
+		<div><p class="text-bold-black" th:text="${userDto.firstName} + ', to Twoje zamówienie nr ' + ${order.id} + ':'"></p></div>
+		<div align="center">
+	<table border="2">
+		<tr>
+			<th>Nazwa produktu</th>
+			<th>Cena jednostkowa PLN</th>
+			<th>Ilość</th>
+			<th>Wartość PLN</th>
+		</tr>
+		<tr th:each="product:${products}"th:object="${product}">
+			<td th:text="*{name}"></td>
+			<td th:text="*{price}"></td>
+			<td th:text="*{addedQuantity}"></td>	
+			<td th:text="*{valueOfAll()}"></td>
+			
+		</tr>
+		<tr>
+			<td th:text="'Rodzaj dostawy: ' + ${order.shipment.name}"></td>
+			<td th:text="'Koszt wysyłki: ' + ${order.shipment.shipmentCost} + ' zł'"></td>
+			<td th:if="${order.isCashOnDelivery()}"th:text="Pobranie"></td>
+		</tr>
+		<tr>
+			<td th:text="'Całkowita suma zamówienia: ' + ${order.totalPrice} + ' zł'"></td>
+		</tr>
+	</table>
+	</div>
+	<br>
+	<div class="choice-block">
+		<div class="inner-input-form">
+			<p class="text-bold-black" th:text="'Data złożenia zamówienia: ' + ${order.getFormattedPurchaseTime()}"></p>
+			<p class="text-bold-black" th:text="'Data odbioru zamówienia: ' + ${order.getFormattedReciveTime()}"></p>
+			<p class="text-bold-black" th:text="'Data wysyłki zamówienia: ' + ${order.getFormattedSentTime()}"></p>
+			<div><p>Status:<b><span th:text="${status}"></span></b><p></div>
+		</div>	
+	</div>
+	
+	<div class="choice-block">
+		<div class="inner-input-form">
+		<div><p th:text="'Dostawa: ' + ${order.shipment.name} + ' - ' + ${order.shipment.shipmentCost} + ' zł'">Dostawa</p></div>
+	</div>
+	</div>
+	<div class="choice-block">
+		<div class="inner-input-form">
+			<div><p>Sposób płatności:
+				<span th:if="${order.isCashOnDelivery()}" th:text="Pobranie"></span>
+				<span th:if="${!order.isCashOnDelivery()}" th:text="Przedpłata"></span>
+				</p>
+			</div>
+		</div>
+		
+	</div>
+	<div class="choice-block">
+		<div align="center" th:object="${address}" >
+			<div class="delivery-address-inner"><b>Adres do wysyłki:</b>
+				<p th:text="*{firstName} + ' ' + *{lastName}"></p>
+				<p th:text="*{street} + ' ' + *{buildingNumber}"></p>
+				<p th:text="*{zipCode} + ' ' + *{city}"></p>
+				<p th:text="*{phoneNumber}"></p>
+				<p th:text="*{email}"></p>
+			</div>
+		
+		</div>
+	</div>
+	
+			
+	</div>
+	
+</body>
+</html>
