@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import pl.wpulik.service.AddressService;
 import pl.wpulik.service.OrderRepoService;
 import pl.wpulik.service.OrderService;
 import pl.wpulik.service.UserService;
@@ -25,27 +24,19 @@ import pl.wpulik.dto.RegistrationDTO;
 import pl.wpulik.dto.UserDTO;
 import pl.wpulik.model.Address;
 import pl.wpulik.model.Order;
-import pl.wpulik.model.Product;
 import pl.wpulik.model.User;
-import pl.wpulik.model.UserRole;
-import pl.wpulik.repository.UserRoleRepository;
 
 @Controller
 public class UserController {
 	
 	private UserService userService;
-	private AddressService addressService;
-	private UserRoleRepository userRoleRepository;
 	private OrderRepoService orderRepoService;
 	private OrderService orderService;
 	
 	@Autowired
-	public UserController(UserService userService, AddressService addressService,
-			UserRoleRepository userRoleRepository, OrderRepoService orderRepoService,
+	public UserController(UserService userService, OrderRepoService orderRepoService,
 			OrderService orderService) {
 		this.userService = userService;
-		this.addressService = addressService;
-		this.userRoleRepository = userRoleRepository;
 		this.orderRepoService = orderRepoService;
 		this.orderService = orderService;
 	}

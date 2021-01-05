@@ -5,17 +5,14 @@ import org.springframework.stereotype.Service;
 
 import pl.wpulik.model.Address;
 import pl.wpulik.repository.AddressRepository;
-import pl.wpulik.repository.OrderRepository;
 
 @Service
 public class AddressRepoService {
 	
-	private OrderRepository orderRepository;
 	private AddressRepository addresRepository;
 	
 	@Autowired
-	public AddressRepoService(OrderRepository orderRepository, AddressRepository addresRepository) {
-		this.orderRepository = orderRepository;
+	public AddressRepoService(AddressRepository addresRepository) {
 		this.addresRepository = addresRepository;
 	}
 	

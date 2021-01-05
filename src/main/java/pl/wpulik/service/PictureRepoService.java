@@ -7,21 +7,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import pl.wpulik.model.Picture;
-import pl.wpulik.model.Product;
 import pl.wpulik.repository.PictureRepository;
-import pl.wpulik.repository.ProductRepository;
 
 @Transactional
 @Service
 public class PictureRepoService {
 	
 	private PictureRepository pictureRepository;
-	private ProductRepository productRepository;
 	
 	@Autowired
-	public PictureRepoService(PictureRepository pictureRepository, ProductRepository productRepository) {
+	public PictureRepoService(PictureRepository pictureRepository) {
 		this.pictureRepository = pictureRepository;
-		this.productRepository = productRepository;
 	}
 	
 	public Picture getById(Long id) {

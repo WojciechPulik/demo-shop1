@@ -9,25 +9,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import pl.wpulik.model.Picture;
-import pl.wpulik.model.Product;
-import pl.wpulik.service.PictureRepoService;
 import pl.wpulik.service.PictureService;
-import pl.wpulik.service.ProductRepoService;
-import pl.wpulik.service.ProductService;
 
 @Controller
 public class PictureController {
 	
 	private PictureService pictureService;
-	private PictureRepoService pictureRepoService;
-	private ProductRepoService productRepoService;
 	
 	@Autowired
-	public PictureController(PictureService pictureService, PictureRepoService pictureRepoService,
-			ProductRepoService productRepoService) {
+	public PictureController(PictureService pictureService) {
 		this.pictureService = pictureService;
-		this.pictureRepoService = pictureRepoService;
-		this.productRepoService = productRepoService;
 	}
 	
 	@PostMapping(value="/productimagesupdate", params="action=setMain")

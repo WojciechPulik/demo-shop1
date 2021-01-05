@@ -24,12 +24,13 @@ public class UserRole {
 	
 	public UserRole() {}
 	
+	/*	
 	private UserRole(Long id, String role, String description) {
 		this.id = id;
 		this.role = role;
 		this.description = description;
 	}
-/*
+
 	public static UserRole setRoleAsUSER() {
 		return new UserRole(1L, "USER", "zwykły użytkownik");
 	}
