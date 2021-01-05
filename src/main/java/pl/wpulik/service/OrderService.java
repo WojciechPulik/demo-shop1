@@ -15,6 +15,7 @@ import pl.wpulik.dto.StatusDTO;
 import pl.wpulik.model.Address;
 import pl.wpulik.model.Order;
 import pl.wpulik.model.OrderProduct;
+import pl.wpulik.model.Product;
 import pl.wpulik.model.Shipment;
 
 @Service
@@ -34,6 +35,14 @@ public class OrderService {
 		this.orderProductRepoService = orderProductRepoService;
 		this.addressService = addressService;
 		this.productRepoService = productRepoService;
+	}
+	
+	public Order addOrder(Order order) {
+		return orderRepoService.addOrder(order);
+	}
+	
+	public void addProductsToOrder(Long orderId, List<Product> products){
+		orderRepoService.addProductsToOrder(orderId, products);
 	}
 	
 	public Page<Order> findPaginatedOrders(Pageable pageable){
@@ -183,5 +192,12 @@ public class OrderService {
 		if(order.isCashOnDelivery())
 			order.getShipment().setShipmentCost(order.getShipment().getShipmentCost() + Shipment.CASH_ON_DELIVERY_COST);
 		return order;
+	}
+	
+	public int currentCountOfProductsInOrder(List<Product> products, Long productId) {
+		return products.stream()
+		.filter(p -> p.getId()==productId)
+		.mapToInt(p ->p.getAddedQuantity())
+		.sum(); 
 	}
 }

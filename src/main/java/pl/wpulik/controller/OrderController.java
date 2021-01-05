@@ -17,7 +17,7 @@ import pl.wpulik.model.Product;
 import pl.wpulik.model.Shipment;
 import pl.wpulik.model.User;
 import pl.wpulik.service.CategoryRepoService;
-import pl.wpulik.service.OrderRepoService;
+import pl.wpulik.service.OrderService;
 import pl.wpulik.service.ProductRepoService;
 import pl.wpulik.service.ShipmentRepoService;
 import pl.wpulik.service.ShipmentService;
@@ -27,7 +27,7 @@ import pl.wpulik.service.UserService;
 @Scope("session")
 public class OrderController {
 	
-	private OrderRepoService orderRepoService;
+	private OrderService orderService;
 	private ProductRepoService productRepoService;
 	private UserService userService;
 	private ShipmentRepoService shipmentRepoService;
@@ -39,10 +39,10 @@ public class OrderController {
 	private Shipment orderShipment = new Shipment();
 		
 	@Autowired
-	public OrderController(OrderRepoService orderRepoService, ProductRepoService productRepoService, 
+	public OrderController(OrderService orderService, ProductRepoService productRepoService, 
 			UserService userService, ShipmentRepoService shipmentRepoService, ShipmentService shipmentService,
 			CategoryRepoService categoryRepoService) {
-		this.orderRepoService = orderRepoService;
+		this.orderService = orderService;
 		this.productRepoService = productRepoService;
 		this.userService = userService;
 		this.shipmentRepoService = shipmentRepoService;
@@ -55,13 +55,7 @@ public class OrderController {
 		if(orderShipment.getShipmentCost()==null)
 			orderShipment.setShipmentCost(0.0);
 		model.addAttribute("order", new Order());
-		Double totalCost = 0.0;
-		Double value = 0.0;
-		for(Product p: products) {
-			value = Math.round(p.getPrice()*p.getAddedQuantity() * 100)/100.0;
-			p.setSummaryCost(value);
-			totalCost = totalCost + p.getSummaryCost();
-		}	
+		Double totalCost = setProductSummaryCost();
 		if(orderShipment.getShipmentCost()!=null) {
 			totalCost = totalCost + orderShipment.getShipmentCost();
 		}
@@ -75,6 +69,17 @@ public class OrderController {
 		return "/shoppingcard";
 	}
 	
+	private double setProductSummaryCost() {
+		Double totalCost = 0.0;
+		Double value = 0.0;
+		for(Product p: products) {
+			value = Math.round(p.getPrice()*p.getAddedQuantity() * 100)/100.0;
+			p.setSummaryCost(value);
+			totalCost = totalCost + p.getSummaryCost();
+		}
+		return totalCost;
+	}
+	
 	@PostMapping("/addtoorder")
 	public String addToOrder(@RequestParam(name="addedQuantity") Integer addedQuantity, 
 			@RequestParam(name="productId") Long productId, Model model) {	
@@ -84,10 +89,7 @@ public class OrderController {
 		model.addAttribute("productId", productId);
 		model.addAttribute("addedQuantity", addedQuantity);
 		Product product = productRepoService.getById(productId);
-		Integer productsInOrder = products.stream()
-				.filter(p -> p.getId()==productId)
-				.mapToInt(p ->p.getAddedQuantity())
-				.sum();
+		Integer productsInOrder = orderService.currentCountOfProductsInOrder(products, productId);
 		if(product.getQuantity() < addedQuantity + productsInOrder) {
 			return String.format("redirect:/product?id=%d&isAvailable=false", productId);
 		}
@@ -113,9 +115,9 @@ public class OrderController {
 		order.setTotalPrice(totalOrderCost);
 		order.setShipment(orderShipment);
 		order.setCashOnDelivery(isCashOnDeliverySet);
-		Order addedOrder = orderRepoService.addOrder(order);
+		Order addedOrder = orderService.addOrder(order);
 		Long orderId = addedOrder.getId();
-		orderRepoService.addProductsToOrder(orderId, products);
+		orderService.addProductsToOrder(orderId, products);
 		shoppingCardCleaner();
 		return String.format("redirect:/deliveryaddress/%d", orderId);
 	}
