@@ -118,9 +118,15 @@ public class OrderController {
 		Order addedOrder = orderService.addOrder(order);
 		Long orderId = addedOrder.getId();
 		orderService.addProductsToOrder(orderId, products);
-		shoppingCardCleaner();
 		return String.format("redirect:/deliveryaddress/%d", orderId);
 	}
+	
+	@GetMapping("/orderclosing")
+	public String closeOrder() {
+		shoppingCardCleaner();
+		return "thanks";
+	}
+	
 	@PostMapping("/setordershipment")
 	public String addShipmentToOrder(@ModelAttribute Shipment shipment, @ModelAttribute Order order,
 			@RequestParam boolean isCashOnDelivery, Model model) {

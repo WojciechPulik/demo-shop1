@@ -51,7 +51,7 @@ public class AddressController {
 		mailService.sendMail(address.getEmail(), 
 				MailMessagesContent.getOrderConfirmationMessageSubject() + orderId, 
 				MailMessagesContent.getOrderConfirmationMessage(address.getFirstName()), true);
-		return "/thanks";
+		return "redirect:/orderclosing";
 	}
 
 }
