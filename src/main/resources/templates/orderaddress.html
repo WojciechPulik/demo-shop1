@@ -19,6 +19,22 @@
 	<div align="center" >
 	<div class="user-form">
 		<div align="left" class="user-form-inside">
+			<p class="text-bold-black">Do wysyłki dodaj Twój adres użytkownika:</p>
+			<form th:action="@{/useraddrestoorder}" method="post" th:object="${userAddress}">
+				<p th:text="'Imię i nazwisko: ' + *{firstName} + ' ' + *{lastName}"></p>
+				<p th:text="'Adres: ' + *{street} + ' ' + *{buildingNumber}"></p>
+				<p th:text="'Kod pocztowy: ' + *{zipCode} + ' Miejscowość: ' + *{city}"></p>
+				<p th:text="'Email: ' + *{email}"></p>
+				<p th:text="'Nr telefonu: ' + *{phoneNumber}"></p>
+				<input type="hidden" name="addressId" th:value="*{id}"/>
+				<input type="hidden" name="orderId" th:value="${orderId}"/>
+				<input type="submit" value="Dodaj"/>	
+			</form>
+		</div>
+	</div>
+	<div class="user-form">
+		<div align="left" class="user-form-inside">
+			<p class="text-bold-black">Lub dodaj nowy adres:</p>
 			<form th:action="@{/addrestoorder}" method="post" th:object="${address}">
 				<p>Imię:<input type="text"th:field="*{firstName}"/></p>
 				<p>Nazwisko:<input type="text"th:field="*{lastName}"/></p>

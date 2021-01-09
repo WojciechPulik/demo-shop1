@@ -41,6 +41,10 @@ public class OrderService {
 		return orderRepoService.addOrder(order);
 	}
 	
+	public Order getById(Long orderId) {
+		return orderRepoService.getById(orderId);
+	}
+	
 	public void addProductsToOrder(Long orderId, List<Product> products){
 		orderRepoService.addProductsToOrder(orderId, products);
 	}

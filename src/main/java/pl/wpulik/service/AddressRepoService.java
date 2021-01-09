@@ -9,21 +9,22 @@ import pl.wpulik.repository.AddressRepository;
 @Service
 public class AddressRepoService {
 	
-	private AddressRepository addresRepository;
+	private AddressRepository addressRepository;
 	
 	@Autowired
-	public AddressRepoService(AddressRepository addresRepository) {
-		this.addresRepository = addresRepository;
+	public AddressRepoService(AddressRepository addressRepository) {
+		this.addressRepository = addressRepository;
 	}
 	
 	public Address getById(Long id) {
-		return addresRepository.getOne(id);
+		return addressRepository.getOne(id);
 	}
 	
 	public Address addAddress(Address address) {
-		return addresRepository.save(address);
+		return addressRepository.save(address);
 		
 	}
+	
 	
 	
 }

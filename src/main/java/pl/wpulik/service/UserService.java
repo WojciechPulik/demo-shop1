@@ -39,6 +39,7 @@ public class UserService {
 	
 	public User getById(Long id) {
 		User user = userRepository.findById(id).get();
+		user.getAddress();
 		return user;
 	}
 	
