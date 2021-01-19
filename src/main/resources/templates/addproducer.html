@@ -27,7 +27,7 @@
 			<form th:action="@{/saveproducer}" method="post"
 				th:object="${producer}">
 				<p>
-					Nazwa producenta:<input type="text" th:field="*{name}" />
+					Nazwa producenta:<input type="text" th:field="*{name}" required/>
 				</p>
 				<p>
 					Opis:
