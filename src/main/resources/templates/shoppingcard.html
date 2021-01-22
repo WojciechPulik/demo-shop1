@@ -57,7 +57,7 @@
 						<p>Sposób dostawy:</p>
 						<ul>
 							<li th:each="shipment:${shipments}" th:object="${shipment}">
-								<input type="radio" th:field="*{id}" th:value="*{id}"> <label
+								<input type="radio" th:field="*{id}" th:value="*{id}" required> <label
 								th:for="*{id}"
 								th:text="*{name} + ' - ' + *{shipmentCost} + ' zł '"></label>
 							</li>
@@ -65,7 +65,7 @@
 						<p>Rodzaj płatności:</p>
 						<p>
 							<label> <input type="radio" name="isCashOnDelivery"
-								value="true">Pobranie
+								value="true" required>Pobranie
 							</label> <label> <input type="radio" name="isCashOnDelivery" value="false">Przedpłata
 							</label>
 						</p>
