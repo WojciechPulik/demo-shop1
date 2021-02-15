@@ -152,4 +152,11 @@ public class OrderController {
 		return "redirect:/shoppingcard";
 	}
 	
+	@GetMapping("/removeproducts")
+	public String removeProductsFromOrderCard(@RequestParam long productId) {
+		products.removeIf(p -> p.getId()==productId);
+		return "redirect:/shoppingcard";
+	}
+	
+	
 }
