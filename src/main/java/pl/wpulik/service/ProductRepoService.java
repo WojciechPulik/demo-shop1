@@ -55,7 +55,7 @@ public class ProductRepoService {
 	}
 	
 	public Page<Product> getAllProducts(Pageable pageable){
-		return productRepository.findAll(pageable);
+		return productRepository.findAllOrderByIdDesc(pageable);
 	}
 	
 	public Page<Product> getAllActiveProducts(Pageable pageable){
