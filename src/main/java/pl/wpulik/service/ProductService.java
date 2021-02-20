@@ -50,6 +50,7 @@ public class ProductService {
 		if(!file.isEmpty());
 			product.getPictures().add(picture);
 		productRepoService.addProduct(product);
+		categoryRepoService.clearResultReladteList();
 		return product;
 	}
 	
