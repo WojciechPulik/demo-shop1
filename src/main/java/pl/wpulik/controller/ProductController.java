@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import pl.wpulik.dto.ProductDTO;
 import pl.wpulik.dto.SearchParamDTO;
 import pl.wpulik.model.Category;
 import pl.wpulik.model.Picture;
@@ -68,18 +67,6 @@ public class ProductController {
 		model.addAttribute("url", url);
 		model.addAttribute("product", product);
 		return "productcard";
-	}
-	
-	@PostMapping("/save")//TODO: move to AdminProductController
-	public String addProduct(@ModelAttribute ProductDTO formProduct) {
-		if(checkNotEmpty(formProduct)) {
-			productService.addNewProduct(productService.productMapping(formProduct), 
-					formProduct.getProducerId(), 
-					formProduct.getCategoryId(), 
-					formProduct.getShipmentId(), 
-					formProduct.getMultipartFile());
-		}
-		return "redirect:/admin";
 	}
 	
 	@GetMapping("/addproduct")
@@ -145,10 +132,6 @@ public class ProductController {
 		List<Product> foundProducts = productService.findByNameFragment(searchPhrase);
 		model.addAttribute("foundProducts", foundProducts);
 		return "/foundproductslist";
-	}
-	
-	private boolean checkNotEmpty(ProductDTO product) {
-		return product.getName()!=null && product.getDescription()!=null && product.getPrice()!=null;
 	}
 
 }

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import pl.wpulik.dto.OrderDTO;
 import pl.wpulik.dto.OrderStatusDTO;
+import pl.wpulik.dto.ProductDTO;
 import pl.wpulik.model.Address;
 import pl.wpulik.model.Order;
 import pl.wpulik.model.Shipment;
@@ -27,6 +28,7 @@ import pl.wpulik.service.AddressRepoService;
 import pl.wpulik.service.OrderRepoService;
 import pl.wpulik.service.OrderService;
 import pl.wpulik.service.ProductRepoService;
+import pl.wpulik.service.ProductService;
 import pl.wpulik.service.ShipmentRepoService;
 import pl.wpulik.service.ShipmentService;
 
@@ -39,22 +41,41 @@ public class AdminController {
 	private ShipmentRepoService shipmentRepoService;
 	private AddressRepoService addressRepoService;
 	private ProductRepoService productRepoService; 
+	private ProductService productService; 
 	
 	@Autowired
 	public AdminController(OrderRepoService orderRepoService, OrderService orderService, 
 			ShipmentService shipmentService, ShipmentRepoService shipmentRepoService, 
-			AddressRepoService addressRepoService, ProductRepoService productRepoService) {
+			AddressRepoService addressRepoService, ProductRepoService productRepoService,
+			ProductService productService) {
 		this.orderRepoService = orderRepoService;
 		this.orderService = orderService;
 		this.shipmentService = shipmentService;
 		this.shipmentRepoService = shipmentRepoService;
 		this.addressRepoService = addressRepoService;
 		this.productRepoService = productRepoService;
+		this.productService = productService;
 	}
 	
 	@GetMapping("/admin")
 	public String adminPanel() {
 		return "admin";
+	}
+	
+	@PostMapping("/save")
+	public String addProduct(@ModelAttribute ProductDTO formProduct) {
+		if(checkNotEmpty(formProduct)) {
+			productService.addNewProduct(productService.productMapping(formProduct), 
+					formProduct.getProducerId(), 
+					formProduct.getCategoryId(), 
+					formProduct.getShipmentId(), 
+					formProduct.getMultipartFile());
+		}
+		return "redirect:/admin";
+	}
+	
+	private boolean checkNotEmpty(ProductDTO product) {
+		return product.getName()!=null && product.getDescription()!=null && product.getPrice()!=null;
 	}
 	
 	@GetMapping("/allorders") //TODO: move some code to service

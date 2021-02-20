@@ -15,9 +15,9 @@ import pl.wpulik.service.ShipmentRepoService;
 
 @Controller
 public class ShipmentController {
-	
+
 	private ShipmentRepoService shipmentRepoService;
-	
+
 	@Autowired
 	public ShipmentController(ShipmentRepoService shipmentRepoService) {
 		this.shipmentRepoService = shipmentRepoService;
@@ -28,31 +28,31 @@ public class ShipmentController {
 		model.addAttribute("shipment", new Shipment());
 		return "/shipmentcard";
 	}
-	
+
 	@PostMapping("/saveshipment")
 	public String saveShipment(@ModelAttribute Shipment shipment) {
 		shipmentRepoService.addShipment(shipment);
 		return "/admin";
 	}
-	
+
 	@GetMapping("/editshipment")
 	public String shipmentEdition(Model model) {
 		List<Shipment> shipments = shipmentRepoService.getAllShipments();
-		model.addAttribute("shipments",  shipments);
+		model.addAttribute("shipments", shipments);
 		return "/shipmentstoupdate";
 	}
-	
+
 	@GetMapping("/editshipmentcard")
 	public String shipmentToUpdate(@RequestParam Long shipmentId, Model model) {
 		model.addAttribute("shipment", shipmentRepoService.getById(shipmentId));
 		return "/shipmenteditcard";
 	}
-	
+
 	@PostMapping("/updateshipment")
 	public String updateShipment(@ModelAttribute Shipment shipment) {
 		System.out.println(shipment.getId());
 		shipmentRepoService.updateShipment(shipment);
 		return "redirect:/editshipment";
-	}	
+	}
 
 }
