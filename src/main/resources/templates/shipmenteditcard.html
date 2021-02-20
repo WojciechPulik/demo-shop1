@@ -32,10 +32,10 @@
 						<textarea cols="60" rows="5" th:field="${shipment.description}"></textarea>
 					</p>
 					<p>Maksymalna waga przesyłki:
-						<input type="number" th:field="${shipment.maxWeight}"/>
+						<input type="number" step="0.01" th:field="${shipment.maxWeight}"/>
 					</p>
 					<p>Koszt wysyłki:
-						<input type="number" th:field="${shipment.shipmentCost}"/>
+						<input type="number" step="0.01" th:field="${shipment.shipmentCost}"/>
 					</p>
 					<input type="hidden" th:field="${shipment.id}"/>
 					<p>

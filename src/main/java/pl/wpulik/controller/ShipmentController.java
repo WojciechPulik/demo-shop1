@@ -50,7 +50,6 @@ public class ShipmentController {
 
 	@PostMapping("/updateshipment")
 	public String updateShipment(@ModelAttribute Shipment shipment) {
-		System.out.println(shipment.getId());
 		shipmentRepoService.updateShipment(shipment);
 		return "redirect:/editshipment";
 	}
