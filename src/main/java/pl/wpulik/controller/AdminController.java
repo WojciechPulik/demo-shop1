@@ -23,6 +23,7 @@ import pl.wpulik.dto.OrderStatusDTO;
 import pl.wpulik.dto.ProductDTO;
 import pl.wpulik.model.Address;
 import pl.wpulik.model.Order;
+import pl.wpulik.model.Product;
 import pl.wpulik.model.Shipment;
 import pl.wpulik.service.AddressRepoService;
 import pl.wpulik.service.OrderRepoService;
@@ -65,11 +66,13 @@ public class AdminController {
 	@PostMapping("/save")
 	public String addProduct(@ModelAttribute ProductDTO formProduct) {
 		if(checkNotEmpty(formProduct)) {
-			productService.addNewProduct(productService.productMapping(formProduct), 
+			Product product = productService.addNewProduct(
+					productService.productMapping(formProduct), 
 					formProduct.getProducerId(), 
 					formProduct.getCategoryId(), 
 					formProduct.getShipmentId(), 
 					formProduct.getMultipartFile());
+			return String.format("redirect:/updateproduct/%d", product.getId());
 		}
 		return "redirect:/admin";
 	}
