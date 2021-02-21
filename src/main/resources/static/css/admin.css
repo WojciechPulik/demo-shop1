@@ -130,6 +130,13 @@ fieldset{
 	color:white;
 	font-weight:bold;
 }
+.text-header-red{
+	text-decoration:none;
+	text-align:center;
+	color:red;
+	font-weight:bold;
+	font-size:36px;
+}
 .green-background{
 	background-color:#556B2F;
 	border-radius:5px;
@@ -158,6 +165,9 @@ fieldset{
 .canceled-field.true{
 	color:red;
 	font-weight:bold;
+}
+.left-margin-90-px{
+	margin-left:90px;	
 }
 
 

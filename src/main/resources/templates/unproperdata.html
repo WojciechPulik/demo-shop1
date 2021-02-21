@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"/>
+<link href="/css/index.css" rel="stylesheet"/>
+<link href="/css/admin.css" rel="stylesheet"/>
+<link href="/css/adminlayout.css" rel="stylesheet"/>
+<title>Niepoprawne dane</title>
+</head>
+<body>
+	<div th:insert="fragments/header :: header"></div>
+	<h2>Panel Administracyjny</h2>
+	<h3>********************************************************</h3>
+	<p><a th:href="@{/}">Powrót do strony głównej</a></p>
+	<div class="left">
+		<div class="left-colum-content">
+			<div th:insert="fragments/leftcolumn :: leftcolumn"></div>
+		</div>	
+	</div>
+	<div class="inner">
+		<h3 class="text-header-red">Niepoprawne dane. Spróbuj jeszcze raz.</h3>
+		<div align="center"> 
+			<div align="left" class="red-bold">
+				<h4 align="center">Możliwe przyczyny:</h4>
+				<div class="left-margin-90-px">
+					<ul>
+						<li>Niepoprawna wartość liczbowa</li>
+						<li>Przekroczona maksymalna liczba znaków w opisie lub nazwie</li>
+						<li>Nieuzupełnione pola formularza</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

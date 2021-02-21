@@ -93,11 +93,6 @@ public class ProductController {
 		return "updateproduct";
 	}
 	
-	@PostMapping("/updateProd")
-	public String updateProduct(@ModelAttribute Product product) {	
-		productRepoService.updateProduct(productService.productUpdate(product));
-		return String.format("redirect:/updateproduct/%d", product.getId());
-	}
 	
 	@PostMapping("/addShipment")
 	public String addShipment(@ModelAttribute Shipment shipment, @RequestParam Long productId) {
