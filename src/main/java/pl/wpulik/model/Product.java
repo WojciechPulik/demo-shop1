@@ -17,19 +17,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
 @Entity(name = "products")
-public class Product implements Serializable{
+public class Product implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_product")
 	private Long id;
-	@Column(name= "product_index")
+	@Column(name = "product_index")
 	private String index;
 	private String name;
-	@Column(length = 512)
+	@Column(columnDefinition="TEXT")
 	private String description;
 	private int quantity;
 	@Transient
@@ -43,33 +42,33 @@ public class Product implements Serializable{
 	private Double discount;
 	private boolean isActive = false;
 	private boolean isPromoted = false;
-	private boolean isDiscounted = false;	
+	private boolean isDiscounted = false;
 	@ManyToOne
 	@JoinColumn(name = "producer_id")
 	private Producer producer;
 	@Transient
 	private List<Order> orders = new ArrayList<>();
 	@ManyToMany
-	@JoinTable(
-			name = "products_shipments",
-			joinColumns = {@JoinColumn(name = "product_id", referencedColumnName="id_product")},
-			inverseJoinColumns = {@JoinColumn(name = "shipment_id", referencedColumnName="id_shipment")})
+	@JoinTable(name = "products_shipments", joinColumns = {
+			@JoinColumn(name = "product_id", referencedColumnName = "id_product") }, inverseJoinColumns = {
+					@JoinColumn(name = "shipment_id", referencedColumnName = "id_shipment") })
 	private List<Shipment> shipments = new ArrayList<>();
 	@ManyToMany
-	@JoinTable(
-			name = "products_categories",
-			joinColumns = {@JoinColumn(name = "product_id", referencedColumnName="id_product")},
-			inverseJoinColumns = {@JoinColumn(name = "category_id", referencedColumnName="id_category")})
+	@JoinTable(name = "products_categories", joinColumns = {
+			@JoinColumn(name = "product_id", referencedColumnName = "id_product") }, inverseJoinColumns = {
+					@JoinColumn(name = "category_id", referencedColumnName = "id_category") })
 	private List<Category> categories = new ArrayList<>();
 	private Long mainCategoryId;
 	@OneToMany
 	@JoinColumn(name = "product_id", referencedColumnName = "id_product")
 	private List<Picture> pictures = new ArrayList<>();
-	
-	public Product() {}
-	
-	public Product(String index, String name, Producer producer, String description, int quantity, Double price, int addedQuantity) {
-		
+
+	public Product() {
+	}
+
+	public Product(String index, String name, Producer producer, String description, int quantity, Double price,
+			int addedQuantity) {
+
 		this.index = index;
 		this.name = name;
 		this.producer = producer;
@@ -78,17 +77,17 @@ public class Product implements Serializable{
 		this.price = price;
 		this.addedQuantity = addedQuantity;
 	}
-	
+
 	public void addOrder(Order order) {
 		order.setProducts(Arrays.asList(this));
 		getOrders().add(order);
 	}
-	
+
 	public Double valueOfAll() {
-		Double result = Math.round(addedQuantity * price * 100)/100.0;
+		Double result = Math.round(addedQuantity * price * 100) / 100.0;
 		return result;
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -160,7 +159,7 @@ public class Product implements Serializable{
 	public void setDiscount(Double discount) {
 		this.discount = discount;
 	}
-	
+
 	public Double getSummaryCost() {
 		return summaryCost;
 	}
@@ -168,7 +167,7 @@ public class Product implements Serializable{
 	public void setSummaryCost(Double summaryCost) {
 		this.summaryCost = summaryCost;
 	}
-	
+
 	public Boolean getIsAvailable() {
 		return isAvailable;
 	}
@@ -200,7 +199,7 @@ public class Product implements Serializable{
 	public void setDiscounted(boolean isDiscounted) {
 		this.isDiscounted = isDiscounted;
 	}
-	
+
 	public int getAddedQuantity() {
 		return addedQuantity;
 	}
@@ -224,7 +223,7 @@ public class Product implements Serializable{
 	public void setCategories(List<Category> categories) {
 		this.categories = categories;
 	}
-	
+
 	public Long getMainCategoryId() {
 		return mainCategoryId;
 	}
@@ -253,9 +252,8 @@ public class Product implements Serializable{
 	public String toString() {
 		return "Product [id=" + id + ", index=" + index + ", name=" + name + ", description=" + description
 				+ ", quantity=" + quantity + ", price=" + price + ", discount=" + discount + ", isActive=" + isActive
-				+ ", isPromoted=" + isPromoted + ", isDiscounted=" + isDiscounted + 
-				", producer=" + producer.getName() + ", Pictures=" + pictures + 
-				"]";
+				+ ", isPromoted=" + isPromoted + ", isDiscounted=" + isDiscounted + ", producer=" + producer.getName()
+				+ ", Pictures=" + pictures + "]";
 	}
 
 	@Override
@@ -363,12 +361,5 @@ public class Product implements Serializable{
 			return false;
 		return true;
 	}
-	
-	
-	
-	
-	
-	
-	
 
 }
