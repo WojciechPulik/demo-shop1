@@ -69,12 +69,6 @@ public class ProductController {
 		return "productcard";
 	}
 	
-	@GetMapping("/addproduct")
-	public String productForm(Model model) {	
-		model.addAttribute("formProduct", productService.createProductDTO());
-		return "addproduct";
-	}
-	
 	@GetMapping("/updateproduct/{prodId}")
 	public String updateProductCard(@PathVariable Long prodId, Model model) {
 		List<Shipment> shipments = shipmentRepoService.getAllShipments();

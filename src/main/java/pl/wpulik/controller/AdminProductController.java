@@ -37,6 +37,12 @@ public class AdminProductController {
 		this.productRepoService = productRepoService;
 	}
 	
+	@GetMapping("/addproduct")
+	public String productForm(Model model) {	
+		model.addAttribute("formProduct", productService.createProductDTO());
+		return "addproduct";
+	}
+	
 	@PostMapping("/save")
 	public String addProduct(@ModelAttribute ProductDTO formProduct) {
 		if(checkNotEmptyAndValidated(formProduct)) {
