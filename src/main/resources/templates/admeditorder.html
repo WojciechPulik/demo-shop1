@@ -34,7 +34,7 @@
 			<td th:text="*{addedQuantity}"></td>
 			
 			<td>
-				<form th:action="@{/updatequantity}" method="post"><div>
+				<form th:action="@{/admin/order/updatequantity}" method="post"><div>
 				<input type="number"step="1"min="0" name="newQuantity"/>
 				<input type="hidden" name="orderProductId" th:value="*{id}"/>
 				<input type="hidden" name="orderId" th:value="${order.id}"/>
@@ -45,7 +45,7 @@
 			</td>	
 			<td th:text="*{valueOfAll()}"></td>
 			<td>
-				<form th:action="@{/removeproduct}" method="post"><div>
+				<form th:action="@{/admin/order/removeproduct}" method="post"><div>
 				<input type="hidden" name="productId" th:value="*{id}"/>
 				<input type="hidden" name="orderId" th:value="${order.id}"/>
 				<input class="button-style" type="submit"value="Usuń"/>
@@ -70,7 +70,7 @@
 			<p class="text-bold-black" th:text="'Data wysyłki zamówienia: ' + ${order.getFormattedSentTime()}"></p>
 	
 			<div><p>Status:<b><span th:text="${status}"></span></b><p></div>
-			<form th:action="@{/setstatus}" method="post">
+			<form th:action="@{/admin/order/setstatus}" method="post">
 		
 				<div th:object="${orderStatus}">Zmień status zamówienia:
 				<select th:field="${formOrderStatus.orderStatusId}">
@@ -89,7 +89,7 @@
 	<div class="choice-block">
 		<div class="inner-input-form">
 		<div><p th:text="${order.shipment.name} + ' - ' + ${order.shipment.shipmentCost} + ' zł'">Dostawa</p></div>
-		<form th:object="${shipment}" method="post" th:action="@{/changeshipment}">
+		<form th:object="${shipment}" method="post" th:action="@{/admin/order/changeshipment}">
 			<fieldset>
 				<legend><b>Zmień sposób dostawy</b></legend>
 				<ul>
@@ -112,7 +112,7 @@
 			</p>
 		</div>
 		</div>
-		<form method="post" th:action="@{/cashondelivery}">
+		<form method="post" th:action="@{/admin/order/cashondelivery}">
 			<fieldset>
 				<legend><b>Zmień sposób płatności</b></legend>
 					<label>
