@@ -12,29 +12,41 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import pl.wpulik.dto.ProductDTO;
 import pl.wpulik.model.Category;
+import pl.wpulik.model.Picture;
 import pl.wpulik.model.Product;
+import pl.wpulik.model.Shipment;
+import pl.wpulik.service.CategoryRepoService;
 import pl.wpulik.service.CategoryService;
 import pl.wpulik.service.ProductRepoService;
 import pl.wpulik.service.ProductService;
+import pl.wpulik.service.ShipmentRepoService;
 
 @Controller 
+@RequestMapping("/admin/product")
 public class AdminProductController {
 	
 	private ProductService productService;
 	private CategoryService categoryService;
 	private ProductRepoService productRepoService;
+	private ShipmentRepoService shipmentRepoService;
+	private CategoryRepoService categoryRepoService;
 	
 	@Autowired
 	public AdminProductController(ProductService productService, CategoryService categoryService,
-			ProductRepoService productRepoService) {
+			ProductRepoService productRepoService, ShipmentRepoService shipmentRepoService,
+			CategoryRepoService categoryRepoService) {
 		this.productService = productService;
 		this.categoryService = categoryService;
 		this.productRepoService = productRepoService;
+		this.shipmentRepoService = shipmentRepoService;
+		this.categoryRepoService = categoryRepoService;
 	}
 	
 	@GetMapping("/addproduct")
@@ -52,7 +64,7 @@ public class AdminProductController {
 					formProduct.getCategoryId(), 
 					formProduct.getShipmentId(), 
 					formProduct.getMultipartFile());
-			return String.format("redirect:/updateproduct/%d", product.getId());
+			return String.format("redirect:/admin/product/updateproduct/%d", product.getId());
 		}
 		return "redirect:/unproperdata";
 	}
@@ -68,11 +80,29 @@ public class AdminProductController {
 		return product.getName()!=null && product.getDescription()!=null && product.getPrice()!=null;
 	}
 	
+	@GetMapping("/updateproduct/{prodId}")
+	public String updateProductCard(@PathVariable Long prodId, Model model) {
+		List<Shipment> shipments = shipmentRepoService.getAllShipments();
+		List<Category> categories = categoryRepoService.getAllCategories();
+		Product product = productRepoService.getById(prodId);
+		model.addAttribute("formProduct", product);
+		model.addAttribute("shipment",  new Shipment());
+		model.addAttribute("shipments",  shipments);
+		model.addAttribute("category",  new Category());
+		model.addAttribute("categories",  categories);
+		model.addAttribute("picture",  new Picture());
+		if(product.getMainCategoryId()!=null)
+			model.addAttribute("mainCategoryName", categoryRepoService.getById(product.getMainCategoryId()).getName());
+		if(product.getMainCategoryId()==null)
+			model.addAttribute("mainCategoryName", "brak kategorii głównej");
+		return "updateproduct";
+	}
+	
 	@PostMapping("/updateProd")
 	public String updateProduct(@ModelAttribute Product product) {	
 		if(checkNotEmptyAndValidated(product)) {
 			productRepoService.updateProduct(productService.productUpdate(product));
-		return String.format("redirect:/updateproduct/%d", product.getId());
+		return String.format("redirect:/admin/product/updateproduct/%d", product.getId());
 		}
 		return "redirect:/unproperdata";
 	}
@@ -110,30 +140,41 @@ public class AdminProductController {
 	@PostMapping("/setproductactive")
 	public String setProductActive(@RequestParam boolean isActive, @RequestParam Long productId) {
 		productService.setProductActiv(isActive, productId);
-		return String.format("redirect:/updateproduct/%d", productId);
+		return String.format("redirect:/admin/product/updateproduct/%d", productId);
 	}
 	
 	@PostMapping("/setmaincategory")
 	public String setMainCategoryForProduct(@RequestParam Long productId, @ModelAttribute Category category) {
 		productService.setMainCategory(productId, category.getId());
-		return String.format("redirect:/updateproduct/%d", productId);
+		return String.format("redirect:/admin/product/updateproduct/%d", productId);
 	}
 	
 	@PostMapping("/setnewcategory")
 	public String addProductToCategory(@RequestParam Long productId, @ModelAttribute Category category) {
 		productService.setAdditionalCategory(productId, category.getId());
-		return String.format("redirect:/updateproduct/%d", productId);
+		return String.format("redirect:/admin/product/updateproduct/%d", productId);
 	}
 
 	@PostMapping("/removefromcategory")
 	public String removeProductFromCategory(@RequestParam Long productId, @ModelAttribute Category category) {
 		categoryService.removeFromCategory(productId, category.getId());
-		return String.format("redirect:/updateproduct/%d", productId);
+		return String.format("redirect:/admin/product/updateproduct/%d", productId);
 	}
 	
-	@GetMapping("/unproperdata")
-	public String unproperData() {
-		return "unproperdata";
+	@PostMapping("/addShipment")
+	public String addShipment(@ModelAttribute Shipment shipment, @RequestParam Long productId) {
+		Product productToUpdate = productRepoService.getById(productId);
+		productToUpdate.getShipments().add(shipment);
+		productRepoService.updateProduct(productToUpdate);
+		return String.format("redirect:/admin/product/updateproduct/%d", productId);
+	}
+	
+	@PostMapping("/dropshipment")
+	public String dropShipment(@ModelAttribute Shipment shipment, @RequestParam Long productId) {
+		System.out.println("dostawa do usunięcia: " + shipment.toString());
+		System.out.println("product ID: " + productId);
+		productRepoService.removeShipmentFromProduct(productId, shipment.getId());
+		return String.format("redirect:/admin/product/updateproduct/%d", productId);
 	}
 
 }

@@ -33,7 +33,7 @@
 				<td th:text="*{price}"></td>
 				<td th:text="*{isActive()} ? 'Aktywny' : 'Niekatywny'"></td>
 				<td>
-					<a th:href="@{|/updateproduct/*{id}|}">
+					<a th:href="@{|/admin/product/updateproduct/*{id}|}">
 						<button class="button-style" th:type="submit">Edytuj</button>
 					</a>
 				</td>

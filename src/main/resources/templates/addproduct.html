@@ -24,7 +24,7 @@
 	<h3>Dodaj produkt do sklepu:</h3>
 	<div class="choice-block">
 		<div class="inner-input-form">
-		<form th:action="@{/save}" method="post" enctype="multipart/form-data">
+		<form th:action="@{/admin/product/save}" method="post" enctype="multipart/form-data">
 			<p>
 				Nazwa produktu: <input type="text" th:field="${formProduct.name}" />
 			</p>

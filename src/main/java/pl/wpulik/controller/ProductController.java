@@ -15,27 +15,23 @@ import pl.wpulik.dto.SearchParamDTO;
 import pl.wpulik.model.Category;
 import pl.wpulik.model.Picture;
 import pl.wpulik.model.Product;
-import pl.wpulik.model.Shipment;
 import pl.wpulik.service.CategoryRepoService;
 import pl.wpulik.service.PictureService;
 import pl.wpulik.service.ProductRepoService;
 import pl.wpulik.service.ProductService;
-import pl.wpulik.service.ShipmentRepoService;
 
 @Controller
 public class ProductController {
 	
 	private ProductRepoService productRepoService;
 	private ProductService productService;
-	private ShipmentRepoService shipmentRepoService;
 	private CategoryRepoService categoryRepoService; 
 	private PictureService pictureService;
 	
 	@Autowired
-	public ProductController(ProductRepoService productRepoService, ShipmentRepoService shipmentRepoService, 
-			CategoryRepoService categoryRepoService, ProductService productService, PictureService pictureService) {
+	public ProductController(ProductRepoService productRepoService, CategoryRepoService categoryRepoService, 
+			ProductService productService, PictureService pictureService) {
 		this.productRepoService = productRepoService;
-		this.shipmentRepoService = shipmentRepoService;
 		this.categoryRepoService = categoryRepoService;
 		this.productService = productService;
 		this.pictureService = pictureService;
@@ -67,41 +63,6 @@ public class ProductController {
 		model.addAttribute("url", url);
 		model.addAttribute("product", product);
 		return "productcard";
-	}
-	
-	@GetMapping("/updateproduct/{prodId}")
-	public String updateProductCard(@PathVariable Long prodId, Model model) {
-		List<Shipment> shipments = shipmentRepoService.getAllShipments();
-		List<Category> categories = categoryRepoService.getAllCategories();
-		Product product = productRepoService.getById(prodId);
-		model.addAttribute("formProduct", product);
-		model.addAttribute("shipment",  new Shipment());
-		model.addAttribute("shipments",  shipments);
-		model.addAttribute("category",  new Category());
-		model.addAttribute("categories",  categories);
-		model.addAttribute("picture",  new Picture());
-		if(product.getMainCategoryId()!=null)
-			model.addAttribute("mainCategoryName", categoryRepoService.getById(product.getMainCategoryId()).getName());
-		if(product.getMainCategoryId()==null)
-			model.addAttribute("mainCategoryName", "brak kategorii głównej");
-		return "updateproduct";
-	}
-	
-	
-	@PostMapping("/addShipment")
-	public String addShipment(@ModelAttribute Shipment shipment, @RequestParam Long productId) {
-		Product productToUpdate = productRepoService.getById(productId);
-		productToUpdate.getShipments().add(shipment);
-		productRepoService.updateProduct(productToUpdate);
-		return String.format("redirect:/updateproduct/%d", productId);
-	}
-	
-	@PostMapping("/dropshipment")
-	public String dropShipment(@ModelAttribute Shipment shipment, @RequestParam Long productId) {
-		System.out.println("dostawa do usunięcia: " + shipment.toString());
-		System.out.println("product ID: " + productId);
-		productRepoService.removeShipmentFromProduct(productId, shipment.getId());
-		return String.format("redirect:/updateproduct/%d", productId);
 	}
 	
 	@GetMapping("/chooseproducts")

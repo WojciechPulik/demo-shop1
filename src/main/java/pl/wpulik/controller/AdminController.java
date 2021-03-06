@@ -173,6 +173,11 @@ public class AdminController {
 		return "/outofstock";
 	}
 	
+	@GetMapping("/unproperdata")
+	public String unproperData() {
+		return "unproperdata";
+	}
+	
 	
 	
 }

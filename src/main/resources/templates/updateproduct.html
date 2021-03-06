@@ -33,7 +33,7 @@
 					th:text="${formProduct.isActive()} ? 'Produkt aktywny!' : 'Produkt niekatywny!'"></p>
 			</div>
 			<div align="center">
-				<form method="post" th:action="@{/setproductactive}">
+				<form method="post" th:action="@{/admin/product/setproductactive}">
 				
 					<div th:if="${formProduct.isActive()}">
 						<input type="hidden" name="isActive" th:value="${!formProduct.isActive()}"/>
@@ -90,7 +90,7 @@
 		</div>
 		<div class="choice-block">
 			<div class="inner-input-form">
-				<form th:action="@{/updateProd}" method="post">
+				<form th:action="@{/admin/product/updateProd}" method="post">
 					<input type="hidden" th:field="${formProduct.id}" />
 					<p>
 						Nazwa produktu: <input type="text" th:field="${formProduct.name}" />
@@ -131,7 +131,7 @@
 					</ul>
 				</div>
 				
-				<form th:action="@{/setmaincategory}" method="post">	
+				<form th:action="@{/admin/product/setmaincategory}" method="post">	
 					<input type="hidden" name="productId" th:value="${formProduct.id}" />	
 					<div th:object="${category}">
 						Zmień kategorię główną: <select th:field="${category.id}">
@@ -143,7 +143,7 @@
 					</div>
 						<br>
 				</form>
-				<form th:action="@{/setnewcategory}" method="post">	
+				<form th:action="@{/admin/product/setnewcategory}" method="post">	
 					<input type="hidden" name="productId" th:value="${formProduct.id}" />	
 					<div th:object="${category}">
 						Dodaj dodatkową kategorię: <select th:field="${category.id}">
@@ -155,7 +155,7 @@
 					</div>
 						<br>
 				</form>
-				<form th:action="@{/removefromcategory}" method="post">	
+				<form th:action="@{/admin/product/removefromcategory}" method="post">	
 					<input type="hidden" name="productId" th:value="${formProduct.id}" />	
 					<div th:object="${category}">
 						Usuń kategorię: <select th:field="${category.id}">
@@ -180,7 +180,7 @@
 				<ul th:each="shipment:${formProduct.shipments}">
 					<li th:text="${shipment.name} + ' - ' + ${shipment.shipmentCost} + ' zł'">Lista możliwych dostaw</li>
 				</ul>
-				<form th:action="@{/addShipment}" method="post">	
+				<form th:action="@{/admin/product/addShipment}" method="post">	
 					<input type="hidden" name="productId" th:value="${formProduct.id}" />	
 					<div th:object="${shipment}">
 						Dodaj nowy sposób dostawy: <select th:field="${shipment.id}">
@@ -192,7 +192,7 @@
 					</div>
 						<br>
 				</form>
-				<form th:action="@{/dropshipment}" method="post">	
+				<form th:action="@{/admin/product/dropshipment}" method="post">	
 					<input type="hidden" name="productId" th:value="${formProduct.id}" />	
 					<div>
 						Wybierz dostawę do usunięcia: <select th:field="${shipment.id}">
