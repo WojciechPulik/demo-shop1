@@ -3,6 +3,7 @@ package pl.wpulik.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,18 +22,23 @@ public class UserService {
 	private UserRoleRepository userRoleRepository;
 	private AddressRepoService addressRepoService;
 	private OrderRepoService orderRepoService;
+	private PasswordEncoder passwordEncoder;
 	
 	@Autowired
 	public UserService(UserRepository userRepository, UserRoleRepository userRoleRepository,
-			AddressRepoService addressRepoService, OrderRepoService orderRepoService) {
+			AddressRepoService addressRepoService, OrderRepoService orderRepoService,
+			PasswordEncoder passwordEncoder) {
 		this.userRepository = userRepository;
 		this.userRoleRepository = userRoleRepository;
 		this.addressRepoService = addressRepoService;
 		this.orderRepoService = orderRepoService;
+		this.passwordEncoder = passwordEncoder;
 	}
 	
 	public User addUser(User user) {
 		user.setRole(userRoleRepository.getOne(1L));
+		String passwordHash = passwordEncoder.encode(user.getPassword());
+		user.setPassword(passwordHash);
 		addressRepoService.addAddress(user.getAddress());
 		return userRepository.save(user);
 	}

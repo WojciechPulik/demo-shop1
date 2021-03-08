@@ -1,0 +1,22 @@
+.login-main{
+	width:100%;
+}
+
+.inner-login{
+	padding-top:20px;
+	width:25%;
+	margin:3px;
+	min-height:200px;
+}
+
+.login-block{
+	background-color:#DCDCDC;
+	border: 2px solid #2F4F4F;
+	border-radius:5px;
+	width:100%;
+	margin-bottom:5px;
+}
+.inner-login-form{
+	margin-left:10px;	
+	margin-bottom:10px;
+}

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<link href="/css/index.css" rel="stylesheet" />
+<link href="/css/admin.css" rel="stylesheet" />
+<link href="/css/adminlayout.css" rel="stylesheet" />
+<link href="/css/login.css" rel="stylesheet" />
+<title>Zaloguj się</title>
+</head>
+<body>
+<div align="center" class="login-main">
+	<div class="inner-login">
+		<h3>Zaloguj się:</h3>
+		<div class="login-block">
+			<div class="inner-login-form">		
+				<form action="processlogin" th:action="@{/processlogin}" method="post">
+					<div align="left">
+						<p>login:<input type="email" name="user" placeholder="Username"/></p>
+						<p>hasło:<input type="password" name="pass" placeholder="Password"/></p>
+					</div>	
+					<p><input class="button-style" type="submit" value="Zaloguj się" /></p>
+				</form>
+				<p><a th:href="@{/registration}">Zarejestruj się!</a></p>			
+			
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>
