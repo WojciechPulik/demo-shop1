@@ -16,15 +16,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import pl.wpulik.service.OrderRepoService;
-import pl.wpulik.service.OrderService;
-import pl.wpulik.service.UserService;
 import pl.wpulik.dto.OrderDTO;
 import pl.wpulik.dto.RegistrationDTO;
 import pl.wpulik.dto.UserDTO;
 import pl.wpulik.model.Address;
 import pl.wpulik.model.Order;
 import pl.wpulik.model.User;
+import pl.wpulik.service.OrderRepoService;
+import pl.wpulik.service.OrderService;
+import pl.wpulik.service.UserService;
 
 @Controller
 public class UserController {
@@ -43,7 +43,8 @@ public class UserController {
 	
 	@GetMapping("/userpanel")
 	public String userPanel(Model model) {
-		UserDTO userDto = userService.getDtoById(1L);//TODO:change after logging implementation
+		User loggedin = userService.getLoggedinUser();
+		UserDTO userDto = userService.getDtoById(loggedin.getId());
 		model.addAttribute("userDto", userDto);
 		return "userpanel";
 	}
@@ -57,21 +58,22 @@ public class UserController {
 	
 	@PostMapping("/register")
 	public String registerNewUser(@ModelAttribute RegistrationDTO registDto) {
-		System.out.println(registDto.toString());
 		userService.addUser(RegistrationDTO.fromDtoMapping(registDto));
 		return "redirect:/userpanel";
 	}
 	
 	@GetMapping("/userdetails")
 	public String userDetails(Model model) {
-		UserDTO userDto = userService.getDtoById(1L);//TODO:change after logging implementation
+		User loggedin = userService.getLoggedinUser();
+		UserDTO userDto = userService.getDtoById(loggedin.getId());
 		model.addAttribute("userDto", userDto);
 		return "userdetails";
 	}
 	
 	@GetMapping("/userdetailsedit")
 	public String userDetailsEdition(Model model) {
-		UserDTO userDto = userService.getDtoById(1L);//TODO:change after logging implementation
+		User loggedin = userService.getLoggedinUser();
+		UserDTO userDto = userService.getDtoById(loggedin.getId());
 		model.addAttribute("userDto", userDto);
 		return "userdetailseditform";
 	}
@@ -88,7 +90,8 @@ public class UserController {
 	public String userOrders(Model model, 
 			@RequestParam("page") Optional<Integer> page, 
 			@RequestParam("size") Optional<Integer> size) {
-		UserDTO userDto = userService.getDtoById(1L);//TODO:change after logging implementation
+		User loggedin = userService.getLoggedinUser();
+		UserDTO userDto = userService.getDtoById(loggedin.getId());
 		List<OrderDTO> dtoOrders = new ArrayList<>();
 		int currentPage = page.orElse(1);
 		int pageSize = size.orElse(16);
