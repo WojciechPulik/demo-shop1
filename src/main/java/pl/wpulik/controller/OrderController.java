@@ -109,8 +109,8 @@ public class OrderController {
 	@PostMapping("/sendorder")
 	public String sendOrder(@ModelAttribute Order order, Model model) {
 		model.addAttribute("order",order);	
-		User user = new User();
-		user = userService.getById(1L);//TODO: default user for guest, registered user for logged user
+		User user = userService.getLoggedinUser();
+		user = userService.getById(user.getId());
 		order.setUser(user);
 		order.setTotalPrice(totalOrderCost);
 		order.setShipment(orderShipment);

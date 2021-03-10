@@ -40,7 +40,7 @@ public class AddressController {
 	
 	@GetMapping("/deliveryaddress/{orderId}")
 	public String addressToOrder(@PathVariable Long orderId, Model model) {
-		Address userAddress = userService.getById(1L).getAddress(); //TODO: default user for guest, registered user for logged user
+		Address userAddress = userService.getLoggedinUser().getAddress();
 		model.addAttribute("userAddress", userAddress);
 		model.addAttribute("categories", categoryRepoService.getAllCategories());
 		model.addAttribute("orderId", orderId);
@@ -48,7 +48,7 @@ public class AddressController {
 		return "/orderaddress";
 	}
 	
-	@PostMapping("/addrestoorder")
+	@PostMapping("/addrestoorder")//TODO: Handle exception with email sending
 	public String addAddressToOrder(@ModelAttribute Address address, @RequestParam Long orderId) {
 		Address addressToAdd = addressRepoService.addAddress(address);
 		Order order = orderRepoService.getById(orderId);
