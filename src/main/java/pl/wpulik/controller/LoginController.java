@@ -2,7 +2,6 @@ package pl.wpulik.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import pl.wpulik.repository.UserRepository;
@@ -26,7 +25,10 @@ public class LoginController {
 		return "loginform";		
 	}
 	
-	
+	@GetMapping("/logout")
+	public String logout() {
+		return "redirect:/";		
+	}
 	
 	
 
