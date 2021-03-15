@@ -58,8 +58,16 @@ public class UserController {
 	
 	@PostMapping("/register")
 	public String registerNewUser(@ModelAttribute RegistrationDTO registDto) {
+		boolean isEmail = userService.isEmailAvailable(registDto.getEmail());
+		if(!isEmail)
+			return "redirect:/emailavailable";
 		userService.addUser(RegistrationDTO.fromDtoMapping(registDto));
 		return "redirect:/userpanel";
+	}
+	
+	@GetMapping("/emailavailable")
+	public String uniqueEmailError() {
+		return "emailavailable";
 	}
 	
 	@GetMapping("/userdetails")

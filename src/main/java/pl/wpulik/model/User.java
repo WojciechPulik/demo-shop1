@@ -31,6 +31,7 @@ public class User implements Serializable{
 	@Enumerated
 	private Gender gender;
 	@NotEmpty
+	@Column(unique=true)
 	private String email;
 	@NotEmpty
 	private String password;

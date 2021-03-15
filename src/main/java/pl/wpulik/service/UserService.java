@@ -107,5 +107,9 @@ public class UserService {
 		return userRepository.getOne(1L);//Deafault user
 	}
 	
+	public Boolean isEmailAvailable(String email) {
+		return (userRepository.findByEmail(email)==null);
+	}
+	
 
 }
