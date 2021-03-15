@@ -48,6 +48,14 @@ public class AddressController {
 		return "/orderaddress";
 	}
 	
+	@GetMapping("/guestdeliveryaddress/{orderId}")
+	public String guestAddressToOrder(@PathVariable Long orderId, Model model) {
+		model.addAttribute("categories", categoryRepoService.getAllCategories());
+		model.addAttribute("orderId", orderId);
+		model.addAttribute("address", new Address());	
+		return "/guestorderaddress";
+	}
+	
 	@PostMapping("/addrestoorder")//TODO: Handle exception with email sending
 	public String addAddressToOrder(@ModelAttribute Address address, @RequestParam Long orderId) {
 		Address addressToAdd = addressRepoService.addAddress(address);

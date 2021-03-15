@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<link href="/css/index.css" rel="stylesheet" />
+<link href="/css/admin.css" rel="stylesheet" />
+<link href="/css/adminlayout.css" rel="stylesheet" />
+<title>Rejestracja</title>
+</head>
+<body>
+	<div th:insert="fragments/header :: header"></div>
+	<div class="main-buttons-block">
+		<div class="main-buttons"><p><a th:href="@{/}">Strona główna</a></p></div>
+		<div class="main-buttons"><p><a th:href="@{/shoppingcard}">Twój koszyk</a></p></div>
+	</div>
+	<div class="left">
+		<div class="left-colum-content">
+			<div th:insert="fragments/leftusercolumn :: leftusercolumn"></div>
+		</div>	
+	</div>
+	<div class="inner">
+	<br>
+	<h3 align = "center">Podany adres email jest przypisany do istniejącego konta!</h3>
+	<br>
+	<div>
+		<p><a th:href="@{/registration}">Zarejestruj się na inny adres email!</a></p>
+	</div>
+	</div>
+</body>
+</html>

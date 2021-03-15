@@ -109,7 +109,7 @@ public class OrderController {
 	@PostMapping("/sendorder")
 	public String sendOrder(@ModelAttribute Order order, Model model) {
 		model.addAttribute("order",order);	
-		User user = userService.getLoggedinUser();
+		User user = userService.getLoggedinUser();//TODO: check if this essential
 		user = userService.getById(user.getId());
 		order.setUser(user);
 		order.setTotalPrice(totalOrderCost);
@@ -118,7 +118,10 @@ public class OrderController {
 		Order addedOrder = orderService.addOrder(order);
 		Long orderId = addedOrder.getId();
 		orderService.addProductsToOrder(orderId, products);
-		return String.format("redirect:/deliveryaddress/%d", orderId);
+		if(user.getId()==1L)
+			return String.format("redirect:/guestdeliveryaddress/%d", orderId);
+		else
+			return String.format("redirect:/deliveryaddress/%d", orderId);
 	}
 	
 	@GetMapping("/orderclosing")
