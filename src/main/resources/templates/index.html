@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 <meta charset="UTF-8"/>
 <link href="/css/index.css" rel="stylesheet"/>
@@ -14,12 +15,20 @@
 		<div class="main-buttons"><p><a th:href="@{/admin}">Panel administratora</a></p></div>
 		<div class="main-buttons"><p><a th:href="@{/userpanel}">Panel użytkownika</a></p></div>
 		<div class="main-buttons"><p><a th:href="@{/loginform}">Zaloguj się!</a></p></div>
-		<div class="main-buttons"><p><a th:href="@{/logout}">Wyloguj</a></p></div>
+		<div sec:authorize="isAuthenticated()">
+			<form action="logout" th:action="@{/logout}"method="post">
+				<input class="main-buttons" type="submit"value="Wyloguj"/>
+			</form>
+		</div>
 	</div>
 	<div id="left">
 		<div th:insert="fragments/categorycolumn :: catcol"></div>
 	</div>
-	<div id="inner">
+	<div id="inner">   
+		
+		<div sec:authorize="isAuthenticated()"><span sec:authentication="name"></span></div>
+	
+	   
 		<div class="user-search-console">	
 			<form th:action="@{/usersearch}" method="post">
 				<b>Podaj nazwę produktu lub jej fragment:</b>

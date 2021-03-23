@@ -109,7 +109,7 @@ public class OrderController {
 	@PostMapping("/sendorder")
 	public String sendOrder(@ModelAttribute Order order, Model model) {
 		model.addAttribute("order",order);	
-		User user = userService.getLoggedinUser();//TODO: check if this essential
+		User user = userService.getLoggedinUser();//TODO: check if essential
 		user = userService.getById(user.getId());
 		order.setUser(user);
 		order.setTotalPrice(totalOrderCost);
