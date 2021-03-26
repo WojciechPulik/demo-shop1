@@ -10,17 +10,7 @@
 </head>
 <body>
 	<div th:insert="fragments/header :: header"></div>
-	<div class="main-buttons-block">
-		<div class="main-buttons"><p><a th:href="@{/shoppingcard}">Twój koszyk</a></p></div>
-		<div class="main-buttons"><p><a th:href="@{/admin}">Panel administratora</a></p></div>
-		<div class="main-buttons"><p><a th:href="@{/userpanel}">Panel użytkownika</a></p></div>
-		<div class="main-buttons"><p><a th:href="@{/loginform}">Zaloguj się!</a></p></div>
-		<div sec:authorize="isAuthenticated()">
-			<form action="logout" th:action="@{/logout}"method="post">
-				<input class="main-buttons" type="submit"value="Wyloguj"/>
-			</form>
-		</div>
-	</div>
+	
 	<div id="left">
 		<div th:insert="fragments/categorycolumn :: catcol"></div>
 	</div>

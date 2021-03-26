@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 <meta charset="UTF-8"/>
 <link href="/css/index.css" rel="stylesheet"/>
@@ -8,6 +9,18 @@
 	<header th:fragment="header">
 		<div id="header">
 			<h1 id="center">Sklep Internetowy Mydło i Powidło!</h1>
+		</div>
+		<div class="main-buttons-block">
+			<div class="main-buttons"><p><a th:href="@{/}">Strona główna</a></p></div>
+			<div class="main-buttons"><p><a th:href="@{/shoppingcard}">Twój koszyk</a></p></div>
+			<div class="main-buttons"><p><a th:href="@{/admin}">Panel administratora</a></p></div>
+			<div class="main-buttons"><p><a th:href="@{/userpanel}">Panel użytkownika</a></p></div>
+			<div class="main-buttons"><p><a th:href="@{/loginform}">Zaloguj się!</a></p></div>
+			<div sec:authorize="isAuthenticated()">
+				<form action="logout" th:action="@{/logout}"method="post">
+					<input class="main-buttons" type="submit"value="Wyloguj"/>
+				</form>
+			</div>
 		</div>
 	</header>
 </body>
