@@ -26,7 +26,7 @@ public class Order implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	@Transient
-	private static final String DATE_FORMAT = "dd-MMM-uuuu hh:mm:ss";
+	private static final String DATE_FORMAT = "dd-MMM-uuuu HH:mm:ss";
 	@Transient
 	private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern(DATE_FORMAT);
 	
