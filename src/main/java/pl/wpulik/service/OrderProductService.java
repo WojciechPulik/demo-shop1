@@ -29,11 +29,13 @@ public class OrderProductService {
 				.collect(Collectors.toList());
 	}
 	
-	public void saveOrderProducts(List<OrderProduct> orderProducts, Order order) {
-		for(OrderProduct op : orderProducts) {
-			op.setOrder(order);
-			orderProductRepoService.save(op);
-		}
+	public List<OrderProduct> saveOrderProducts(List<OrderProduct> orderProducts, Order order) {
+		orderProducts.forEach(op -> {
+				op.setOrder(order);
+				});
+		return orderProducts.stream()
+			.map(orderProductRepoService::save)
+			.collect(Collectors.toList());
 			
 	}
 	
