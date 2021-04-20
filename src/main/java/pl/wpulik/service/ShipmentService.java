@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -14,54 +15,46 @@ import pl.wpulik.model.Shipment;
 
 @Service
 public class ShipmentService {
+	
+	private Map<String, Shipment> shipMap = new HashMap<>();
 
 	public List<Shipment> orderShipment(List<Product> orderProducts){
-		Set<Product> setProd = new HashSet<>(orderProducts);
-		Set<String> suppliers = new HashSet<>();
-		Map<String, Shipment> shipMap = new HashMap<>();
-		List<Shipment> resultList = new ArrayList<>();
-		//adds every shipment supplier to Set suppliers:
-		//creates a Map with pairs: supplier - shipment with the biggest max weight:
-		boolean containsKey = false;
-		boolean isBigger = false;
-		for(Product p: setProd) {
-			for(Shipment sh: p.getShipments()) {
-				suppliers.add(sh.getSupplier());
-				containsKey = shipMap.containsKey(sh.getSupplier());
-				if(shipMap.get(sh.getSupplier())!=null) {
-					isBigger = sh.getMaxWeight() > (shipMap.get(sh.getSupplier())).getMaxWeight();
-				}
-				shipMap.put(sh.getSupplier(), containsKey ? (isBigger ?	sh : shipMap.get(sh.getSupplier()) ) : sh);					
-			}
-		}	
-		//creates a Set of Sets with possible suppliers for each product:	
-		Set<Set<String>> suppliersProdSet = productShipmentSuppliers(setProd);		
-		//removes shipments witch cannot be applied to every product:
-		for(String str : suppliers) {
-			for(Set<String> set : suppliersProdSet) {
-				if(!set.contains(str)) {
-					shipMap.remove(str);
-				}
-			}
-		}	
-		//result list of shipments possible for this order:
-		for(String str : shipMap.keySet()) {
-			resultList.add(shipMap.get(str));
-		}
-		return resultList;
-	}	
-	
-	private Set<Set<String>> productShipmentSuppliers (Set<Product> setProd){
-		Set<String> prodSup = new HashSet<>();
-		Set<Set<String>> suppliersProdSet = new HashSet<>();
-		for(Product p : setProd) {
-			for(Shipment sh : p.getShipments()) {
-				prodSup.add(sh.getSupplier());
-			}
-			suppliersProdSet.add(prodSup);
-			prodSup = new HashSet<>();
-		}
-		return suppliersProdSet;
+		List<Shipment> resultShipments = new ArrayList<>();
+        orderProducts.forEach(this::setShipMap);
+        shipmentToRemoveFromOption(orderProducts).forEach(shipMap::remove);
+        shipMap.values().forEach(resultShipments::add);
+        return resultShipments;
 	}
+	
+	private  void setShipMap(Product product){
+        product.getShipments().forEach(this::putIntoShipMap);
+    }
+	
+	private void putIntoShipMap(Shipment sh){
+        String supplier = sh.getSupplier();
+        var containsSupplier = shipMap.containsKey(supplier);
+        shipMap.put(supplier, containsSupplier ?
+                ((shipMap.get(supplier).getMaxWeight() < sh.getMaxWeight()) ?
+                        sh : shipMap.get(supplier)) : sh);
+    }
+	
+	private Set<String> shipmentToRemoveFromOption(List<Product> orderProducts){
+        Set<String> resultSet = new HashSet<>();
+        for(Product p : orderProducts){
+            for(Shipment sh : shipMap.values()){
+                if(!containsSupplier(p.getShipments(), sh)){
+                	resultSet.add(sh.getSupplier());
+                }
+            }
+        }
+        return resultSet;
+    }
+	
+	private static Boolean containsSupplier(List<Shipment> shipments, Shipment shipment){
+        return !shipments.stream()
+                .map(s -> s.getSupplier())
+                .filter(shipment.getSupplier()::equals)
+                .collect(Collectors.toSet()).isEmpty();
+    }
 	
 }
