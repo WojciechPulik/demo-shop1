@@ -1,7 +1,7 @@
 package pl.wpulik.service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,11 +22,11 @@ public class OrderProductService {
 		this.orderProductRepoService = orderProductRepoService;
 	}
 	
-	public List<OrderProduct> orderProductMapping(List<Product> products){
-		List<OrderProduct> orderProducts = new ArrayList<>();
-		for(Product p : products)
-			orderProducts.add(productMapping(p));
-		return orderProducts;
+	public List<OrderProduct> orderProductMapping(List<Product> products){	
+		return products
+				.stream()
+				.map(this::productMapping)
+				.collect(Collectors.toList());
 	}
 	
 	public void saveOrderProducts(List<OrderProduct> orderProducts, Order order) {
