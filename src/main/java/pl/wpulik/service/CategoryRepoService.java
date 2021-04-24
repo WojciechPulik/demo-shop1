@@ -1,6 +1,7 @@
 package pl.wpulik.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,12 +59,8 @@ public class CategoryRepoService {
 	}
 	
 	public List<Category> getCategoriesTreeForCategory(Long categoryId){
-		List <Category> catTree = getCategoriesTree(categoryId);
-		List <Category> reversedCatTree = new ArrayList<>();
-		for(int i = catTree.size() - 1; i >= 0; i--) {
-			reversedCatTree.add(catTree.get(i));
-		}
-		clearCategoriesTree();
+		List <Category> reversedCatTree = getCategoriesTree(categoryId);
+		Collections.reverse(reversedCatTree);
 		return reversedCatTree;
 		
 	}
