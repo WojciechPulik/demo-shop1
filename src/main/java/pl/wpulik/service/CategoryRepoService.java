@@ -61,6 +61,7 @@ public class CategoryRepoService {
 	public List<Category> getCategoriesTreeForCategory(Long categoryId){
 		List <Category> reversedCatTree = getCategoriesTree(categoryId);
 		Collections.reverse(reversedCatTree);
+		clearCategoriesTree();
 		return reversedCatTree;
 		
 	}
