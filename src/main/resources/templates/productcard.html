@@ -32,7 +32,15 @@
 				</ul>
 			</div>
 		</div>
-	
+		
+		<div th:if="${product.quantity} != 0">
+			<form th:action="@{/addtoorder}" method="post">
+				<input type="hidden" name="productId" th:value="${product.id}"/>
+				<p>Ilość: <input type="number" name="addedQuantity"min="0"step="1"/>		
+					<button type="submit" value="Add">Dodaj produkt do koszyka</button>
+				</p>
+			</form>
+		</div>	
 		
 		<div class="text_left">
 			<h3 align="center">Opis przedmiotu:</h3>
@@ -42,14 +50,7 @@
 			<p th:text="'Cena: ' + ${product.price} + ' zł'">Cena</p>
 		</div>
 		
-		<div th:if="${product.quantity} != 0">
-			<form th:action="@{/addtoorder}" method="post">
-				<input type="hidden" name="productId" th:value="${product.id}"/>
-				<p>Ilość: <input type="number" name="addedQuantity"min="0"step="1"/>		
-					<button type="submit" value="Add">Dodaj produkt do koszyka</button>
-				</p>
-			</form>
-		</div>
+		
 		
 		<div align="center"><p class="red-bold"th:if="${product.quantity}==0" th:text="'Chwilowy brak na stanie!'"></p></div>
 		
