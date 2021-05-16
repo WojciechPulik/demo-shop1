@@ -57,13 +57,29 @@ body{
 }
 #inner{
 	float:left;
-	width:60%;
+	width:72%;
 	margin:2px;
 	text-align:center;
 	border:2px solid black;
 	border-radius:5px;
 	min-height:800px;
 	background-color:#E0FFFF;
+}
+#inner-block{
+	display:block;
+}
+#inner-main-picture{
+	float:left;
+	padding:20px;
+	width:50%;
+}
+#inner-description{
+	float:left;
+	padding:20px;
+	width:40%;
+}
+#inner-add-to-order{
+	clear:both;
 }
 #center{
 	text-align:center;
@@ -85,8 +101,9 @@ body{
 }
 img{
 	border:1px solid red;
-	margin:0;
+	margin-left:10px;
 	margin-top:4px;
+	align:center;
 }
 .image-list{
 	float:left;
