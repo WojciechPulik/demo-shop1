@@ -38,7 +38,7 @@ public class HomeController {
 		Integer addedQuantity = 0;
 		Long categoryId = null;
 		int currentPage = page.orElse(1);
-		int pageSize = size.orElse(4);
+		int pageSize = size.orElse(6);
 		Page<Product> productPage = productService.findPaginatedProducts(
 				PageRequest.of(currentPage - 1, pageSize), categoryId);
 		model.addAttribute("productPage", productPage);

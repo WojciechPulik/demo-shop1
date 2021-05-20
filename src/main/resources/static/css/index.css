@@ -53,14 +53,14 @@ body{
 	margin-right:10px;
 	padding:0px;
 	background-color:#ffffff;
-	min-height:800px;
+	min-height:750px;
 }
 #inner{
 	float:left;
 	width:74%;
 	margin:2px;
 	text-align:center;
-	min-height:800px;
+	min-height:750px;
 	background-color:#ffffff;
 }
 #inner-block{
@@ -78,6 +78,13 @@ body{
 }
 #inner-add-to-order{
 	clear:both;
+}
+.inner-product-list{
+	float:left;
+	background-color:#ffeeff;
+	margin:6px;
+	height:300px;
+	width:520px:
 }
 #center{
 	text-align:center;
@@ -156,6 +163,9 @@ li{
     margin:0;
     padding:0;
     position:relative; right:23px; 
+}
+.pagination-block{
+	clear: both;
 }
 .pagination {
 	display: inline-block;
