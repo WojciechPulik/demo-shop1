@@ -11,6 +11,7 @@ input{
 body{
 	font-family:'Copperplate Gothic Light';
 	font-weigth:bold;
+	background-color: #dbdbdb;
 }
 .product_name{
 	width:250px;
@@ -29,7 +30,7 @@ body{
 	color:#000;
 	font-family:Arial;
 	font-size:28px;
-	background-color:#F0FFFF;
+	background-color:#e1fff0;
 }
 .main-buttons-block{
 	display:block;
@@ -47,23 +48,20 @@ body{
 #left{
 	clear:both;
 	float:left;
-	width:25%;
+	width:24%;
 	margin:2px;
+	margin-right:10px;
 	padding:0px;
-	border:2px solid #2F4F4F;
-	border-radius:5px;
-	background-color:#F0FFFF;
+	background-color:#ffffff;
 	min-height:800px;
 }
 #inner{
 	float:left;
-	width:72%;
+	width:74%;
 	margin:2px;
 	text-align:center;
-	border:2px solid black;
-	border-radius:5px;
 	min-height:800px;
-	background-color:#E0FFFF;
+	background-color:#ffffff;
 }
 #inner-block{
 	display:block;
