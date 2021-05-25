@@ -84,7 +84,7 @@ body{
 	height:230px;
 	width:29%;
 	border:1px solid #CCC;
-	box-shadow:6px 6px -1px #666;
+	box-shadow:6px 6px 6px -4px #666;
 }
 .product-name-block{
 	white-space: nowrap; 
