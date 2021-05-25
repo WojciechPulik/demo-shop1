@@ -1,5 +1,9 @@
 ul{
 	list-style-type:none;
+	
+}
+li{
+	list-style-type:none;
 }
 a{
 	text-decoration:none;
@@ -12,14 +16,6 @@ body{
 	font-family:'Copperplate Gothic Light';
 	font-weigth:bold;
 	background-color: #dbdbdb;
-}
-.product_name{
-	width:250px;
-	background-color:#80ff80;
-	text-decoration:none;
-	text-transform:uppercase;
-	border:1px solid #80ff80;
-	border-radius:5px;
 }
 #header{
 	border:3px solid black;
@@ -80,11 +76,38 @@ body{
 	clear:both;
 }
 .inner-product-list{
+	list-style-type:none;
+	text-align:center;
 	float:left;
-	background-color:#ffeeff;
-	margin:6px;
-	height:300px;
-	width:520px:
+	margin:5px;
+	padding:10px;
+	height:230px;
+	width:29%;
+	border:1px solid #CCC;
+	box-shadow:6px 6px -1px #666;
+}
+.product-name-block{
+	white-space: nowrap; 
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.product_name{
+	list-style-type: none;	
+	text-align:center;
+	text-decoration:none;
+	text-transform:uppercase;
+	font-weight:bold;
+	font-size:14px;
+	color:black;
+	border-radius:2px;
+	padding-right:3px;
+	padding-left:3px;'
+}
+.product-info-picture{
+	clear:both;
+	align:center;
+	max-height:150px;
+	max-width:80%;
 }
 #center{
 	text-align:center;
@@ -105,7 +128,7 @@ body{
 	margin:5px;
 }
 img{
-	border:1px solid red;
+	border:1px solid black;
 	margin-left:10px;
 	margin-top:4px;
 	align:center;
@@ -152,17 +175,6 @@ img{
 	font-weight:bold;
 	color:#556B2F;
 	margin:0;
-}
-ul > li{
-	list-style-type:none;
-    margin:0;
-    padding:0;
-}
-li{
-	list-style-type:none;
-    margin:0;
-    padding:0;
-    position:relative; right:23px; 
 }
 .pagination-block{
 	clear: both;

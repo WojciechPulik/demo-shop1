@@ -24,9 +24,9 @@
 		</div>
 		<div align="center"><p class="category_inner_name" th:text="${subCategory.name}"></p></div>
 		<ul th:each="product : ${productPage.content}" class="inner-product-list">
-			<li><a  class="product_name" th:href="@{/product(id=${product.id}, categoryId=${categoryId})}"
+			<li class="product-name-block"><a  class="product_name" th:href="@{/product(id=${product.id}, categoryId=${categoryId})}"
 				th:text="${product.name}"></a></li>
-			<li><img th:src="@{${product.mainPicture}}"width=100></li>
+			<li><img th:src="@{${product.mainPicture}}" class="product-info-picture"></li>
 			<li class="red-bold" th:if="${product.quantity} == 0" th:text="'Produkt niedostępny!'"></li>
 			<li th:text="'Indeks: ' + ${product.index}">Index produktu</li>
 			<li th:text="'Cena: ' + ${product.price} + ' zł'">Cena produktu</li>
