@@ -26,7 +26,8 @@
 				<input class="button-style" type="submit"value="Wyszukaj"/>
 			</form>
 		</div>
-		<div align="center">
+		<div align="center" class="inner-product-list-block">
+			
 			<ul th:each="product : ${productPage.content}" class="inner-product-list">
 			
 				<li class="product-name-block"><a class="product_name" th:href="@{/product(id=${product.id})}"
@@ -40,14 +41,18 @@
 					<a th:href="@{/product(id=${product.id})}"><input type="button" value="Zobacz szczegóły"/></a>	
 				</li>
 			</ul>
-		</div>
-		<div class="pagination-block">
-		<div th:if="${productPage.totalPages > 0}" class="pagination" 
-			th:each="pageNumber : ${pageNumbers}">
-			<a th:href="@{/(size=${productPage.size}, page=${pageNumber})}" 
-				th:text="${pageNumber}"
-				th:class="${pageNumber==productPage.number + 1} ? active"></a>		
-		</div>
+			
+			
+			<div class="pagination-block">
+				<div th:if="${productPage.totalPages > 0}" class="pagination" 
+					th:each="pageNumber : ${pageNumbers}">
+					<a th:href="@{/(size=${productPage.size}, page=${pageNumber})}" 
+						th:text="${pageNumber}"
+						th:class="${pageNumber==productPage.number + 1} ? active">
+					</a>		
+				</div>
+			</div>
+		
 		</div>
 	</div>
 	

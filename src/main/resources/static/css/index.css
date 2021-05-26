@@ -1,6 +1,5 @@
 ul{
 	list-style-type:none;
-	
 }
 li{
 	list-style-type:none;
@@ -52,9 +51,11 @@ body{
 	min-height:750px;
 }
 #inner{
+
 	float:left;
 	width:74%;
 	margin:2px;
+	padding:0;
 	text-align:center;
 	min-height:750px;
 	background-color:#ffffff;
@@ -75,14 +76,22 @@ body{
 #inner-add-to-order{
 	clear:both;
 }
+.inner-product-list-block{
+	padding:0;
+	
+}
 .inner-product-list{
 	list-style-type:none;
 	text-align:center;
+	align:center;
 	float:left;
-	margin:5px;
+	margin-left:1%;
+	margin-right:0;
+	margin-top:5px;
+	margin-bottom:5px;
 	padding:10px;
 	height:230px;
-	width:29%;
+	width:29.5%;
 	border:1px solid #CCC;
 	box-shadow:6px 6px 6px -4px #666;
 }
@@ -178,6 +187,7 @@ img{
 }
 .pagination-block{
 	clear: both;
+	margin-top:15px;
 }
 .pagination {
 	display: inline-block;
