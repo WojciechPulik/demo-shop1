@@ -46,7 +46,7 @@ public class SearchController {
 			@RequestParam("size") Optional<Integer> size) {
 		Integer addedQuantity = 0;
 		int currentPage = page.orElse(1);
-		int pageSize = size.orElse(4);
+		int pageSize = size.orElse(6);
 		Page<Product> productPage = productService.findByNameFragmentPage(
 				PageRequest.of(currentPage - 1, pageSize), searchPhrase);
 		model.addAttribute("productPage", productPage);

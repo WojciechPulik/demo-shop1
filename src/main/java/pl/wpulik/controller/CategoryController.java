@@ -59,7 +59,7 @@ public class CategoryController {
 			@RequestParam("size") Optional<Integer> size) {
 	Integer addedQuantity = 0;
 	int currentPage = page.orElse(1);
-	int pageSize = size.orElse(4);
+	int pageSize = size.orElse(6);
 	Page<Product> productPage = productService.findPaginatedProducts(PageRequest.of(currentPage - 1, pageSize), categoryId);
 	model.addAttribute("productPage", productPage);
 	int totalPages = productPage.getTotalPages();
