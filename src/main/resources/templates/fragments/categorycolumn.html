@@ -9,9 +9,12 @@
 <body>
 	<header th:fragment="catcol">
 		<div>
-			<div class="left-col-head">
-				<p>Kategorie produktów:</p>
+			<div class="left-col-head-block">
+				<div class="left-col-head">
+					<p>Kategorie produktów:</p>
+				</div>
 			</div>
+			<div class="left-col-cat-list-block">
 			<div class="cat-col-list">
 				<ul th:each="category:${categories}">
 					<li><a th:href="@{/category(categoryId=${category.id})}" th:text="${category.name}"></a>
@@ -52,6 +55,7 @@
 						</div>			
 					</li>
 				</ul>
+			</div>
 			</div>
 		</div>
 	</header>
