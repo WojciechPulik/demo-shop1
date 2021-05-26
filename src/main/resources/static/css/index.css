@@ -15,17 +15,21 @@ body{
 	font-family:'Copperplate Gothic Light';
 	font-weigth:bold;
 	background-color: #dbdbdb;
+	padding:0;
+	margin:0;
 }
 #header{
-	border:3px solid black;
-	border-radius:5px;
+	border:0 solid #ffffff;
+	margin-left:0;
+	margin-right:0;
 	display:block;
 	text-align:center;
 	min-height:100px;
+	width:100%;
 	color:#000;
 	font-family:Arial;
 	font-size:28px;
-	background-color:#e1fff0;
+	background-color:#ffffff;
 }
 .main-buttons-block{
 	display:block;
@@ -43,22 +47,22 @@ body{
 #left{
 	clear:both;
 	float:left;
-	width:25%;
+	width:24%;
 	margin:2px;
-	margin-right:5px;
+	margin-right:3px;
+	margin-left:4px;
 	padding:0px;
 	background-color:#ffffff;
-	min-height:650px;
+	min-height:655px;
 }
 #inner{
-
 	float:left;
-	width:74%;
+	width:75%;
 	margin:2px;
 	margin-right:0;
 	padding:0;
 	text-align:center;
-	min-height:650px;
+	min-height:655px;
 	background-color:#ffffff;
 }
 #inner-block{
@@ -78,7 +82,9 @@ body{
 	clear:both;
 }
 .inner-product-list-block{
-	padding:0;
+	padding:0; 
+	max-width:945px;
+	min-width:315px;
 	
 }
 .inner-product-list{
@@ -86,13 +92,14 @@ body{
 	text-align:center;
 	align:center;
 	float:left;
-	margin-left:1%;
+	display: inline-block;
+	margin-left:4px;
 	margin-right:0;
 	margin-top:5px;
 	margin-bottom:5px;
-	padding:10px;
+	padding:8px;
 	height:230px;
-	width:29.5%;
+	width:284px;
 	border:1px solid #CCC;
 	box-shadow:6px 6px 6px -4px #666;
 }
@@ -208,6 +215,7 @@ img{
 .pagination-block{
 	clear: both;
 	margin-top:15px;
+	padding:10px;
 }
 .pagination {
 	display: inline-block;
