@@ -21,23 +21,26 @@
 				<input class="button-style" type="submit"value="Wyszukaj"/>
 			</form>
 		</div>
-		<ul th:each="product : ${productPage.content}">
-			<li>********************************************</li>
-			<li><a  class="product_name" th:href="@{/product(id=${product.id})}"th:text="${product.name}"></a></li>
-			<li><img th:src="'/'+@{${product.mainPicture}}"width=100></li>
-			<li class="red-bold" th:if="${product.quantity} == 0" th:text="'Produkt niedostępny!'"></li>
-			<li th:text="'Indeks: ' + ${product.index}">Index produktu</li>
-			<li th:text="'Cena: ' + ${product.price} + ' zł'">Cena produktu</li>
-			<li>
-				<a th:href="@{/product(id=${product.id})}"><input type="button" value="Zobacz szczegóły"/></a>	
-			</li>
-		</ul>
-		<div th:if="${productPage.totalPages > 0}" class="pagination" 
-			th:each="pageNumber : ${pageNumbers}"> 
-			<a th:href="@{/usersearchresult/searchPhrase={searchPhrase}/
-					(searchPhrase=${searchPhrase}, size=${productPage.size}, page=${pageNumber})}" 
-				th:text="${pageNumber}"
-				th:class="${pageNumber==productPage.number + 1} ? active"></a>		
+		<div align="center" class="inner-product-list-block">
+			<ul th:each="product : ${productPage.content}" class="inner-product-list">
+				<li class="product-name-block"><a  class="product_name" th:href="@{/product(id=${product.id})}"th:text="${product.name}"></a></li>
+				<li><img th:src="'/'+@{${product.mainPicture}}"width=100></li>
+				<li class="red-bold" th:if="${product.quantity} == 0" th:text="'Produkt niedostępny!'"></li>
+				<li th:text="'Indeks: ' + ${product.index}">Index produktu</li>
+				<li th:text="'Cena: ' + ${product.price} + ' zł'">Cena produktu</li>
+				<li>
+					<a th:href="@{/product(id=${product.id})}"><input type="button" value="Zobacz szczegóły"/></a>	
+				</li>
+			</ul>
+			<div class="pagination-block">
+				<div th:if="${productPage.totalPages > 0}" class="pagination" 
+					th:each="pageNumber : ${pageNumbers}"> 
+					<a th:href="@{/usersearchresult/searchPhrase={searchPhrase}/
+							(searchPhrase=${searchPhrase}, size=${productPage.size}, page=${pageNumber})}" 
+							th:text="${pageNumber}"
+							th:class="${pageNumber==productPage.number + 1} ? active"></a>		
+				</div>
+			</div>
 		</div>
 	</div>
 	
