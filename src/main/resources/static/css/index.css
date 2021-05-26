@@ -22,6 +22,8 @@ body{
 	border:0 solid #ffffff;
 	margin-left:0;
 	margin-right:0;
+	margin-top:5px;
+	margin-bottom:5px;
 	display:block;
 	text-align:center;
 	min-height:100px;
@@ -29,9 +31,17 @@ body{
 	color:#000;
 	font-family:Arial;
 	font-size:28px;
+	padding:10px;
 	background-color:#ffffff;
 }
+
+.header-banner-box{
+	width:96%;
+	border:1px solid #CCC;
+	box-shadow:6px 6px 6px -4px #666;
+}
 .main-buttons-block{
+	clear:both;
 	display:block;
 }
 .main-buttons{
