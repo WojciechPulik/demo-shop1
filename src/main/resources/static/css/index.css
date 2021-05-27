@@ -43,16 +43,37 @@ body{
 .main-buttons-block{
 	clear:both;
 	display:block;
+	padding-bottom:15px;
+}
+.mian-buttons-text{
+	text-decoration:none;
+	padding:5px;
+	margin:5px;
+	text-align: center;
+	font-size:16px;
+	font-weight:bold;
+	color:black;
+}
+.mian-buttons-text > a{
+	text-decoration:none;
+	padding:0;
+	margin:0;
+	color:black;
+	align: center;
 }
 .main-buttons{
+	align:center;
 	float:left;
-	width:17%;
+	width:15%;
+	height:35px;
+	padding:1px;
 	margin:2px;
+	margin-bottom:7px;
 	text-decoration:none;
 	text-align:center;
-	border:2px solid #008000;
-	border-radius:5px;
-	background-color:#ffff80;
+	border:1px solid #CCC;
+	box-shadow:6px 6px 6px -4px #666;
+	background-color:#ffffff;
 }
 #left{
 	clear:both;
