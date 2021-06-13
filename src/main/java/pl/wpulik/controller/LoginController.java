@@ -25,10 +25,10 @@ public class LoginController {
 		return "loginform";		
 	}
 	
-	@GetMapping("/logout")
-	public String logout() {
-		return "redirect:/";		
-	}
+//	@GetMapping("/logout")
+//	public String logout() {
+//		return "redirect:/";		
+//	}
 	
 	
 

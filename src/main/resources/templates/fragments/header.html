@@ -19,12 +19,18 @@
 			<div class="main-buttons"><p class="mian-buttons-text"><a th:href="@{/shoppingcard}">Twój koszyk</a></p></div>
 			<div sec:authorize="hasAuthority('ADMIN')" class="main-buttons"><p class="mian-buttons-text"><a th:href="@{/admin}">Panel administratora</a></p></div>
 			<div sec:authorize="isAuthenticated()" class="main-buttons"><p  class="mian-buttons-text"><a th:href="@{/userpanel}">Panel użytkownika</a></p></div>
-			<div class="main-buttons"><p  class="mian-buttons-text"><a th:href="@{/loginform}">Zaloguj się!</a></p></div>
-			<div sec:authorize="isAuthenticated()">
-				<form action="logout" th:action="@{/logout}"method="post">
-					<input class="main-buttons" type="submit"value="Wyloguj"/>
-				</form>
+			<div sec:authorize="!isAuthenticated()">
+				<div class="main-buttons"><p  class="mian-buttons-text"><a th:href="@{/loginform}">Zaloguj się!</a></p></div>
 			</div>
+			
+			<div sec:authorize="isAuthenticated()">
+				<div class="main-buttons">
+					<form action="logout" th:action="@{/logout}"method="post">
+						<input class="main-buttons-input" type="submit"value="Wyloguj"/>
+					</form>
+				</div>
+			</div>
+			
 		</div>
 	</header>
 </body>

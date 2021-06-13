@@ -75,6 +75,19 @@ body{
 	box-shadow:6px 6px 6px -4px #666;
 	background-color:#ffffff;
 }
+input.main-buttons-input[type="submit"]{
+	border: none;
+	background-image:none;
+    background-color:transparent;
+    box-shadow: none;   
+    font-family:'Copperplate Gothic Light';   
+    padding:5px;
+	margin:5px;
+	text-align: center;
+	font-size:16px;
+	font-weight:bold;
+	color:black;
+}
 #left{
 	clear:both;
 	float:left;
