@@ -10,80 +10,96 @@
 </head>
 <body>
 	<div th:insert="fragments/header :: header"></div>
-	
-	<div class="left-card">
+
+	<div id="left">
 		<div th:insert="fragments/categorycolumn :: catcol"></div>
 	</div>
-		
-	<div class="inner-card">
-			<div class="inner-header">
-				<h1 id="center">Twój koszyk zakupowy!</h1>
-			</div>
-			<div class="choice-block">
-			<br>
-			<table border="2" align="center">
-				<tr>
-					<th>Nazwa produktu</th>
-					<th>Cena jednostkowa PLN</th>
-					<th>Ilość</th>
-					<th>Wartość PLN</th>
-					<th>Usuń</th>
-				</tr>
-				<tr th:each="product:${products}" th:object="${product}">
-					<td th:text="*{name}"></td>
-					<td th:text="*{price}"></td>
-					<td th:text="*{addedQuantity}"></td>
-					<td th:text="*{summaryCost}"></td>
-					<td><a th:href="@{/removeproducts(productId=*{id})}"><button class="button-style" th:type="submit">Usuń</button></a></td>
-				</tr>
-				<tr>
-					<td th:text="'Koszt wysyłki: ' + ${shipment.shipmentCost} + ' zł'"></td>
-					<td th:if="${isCashOnDelivery}" th:text="Pobranie"></td>
-				</tr>
-				<tr>
-					<td th:text="'Całkowita suma zamówienia: ' + ${totalCost} + ' zł'"></td>
-				</tr>
-			</table>
-			<br>
-				<div align="center">
-				<div class="choice-inner">
-					<form th:action="@{/setordershipment}" method="post">
-						<p>Sposób dostawy:</p>
-						<ul>
-							<li th:each="shipment:${shipments}" th:object="${shipment}">
-								<input type="radio" th:field="*{id}" th:value="*{id}" required> <label
-								th:for="*{id}"
-								th:text="*{name} + ' - ' + *{shipmentCost} + ' zł '"></label>
-							</li>
-						</ul>
-						<p>Rodzaj płatności:</p>
-						<p>
-							<label> <input type="radio" name="isCashOnDelivery"
-								value="true" required>Pobranie
-							</label> <label> <input type="radio" name="isCashOnDelivery" value="false">Przedpłata
-							</label>
-						</p>
-						<p>
-							<input class="button-style" type="submit" value="Wybierz dostawę" />
-						</p>
-					</form>
 
+	<div id="inner">
+
+		<div class="shopping-card-inner-header-block">
+			<div class="shopping-card-inner-header">
+				<p id="center">Twój koszyk zakupowy!</p>
+			</div>
+		</div>
+
+		<div class="shopping-card-choice-block">
+			<br>
+			<div class="shopping-card-table" align="center">
+				<table>
+					<tr>
+						<th>Nazwa produktu</th>
+						<th>Cena jednostkowa PLN</th>
+						<th>Ilość</th>
+						<th>Wartość PLN</th>
+						<th>Usuń</th>
+					</tr>
+					<tr th:each="product:${products}" th:object="${product}">
+						<td th:text="*{name}"></td>
+						<td align="right" th:text="*{price}"></td>
+						<td align="center"th:text="*{addedQuantity}"></td>
+						<td align="right" th:text="*{summaryCost}"></td>
+						<td><a th:href="@{/removeproducts(productId=*{id})}"><button
+									class="shopping-card-button-style" th:type="submit">Usuń</button></a></td>
+					</tr>
+					<tr>
+						<td th:text="'Koszt wysyłki: ' + ${shipment.shipmentCost} + ' zł'"></td>
+						<td th:if="${isCashOnDelivery}" th:text="Pobranie"></td>
+					</tr>
+					<tr>
+						<td th:text="'Całkowita suma zamówienia: ' + ${totalCost} + ' zł'"></td>
+					</tr>
+				</table>
+			</div>
+			<br>
+			<div align="center">
+				<div class="shopping-card-choice-inner">
+
+					<div class="small-inner-block">
+						<form th:action="@{/setordershipment}" method="post">
+							<p>Sposób dostawy:</p>
+							<div class="shopping-card-shipment-block">
+								<ul>
+									<li th:each="shipment:${shipments}" th:object="${shipment}">
+										<input type="radio" th:field="*{id}" th:value="*{id}" required>
+										<label th:for="*{id}"
+										th:text="*{name} + ' - ' + *{shipmentCost} + ' zł '"></label>
+									</li>
+								</ul>
+							</div>
+							<p>Rodzaj płatności:</p>
+							<div class="shopping-card-payment-block">
+								<p>
+									<label> <input type="radio" name="isCashOnDelivery"
+										value="true" required>Pobranie
+									</label> <label> <input type="radio" name="isCashOnDelivery"
+										value="false">Przedpłata
+									</label>
+								</p>
+							</div>
+							<p>
+								<input class="button-style" type="submit"
+									value="Wybierz dostawę" />
+							</p>
+						</form>
+					</div>
 					<form th:action="@{/sendorder}" method="post">
 						<p>Opis do zamówienia:</p>
 						<p>
-							<textarea cols="45" rows="4" th:field="${order.orderDetails}"></textarea>
+							<textarea cols="60" rows="4" th:field="${order.orderDetails}"></textarea>
 						<p>
 						<p>
-							<button class="button-buy" type="submit" value="Add">Zamawiam i płacę!</button>
+							<button class="button-buy" type="submit" value="Add">Zamawiam
+								i płacę!</button>
 						</p>
 					</form>
-						 <a th:href="@{/clearcard}"><input class="button-style"	type="button" value="Usuń zawartość koszyka" /></a>
-						 <br>
-				</div>
+					<a th:href="@{/clearcard}"><input class="button-style"
+						type="button" value="Usuń zawartość koszyka" /></a> <br>
 				</div>
 			</div>
+		</div>
 	</div>
-	
+
 </body>
 </html>
 
